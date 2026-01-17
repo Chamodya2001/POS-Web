@@ -74,6 +74,22 @@
         "documentation": {}
     },
     {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "Flask",
         "importPath": "flask",
         "description": "flask",
@@ -103,6 +119,22 @@
         "description": "xmlrpc.client",
         "isExtraImport": true,
         "detail": "xmlrpc.client",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
         "documentation": {}
     },
     {
@@ -154,23 +186,7 @@
         "documentation": {}
     },
     {
-        "label": "Column",
-        "importPath": "sqlalchemy",
-        "description": "sqlalchemy",
-        "isExtraImport": true,
-        "detail": "sqlalchemy",
-        "documentation": {}
-    },
-    {
-        "label": "Integer",
-        "importPath": "sqlalchemy",
-        "description": "sqlalchemy",
-        "isExtraImport": true,
-        "detail": "sqlalchemy",
-        "documentation": {}
-    },
-    {
-        "label": "String",
+        "label": "func",
         "importPath": "sqlalchemy",
         "description": "sqlalchemy",
         "isExtraImport": true,
@@ -219,6 +235,38 @@
     },
     {
         "label": "String",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Column",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Integer",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "String",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "func",
         "importPath": "sqlalchemy",
         "description": "sqlalchemy",
         "isExtraImport": true,
@@ -267,6 +315,38 @@
     },
     {
         "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
         "importPath": "marshmallow",
         "description": "marshmallow",
         "isExtraImport": true,
@@ -375,6 +455,30 @@
         "description": "src.utils.namespace",
         "isExtraImport": true,
         "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "NameSpace",
+        "importPath": "src.utils.namespace",
+        "description": "src.utils.namespace",
+        "isExtraImport": true,
+        "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "Category",
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "isExtraImport": true,
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "CategorySchema",
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "isExtraImport": true,
+        "detail": "src.models.category.category_model",
         "documentation": {}
     },
     {
@@ -534,6 +638,24 @@
         "documentation": {}
     },
     {
+        "label": "Category",
+        "kind": 6,
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "peekOfCode": "class Category(db.Model):\n    __tablename__ = NameSpace.CATEGORY_TABLE\n    __table_args__ = {\"schema\":NameSpace.CATEGORY_SCHEMA}\n    category_id = db.Column(\n        db.Integer,\n        primary_key=True,\n        # autoincrement=True,\n        # default=db.Sequence('category.category_category_id_seq')\n    )\n    candidate_id = db.Column(",
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "CategorySchema",
+        "kind": 6,
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "peekOfCode": "class CategorySchema(Schema):\n    category_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    category_name = fields.Str(required=True)\n    discription = fields.Str(allow_none=True)\n    image_code = fields.Str(allow_none=True)\n    create_at = fields.DateTime(dump_only=True)\n    update_at = fields.DateTime(dump_only=True)\n    status_id = fields.Int(allow_none=True)\n    @validates_schema",
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
         "label": "Gender",
         "kind": 6,
         "importPath": "src.models.common.genderModel",
@@ -637,7 +759,7 @@
         "kind": 5,
         "importPath": "src.routes.candidate.candidate_route",
         "description": "src.routes.candidate.candidate_route",
-        "peekOfCode": "candidate_bp = Blueprint(NameSpace.CANDIDATE_TABLE,__name__)\ncandidate_schema = CandidateSchema()\ncandidates_schema = CandidateSchema(many=True)\n@candidate_bp.route(\"/save\", methods=[\"POST\"])\ndef create_candidate():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            status_code=400,\n            success=False,",
+        "peekOfCode": "candidate_bp = Blueprint(NameSpace.CANDIDATE_BP,__name__)\ncandidate_schema = CandidateSchema()\ncandidates_schema = CandidateSchema(many=True)\n@candidate_bp.route(\"/save\", methods=[\"POST\"])\ndef create_candidate():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            status_code=400,\n            success=False,",
         "detail": "src.routes.candidate.candidate_route",
         "documentation": {}
     },
@@ -657,6 +779,78 @@
         "description": "src.routes.candidate.candidate_route",
         "peekOfCode": "candidates_schema = CandidateSchema(many=True)\n@candidate_bp.route(\"/save\", methods=[\"POST\"])\ndef create_candidate():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            status_code=400,\n            success=False,\n            message=\"No input data provided\",\n            data=None",
         "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
+        "label": "create_category",
+        "kind": 2,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "def create_category():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate\n    errors = category_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    try:\n        category = Category(**json_data)",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_categories",
+        "kind": 2,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "def get_all_categories():\n    try:\n        categories = Category.query.all()\n        return base_response(\n            200,\n            True,\n            \"Categories retrieved successfully\",\n            categories_schema.dump(categories)\n        )\n    except Exception as e:",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_category",
+        "kind": 2,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "def get_category(category_id):\n    category = Category.query.get(category_id)\n    if not category:\n        return base_response(404, False, \"Category not found\", None)\n    return base_response(\n        200,\n        True,\n        \"Category retrieved successfully\",\n        category_schema.dump(category)\n    )",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_category",
+        "kind": 2,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "def update_category(category_id):\n    category = Category.query.get(category_id)\n    if not category:\n        return base_response(404, False, \"Category not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = category_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_category",
+        "kind": 2,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "def delete_category(category_id):\n    category = Category.query.get(category_id)\n    if not category:\n        return base_response(404, False, \"Category not found\", None)\n    try:\n        category.delete()\n        return base_response(200, True, \"Category deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete category\", str(e))",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "category_bp",
+        "kind": 5,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "category_bp = Blueprint(NameSpace.CATEGORY_BP, __name__)\ncategory_schema = CategorySchema()\ncategories_schema = CategorySchema(many=True)\n# ------------------------\n# CREATE CATEGORY\n# ------------------------\n@category_bp.route(\"/save\", methods=[\"POST\"])\ndef create_category():\n    json_data = request.get_json()\n    if not json_data:",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "category_schema",
+        "kind": 5,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "category_schema = CategorySchema()\ncategories_schema = CategorySchema(many=True)\n# ------------------------\n# CREATE CATEGORY\n# ------------------------\n@category_bp.route(\"/save\", methods=[\"POST\"])\ndef create_category():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "categories_schema",
+        "kind": 5,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "categories_schema = CategorySchema(many=True)\n# ------------------------\n# CREATE CATEGORY\n# ------------------------\n@category_bp.route(\"/save\", methods=[\"POST\"])\ndef create_category():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate",
+        "detail": "src.routes.category.category_route",
         "documentation": {}
     },
     {
@@ -727,7 +921,7 @@
         "kind": 6,
         "importPath": "src.utils.namespace",
         "description": "src.utils.namespace",
-        "peekOfCode": "class NameSpace:\n    #candidate\n    CANDIDATE_PREFIX = \"/api/candidates\"\n    CANDIDATE_TABLE = \"candidate\"\n    CANDIDATE_SCHEMA =  \"candidate\"",
+        "peekOfCode": "class NameSpace:\n    #candidate\n    CANDIDATE_PREFIX = \"/api/candidates\"\n    CANDIDATE_BP = \"candidate_bp\"\n    CANDIDATE_TABLE = \"candidate\"\n    CANDIDATE_SCHEMA =  \"candidate\"\n    # Category Model\n    CATEGORY_PREFIX = \"/api/category\"\n    CATEGORY_BP = \"category_bp\"\n    CATEGORY_TABLE =  \"category\"",
         "detail": "src.utils.namespace",
         "documentation": {}
     },
@@ -736,7 +930,7 @@
         "kind": 2,
         "importPath": "src.app",
         "description": "src.app",
-        "peekOfCode": "def app():\n    app = Flask(__name__)\n    app.config.from_object(Config)\n    db.init_app(app)\n    migrate.init_app(app, db)\n    jwt.init_app(app)\n    ma.init_app(app)\n    from src.routes.candidate.candidate_route import candidate_bp\n    app.register_blueprint(candidate_bp, url_prefix= NameSpace.CANDIDATE_PREFIX)\n    return app",
+        "peekOfCode": "def app():\n    app = Flask(__name__)\n    app.config.from_object(Config)\n    db.init_app(app)\n    migrate.init_app(app, db)\n    jwt.init_app(app)\n    ma.init_app(app)\n    from src.routes.candidate.candidate_route import candidate_bp\n    from src.routes.category.category_route import category_bp\n    app.register_blueprint(candidate_bp, url_prefix= NameSpace.CANDIDATE_PREFIX)",
         "detail": "src.app",
         "documentation": {}
     },

@@ -14,9 +14,11 @@ def app():
 
     
     from src.routes.candidate.candidate_route import candidate_bp
+    from src.routes.category.category_route import category_bp
 
    
     app.register_blueprint(candidate_bp, url_prefix= NameSpace.CANDIDATE_PREFIX)
+    app.register_blueprint(category_bp,url_prefix = NameSpace.CATEGORY_PREFIX)
     
     
     return app

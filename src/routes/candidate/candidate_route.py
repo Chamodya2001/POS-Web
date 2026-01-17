@@ -1,12 +1,13 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func
 
 from src.utils.extensions import db
 from src.models.candidate.candidate_model import Candidate, CandidateSchema
 from src.utils.namespace import NameSpace
 from ...helper.base_responce import base_response
 
-candidate_bp = Blueprint(NameSpace.CANDIDATE_TABLE,__name__)
+candidate_bp = Blueprint(NameSpace.CANDIDATE_BP,__name__)
 
 candidate_schema = CandidateSchema()
 candidates_schema = CandidateSchema(many=True)
@@ -35,10 +36,13 @@ def create_candidate():
 
     try:
         # Check duplicate candidate
+      
+
         existing_candidate = Candidate.query.filter(
-            (Candidate.user_name == json_data["user_name"]) |
-            (Candidate.nic == json_data["nic"])
+            (func.lower(func.trim(Candidate.user_name)) == json_data["user_name"].strip().lower()) |
+            (Candidate.nic == json_data["nic"].strip())
         ).first()
+
 
         if existing_candidate:
             return base_response(
