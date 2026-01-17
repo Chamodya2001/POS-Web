@@ -786,7 +786,7 @@
         "kind": 2,
         "importPath": "src.routes.category.category_route",
         "description": "src.routes.category.category_route",
-        "peekOfCode": "def create_category():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate\n    errors = category_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    try:\n        category = Category(**json_data)",
+        "peekOfCode": "def create_category():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate\n    errors = category_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    try:\n        existing_category = Category.query.filter(",
         "detail": "src.routes.category.category_route",
         "documentation": {}
     },

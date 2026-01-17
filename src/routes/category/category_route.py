@@ -27,6 +27,13 @@ def create_category():
         return base_response(422, False, "Validation failed", errors)
 
     try:
+        existing_category = Category.query.filter(
+            Category.category_name.ilike(json_data["category_name"].strip())
+        ).first()
+        
+        if existing_category:
+            return base_response(409, False, "Category already exists", None)
+        
         category = Category(**json_data)
         category.save()
 
