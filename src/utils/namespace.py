@@ -6,9 +6,16 @@ class NameSpace:
     CANDIDATE_TABLE = "candidate"
     CANDIDATE_SCHEMA =  "candidate"
     
-    # Category Model
+    # Category 
     CATEGORY_PREFIX = "/api/category"
     CATEGORY_BP = "category_bp"
     CATEGORY_TABLE =  "category"
     CATEGORY_SCHEMA =  "category"
  
+   #casior 
+    CASIOR_PREFIX = "/api/casior"
+    CASIOR_BP = "casior_bp"
+    CASIOR_TABLE = "casior"
+    CASIOR_SCHEMA = "casior"
+    
+    

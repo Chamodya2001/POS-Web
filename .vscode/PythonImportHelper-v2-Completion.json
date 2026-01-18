@@ -370,6 +370,38 @@
         "documentation": {}
     },
     {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
         "label": "Schema",
         "importPath": "marshmallow",
         "description": "marshmallow",
@@ -450,6 +482,14 @@
         "documentation": {}
     },
     {
+        "label": "Candidate",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "isExtraImport": true,
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
         "label": "NameSpace",
         "importPath": "src.utils.namespace",
         "description": "src.utils.namespace",
@@ -463,6 +503,30 @@
         "description": "src.utils.namespace",
         "isExtraImport": true,
         "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "Casior",
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "isExtraImport": true,
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "CasiorSchema",
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "isExtraImport": true,
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "base_response",
+        "importPath": "src.helper.base_responce",
+        "description": "src.helper.base_responce",
+        "isExtraImport": true,
+        "detail": "src.helper.base_responce",
         "documentation": {}
     },
     {
@@ -638,6 +702,24 @@
         "documentation": {}
     },
     {
+        "label": "Casior",
+        "kind": 6,
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "peekOfCode": "class Casior(db.Model):\n    __tablename__ = NameSpace.CASIOR_TABLE\n    __table_args__ = {\"schema\": NameSpace.CASIOR_SCHEMA}\n    casior_id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    candidate_id = db.Column(\n        db.Integer,\n        db.ForeignKey(\"candidate.candidate.candidate_id\"),\n        nullable=False\n    )\n    shop_id = db.Column(db.String(128), nullable=False)",
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "CasiorSchema",
+        "kind": 6,
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "peekOfCode": "class CasiorSchema(Schema):\n    casior_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    shop_id = fields.Str(required=True)\n    machine_model_number = fields.Str(required=True)\n    shop_name = fields.Str()\n    user_name = fields.Str(required=True)\n    password = fields.Str(required=True, load_only=True)\n    status_id = fields.Int(required=True)\n    # create_at = fields.DateTime(dump_only=True)",
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
         "label": "Category",
         "kind": 6,
         "importPath": "src.models.category.category_model",
@@ -782,6 +864,78 @@
         "documentation": {}
     },
     {
+        "label": "create_casior",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def create_casior():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = casior_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    candidate = Candidate.query.get(json_data.get(\"candidate_id\"))\n    if not candidate:\n        return base_response(404, False, \"Candidate not found\", None)",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_casiors",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def get_all_casiors():\n    try:\n        casiors = Casior.query.all()\n        return base_response(200, True, \"Casiors retrieved successfully\", casiors_schema.dump(casiors))\n    except Exception as e:\n        return base_response(500, False, \"Failed to retrieve casiors\", str(e))\n# ------------------------\n# GET CASIOR BY ID\n# ------------------------\n@casior_bp.route(\"/<int:casior_id>\", methods=[\"GET\"])",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_casior",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def get_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    return base_response(200, True, \"Casior retrieved successfully\", casior_schema.dump(casior))\n# ------------------------\n# UPDATE CASIOR\n# ------------------------\n@casior_bp.route(\"/<int:casior_id>\", methods=[\"PUT\"])\ndef update_casior(casior_id):",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_casior",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def update_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = casior_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_casior",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def delete_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    try:\n        casior.delete()\n        return base_response(200, True, \"Casior deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete casior\", str(e))",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "casior_bp",
+        "kind": 5,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "casior_bp = Blueprint(NameSpace.CASIOR_BP, __name__)\n# Single & multiple schemas\ncasior_schema = CasiorSchema()\ncasiors_schema = CasiorSchema(many=True)\n# ------------------------\n# CREATE CASIOR\n# ------------------------\n@casior_bp.route(\"/save\", methods=[\"POST\"])\ndef create_casior():\n    json_data = request.get_json()",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "casior_schema",
+        "kind": 5,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "casior_schema = CasiorSchema()\ncasiors_schema = CasiorSchema(many=True)\n# ------------------------\n# CREATE CASIOR\n# ------------------------\n@casior_bp.route(\"/save\", methods=[\"POST\"])\ndef create_casior():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "casiors_schema",
+        "kind": 5,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "casiors_schema = CasiorSchema(many=True)\n# ------------------------\n# CREATE CASIOR\n# ------------------------\n@casior_bp.route(\"/save\", methods=[\"POST\"])\ndef create_casior():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = casior_schema.validate(json_data)",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
         "label": "create_category",
         "kind": 2,
         "importPath": "src.routes.category.category_route",
@@ -921,7 +1075,7 @@
         "kind": 6,
         "importPath": "src.utils.namespace",
         "description": "src.utils.namespace",
-        "peekOfCode": "class NameSpace:\n    #candidate\n    CANDIDATE_PREFIX = \"/api/candidates\"\n    CANDIDATE_BP = \"candidate_bp\"\n    CANDIDATE_TABLE = \"candidate\"\n    CANDIDATE_SCHEMA =  \"candidate\"\n    # Category Model\n    CATEGORY_PREFIX = \"/api/category\"\n    CATEGORY_BP = \"category_bp\"\n    CATEGORY_TABLE =  \"category\"",
+        "peekOfCode": "class NameSpace:\n    #candidate\n    CANDIDATE_PREFIX = \"/api/candidates\"\n    CANDIDATE_BP = \"candidate_bp\"\n    CANDIDATE_TABLE = \"candidate\"\n    CANDIDATE_SCHEMA =  \"candidate\"\n    # Category \n    CATEGORY_PREFIX = \"/api/category\"\n    CATEGORY_BP = \"category_bp\"\n    CATEGORY_TABLE =  \"category\"",
         "detail": "src.utils.namespace",
         "documentation": {}
     },
@@ -930,7 +1084,7 @@
         "kind": 2,
         "importPath": "src.app",
         "description": "src.app",
-        "peekOfCode": "def app():\n    app = Flask(__name__)\n    app.config.from_object(Config)\n    db.init_app(app)\n    migrate.init_app(app, db)\n    jwt.init_app(app)\n    ma.init_app(app)\n    from src.routes.candidate.candidate_route import candidate_bp\n    from src.routes.category.category_route import category_bp\n    app.register_blueprint(candidate_bp, url_prefix= NameSpace.CANDIDATE_PREFIX)",
+        "peekOfCode": "def app():\n    app = Flask(__name__)\n    app.config.from_object(Config)\n    db.init_app(app)\n    migrate.init_app(app, db)\n    jwt.init_app(app)\n    ma.init_app(app)\n    from src.routes.candidate.candidate_route import candidate_bp\n    from src.routes.category.category_route import category_bp\n    from src.routes.casior.casior_route import casior_bp",
         "detail": "src.app",
         "documentation": {}
     },
