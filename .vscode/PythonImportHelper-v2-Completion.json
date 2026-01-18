@@ -90,6 +90,38 @@
         "documentation": {}
     },
     {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "Flask",
         "importPath": "flask",
         "description": "flask",
@@ -119,6 +151,38 @@
         "description": "xmlrpc.client",
         "isExtraImport": true,
         "detail": "xmlrpc.client",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
         "documentation": {}
     },
     {
@@ -194,6 +258,14 @@
         "documentation": {}
     },
     {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
         "label": "Column",
         "importPath": "sqlalchemy",
         "description": "sqlalchemy",
@@ -271,6 +343,30 @@
         "description": "sqlalchemy",
         "isExtraImport": true,
         "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "generate_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "check_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
         "documentation": {}
     },
     {
@@ -434,6 +530,38 @@
         "documentation": {}
     },
     {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
         "label": "db",
         "importPath": "utils.extensions",
         "description": "utils.extensions",
@@ -490,6 +618,14 @@
         "documentation": {}
     },
     {
+        "label": "Candidate",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "isExtraImport": true,
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
         "label": "NameSpace",
         "importPath": "src.utils.namespace",
         "description": "src.utils.namespace",
@@ -530,6 +666,14 @@
         "documentation": {}
     },
     {
+        "label": "base_response",
+        "importPath": "src.helper.base_responce",
+        "description": "src.helper.base_responce",
+        "isExtraImport": true,
+        "detail": "src.helper.base_responce",
+        "documentation": {}
+    },
+    {
         "label": "Category",
         "importPath": "src.models.category.category_model",
         "description": "src.models.category.category_model",
@@ -543,6 +687,30 @@
         "description": "src.models.category.category_model",
         "isExtraImport": true,
         "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "Category",
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "isExtraImport": true,
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "Item",
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "ItemSchema",
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.item_model",
         "documentation": {}
     },
     {
@@ -792,6 +960,24 @@
         "documentation": {}
     },
     {
+        "label": "Item",
+        "kind": 6,
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "peekOfCode": "class Item(db.Model):\n    __tablename__ = NameSpace.ITEM_TABLE\n    __table_args__ = {\"schema\": NameSpace.ITEM_SCHEMA}\n    item_id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    candidate_id = db.Column(db.Integer, db.ForeignKey(\"candidate.candidate.candidate_id\"), nullable=False)\n    category_id = db.Column(db.Integer, db.ForeignKey(\"category.category.category_id\"), nullable=False)\n    item_name = db.Column(db.String(256), nullable=False)\n    short_code = db.Column(db.String(256))\n    bar_code = db.Column(db.String(512))\n    sale_price = db.Column(db.Float, nullable=False)",
+        "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "ItemSchema",
+        "kind": 6,
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "peekOfCode": "class ItemSchema(Schema):\n    item_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    category_id = fields.Int(required=True)\n    item_name = fields.Str(required=True)\n    short_code = fields.Str()\n    bar_code = fields.Str()\n    sale_price = fields.Float(required=True)\n    stoke_price = fields.Float(required=True)\n    measurement_id = fields.Int()",
+        "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
         "label": "create_candidate",
         "kind": 2,
         "importPath": "src.routes.candidate.candidate_route",
@@ -1005,6 +1191,78 @@
         "description": "src.routes.category.category_route",
         "peekOfCode": "categories_schema = CategorySchema(many=True)\n# ------------------------\n# CREATE CATEGORY\n# ------------------------\n@category_bp.route(\"/save\", methods=[\"POST\"])\ndef create_category():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate",
         "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "create_item",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def create_item():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate schema\n    errors = item_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    # Check candidate exists\n    candidate = Candidate.query.get(json_data[\"candidate_id\"])",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_items",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def get_all_items():\n    try:\n        items = Item.query.all()\n        return base_response(200, True, \"Items retrieved successfully\", items_schema.dump(items))\n    except Exception as e:\n        return base_response(500, False, \"Failed to retrieve items\", str(e))\n# ------------------------\n# GET ITEM BY ID\n# ------------------------\n@item_bp.route(\"/<int:item_id>\", methods=[\"GET\"])",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_item",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def get_item(item_id):\n    item = Item.query.get(item_id)\n    if not item:\n        return base_response(404, False, \"Item not found\", None)\n    return base_response(200, True, \"Item retrieved successfully\", item_schema.dump(item))\n# ------------------------\n# UPDATE ITEM\n# ------------------------\n@item_bp.route(\"/<int:item_id>\", methods=[\"PUT\"])\ndef update_item(item_id):",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_item",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def update_item(item_id):\n    item = Item.query.get(item_id)\n    if not item:\n        return base_response(404, False, \"Item not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = item_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_item",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def delete_item(item_id):\n    item = Item.query.get(item_id)\n    if not item:\n        return base_response(404, False, \"Item not found\", None)\n    try:\n        item.delete()\n        return base_response(200, True, \"Item deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete item\", str(e))",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "item_bp",
+        "kind": 5,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "item_bp = Blueprint(NameSpace.ITEM_BP, __name__)\nitem_schema = ItemSchema()\nitems_schema = ItemSchema(many=True)\n# ------------------------\n# CREATE ITEM\n# ------------------------\n@item_bp.route(\"/save\", methods=[\"POST\"])\ndef create_item():\n    json_data = request.get_json()\n    if not json_data:",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "item_schema",
+        "kind": 5,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "item_schema = ItemSchema()\nitems_schema = ItemSchema(many=True)\n# ------------------------\n# CREATE ITEM\n# ------------------------\n@item_bp.route(\"/save\", methods=[\"POST\"])\ndef create_item():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "items_schema",
+        "kind": 5,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "items_schema = ItemSchema(many=True)\n# ------------------------\n# CREATE ITEM\n# ------------------------\n@item_bp.route(\"/save\", methods=[\"POST\"])\ndef create_item():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate schema",
+        "detail": "src.routes.item.item_route",
         "documentation": {}
     },
     {
