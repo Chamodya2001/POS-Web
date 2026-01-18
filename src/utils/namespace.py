@@ -19,3 +19,9 @@ class NameSpace:
     CASIOR_SCHEMA = "casior"
     
     
+    # Item
+    ITEM_PREFIX = "/api/item"
+    ITEM_BP = "item_bp"
+    ITEM_TABLE = "item"
+    ITEM_SCHEMA = "item"
+    
