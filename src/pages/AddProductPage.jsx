@@ -23,15 +23,17 @@ export default function AddProductPage({ onBack }) {
         image: '',
         tags: '',
         weight: '',
-        dimensions: ''
+        dimensions: '',
+        discount: '0'
     });
 
     const [newCategory, setNewCategory] = useState('');
     const [showCategoryInput, setShowCategoryInput] = useState(false);
 
     // Derived values
-    const profit = (parseFloat(formData.price || 0) - parseFloat(formData.cost || 0)).toFixed(2);
-    const margin = formData.price > 0 ? ((profit / formData.price) * 100).toFixed(1) : 0;
+    const netPrice = parseFloat(formData.price || 0) - parseFloat(formData.discount || 0);
+    const profit = (netPrice - parseFloat(formData.cost || 0)).toFixed(2);
+    const margin = netPrice > 0 ? ((profit / netPrice) * 100).toFixed(1) : 0;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -159,6 +161,17 @@ export default function AddProductPage({ onBack }) {
                                     type="number"
                                     name="cost"
                                     value={formData.cost}
+                                    onChange={handleChange}
+                                    placeholder="0.00"
+                                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Discount ($)</label>
+                                <input
+                                    type="number"
+                                    name="discount"
+                                    value={formData.discount}
                                     onChange={handleChange}
                                     placeholder="0.00"
                                     className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white"
