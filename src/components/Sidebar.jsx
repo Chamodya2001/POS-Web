@@ -16,7 +16,7 @@ const Sidebar = ({ activeTab, onTabChange }) => {
     ];
 
     return (
-        <div className="h-screen w-20 md:w-64 bg-white border-r border-slate-100 flex flex-col justify-between transition-all duration-300 z-50 fixed left-0 top-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+        <div className="h-screen w-20 md:w-64 bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 flex flex-col justify-between transition-all duration-300 z-50 fixed left-0 top-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
             <div>
                 {/* ... header and nav ... */}
                 <div className="h-16 flex items-center justify-center md:justify-start md:px-6 border-b border-slate-100">

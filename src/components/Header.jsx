@@ -10,7 +10,7 @@ const Header = () => {
     });
 
     return (
-        <header className="h-16 glass-effect flex items-center justify-between px-4 md:px-8 fixed top-0 right-0 left-20 md:left-64 z-50 transition-all duration-300">
+        <header className="h-16 glass-effect dark:bg-slate-900/80 dark:border-slate-800 flex items-center justify-between px-4 md:px-8 fixed top-0 right-0 left-20 md:left-64 z-50 transition-all duration-300">
 
             {/* Search Bar - hidden on mobile */}
             <div className="hidden md:flex items-center flex-1 max-w-lg">

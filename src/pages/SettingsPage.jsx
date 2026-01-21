@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User, Bell, Shield, Smartphone, CreditCard, Mail, Globe, Save, Moon, Volume2, Lock, LogOut } from 'lucide-react';
 import clsx from 'clsx';
+import { useTheme } from '../context/ThemeContext';
 
 const SECTIONS = [
     { id: 'general', label: 'General', icon: Globe },
@@ -31,10 +32,14 @@ const Toggle = ({ enabled, onChange }) => (
 
 export default function SettingsPage() {
     const [activeTab, setActiveTab] = useState('general');
+    const { theme, toggleTheme } = useTheme();
+
+    // Derived state for the UI
+    const isDarkMode = theme === 'dark';
+
     const [settings, setSettings] = useState({
         notifications: true,
         sound: true,
-        darkMode: false,
         emailMarketing: true,
         twoFactor: true,
     });
@@ -44,14 +49,14 @@ export default function SettingsPage() {
     };
 
     return (
-        <div className="p-2 max-w-[1200px] mx-auto h-[calc(100vh-100px)] animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="p-2 space-y-6 max-w-[1200px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
             <div className="flex flex-col md:flex-row h-full gap-6">
 
                 {/* Settings Sidebar */}
-                <div className="w-full md:w-64 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden shrink-0 h-fit">
-                    <div className="p-4 border-b border-slate-100">
-                        <h2 className="font-bold text-slate-800">Settings</h2>
-                        <p className="text-xs text-slate-500">Manage your preferences</p>
+                <div className="w-full md:w-64 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden shrink-0 h-fit">
+                    <div className="p-4 border-b border-slate-100 dark:border-slate-800">
+                        <h2 className="font-bold text-slate-800 dark:text-white">Settings</h2>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">Manage your preferences</p>
                     </div>
                     <nav className="p-2 space-y-1">
                         {SECTIONS.map((section) => (
@@ -61,8 +66,8 @@ export default function SettingsPage() {
                                 className={clsx(
                                     "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
                                     activeTab === section.id
-                                        ? "bg-primary-50 text-primary-700 shadow-sm"
-                                        : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                                        ? "bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400 shadow-sm"
+                                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-200"
                                 )}
                             >
                                 <section.icon className={clsx("w-4 h-4", activeTab === section.id && "fill-current opacity-20")} />
@@ -73,11 +78,11 @@ export default function SettingsPage() {
                 </div>
 
                 {/* Content Area */}
-                <div className="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-                    <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+                <div className="flex-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                    <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                         <div>
-                            <h2 className="text-lg font-bold text-slate-800">{SECTIONS.find(s => s.id === activeTab)?.label}</h2>
-                            <p className="text-sm text-slate-500">Update your {activeTab} settings.</p>
+                            <h2 className="text-lg font-bold text-slate-800 dark:text-white">{SECTIONS.find(s => s.id === activeTab)?.label}</h2>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">Update your {activeTab} settings.</p>
                         </div>
                         <button className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-xl text-sm font-medium hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/20 active:scale-95">
                             <Save className="w-4 h-4" /> Save Changes
@@ -88,36 +93,36 @@ export default function SettingsPage() {
 
                         {activeTab === 'general' && (
                             <div className="space-y-6 max-w-2xl">
-                                <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                    <div className="w-16 h-16 rounded-full bg-slate-200 flex items-center justify-center overflow-hidden border-2 border-white shadow-sm">
-                                        <User className="w-8 h-8 text-slate-400" />
+                                <div className="flex items-start gap-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
+                                    <div className="w-16 h-16 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden border-2 border-white dark:border-slate-600 shadow-sm">
+                                        <User className="w-8 h-8 text-slate-400 dark:text-slate-500" />
                                     </div>
                                     <div className="flex-1">
-                                        <h4 className="font-bold text-slate-800">Store Profile</h4>
-                                        <p className="text-sm text-slate-500 mb-3">This information will be displayed on receipts.</p>
+                                        <h4 className="font-bold text-slate-800 dark:text-white">Store Profile</h4>
+                                        <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">This information will be displayed on receipts.</p>
                                         <div className="flex gap-2">
-                                            <button className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50">Change Logo</button>
-                                            <button className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-medium text-red-600 shadow-sm hover:bg-red-50 hover:border-red-100">Remove</button>
+                                            <button className="px-3 py-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-medium text-slate-700 dark:text-slate-200 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-600">Change Logo</button>
+                                            <button className="px-3 py-1.5 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg text-xs font-medium text-red-600 dark:text-red-400 shadow-sm hover:bg-red-50 dark:hover:bg-red-900/20 hover:border-red-100">Remove</button>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div className="space-y-1.5">
-                                        <label className="text-sm font-medium text-slate-700">Store Name</label>
-                                        <input type="text" defaultValue="LoopPOS Store" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
+                                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Store Name</label>
+                                        <input type="text" defaultValue="LoopPOS Store" className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 text-slate-900 dark:text-white" />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-sm font-medium text-slate-700">Email Address</label>
-                                        <input type="email" defaultValue="contact@looopos.com" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
+                                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Email Address</label>
+                                        <input type="email" defaultValue="contact@looopos.com" className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 text-slate-900 dark:text-white" />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-sm font-medium text-slate-700">Phone</label>
-                                        <input type="tel" defaultValue="+1 (555) 000-0000" className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500" />
+                                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Phone</label>
+                                        <input type="tel" defaultValue="+1 (555) 000-0000" className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 text-slate-900 dark:text-white" />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <label className="text-sm font-medium text-slate-700">Currency</label>
-                                        <select className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500">
+                                        <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Currency</label>
+                                        <select className="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 text-slate-900 dark:text-white">
                                             <option>USD ($)</option>
                                             <option>EUR (€)</option>
                                             <option>GBP (£)</option>
@@ -125,25 +130,25 @@ export default function SettingsPage() {
                                     </div>
                                 </div>
 
-                                <div className="pt-4 border-t border-slate-100">
-                                    <h4 className="font-bold text-slate-800 mb-4">Preferences</h4>
+                                <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                                    <h4 className="font-bold text-slate-800 dark:text-white mb-4">Preferences</h4>
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-slate-100 rounded-lg"><Moon className="w-4 h-4 text-slate-600" /></div>
+                                                <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg"><Moon className="w-4 h-4 text-slate-600 dark:text-slate-400" /></div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-slate-800">Dark Mode</p>
-                                                    <p className="text-xs text-slate-500">Adjust the appearance of the application</p>
+                                                    <p className="text-sm font-medium text-slate-800 dark:text-white">Dark Mode</p>
+                                                    <p className="text-xs text-slate-500 dark:text-slate-400">Adjust the appearance of the application</p>
                                                 </div>
                                             </div>
-                                            <Toggle enabled={settings.darkMode} onChange={() => handleToggle('darkMode')} />
+                                            <Toggle enabled={isDarkMode} onChange={toggleTheme} />
                                         </div>
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-3">
-                                                <div className="p-2 bg-slate-100 rounded-lg"><Volume2 className="w-4 h-4 text-slate-600" /></div>
+                                                <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg"><Volume2 className="w-4 h-4 text-slate-600 dark:text-slate-400" /></div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-slate-800">Sound Effects</p>
-                                                    <p className="text-xs text-slate-500">Play sounds on interactions</p>
+                                                    <p className="text-sm font-medium text-slate-800 dark:text-white">Sound Effects</p>
+                                                    <p className="text-xs text-slate-500 dark:text-slate-400">Play sounds on interactions</p>
                                                 </div>
                                             </div>
                                             <Toggle enabled={settings.sound} onChange={() => handleToggle('sound')} />
