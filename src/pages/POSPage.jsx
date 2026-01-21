@@ -4,7 +4,7 @@ import CartPanel from '../components/pos/CartPanel';
 
 const POSPage = () => {
     return (
-        <div className="flex flex-col md:flex-row h-[calc(100vh-100px)] gap-4 pb-4">
+        <div className="flex flex-col md:flex-row h-full gap-4 pb-4">
             {/* Left Side - Products */}
             <div className="flex-1 min-w-0 h-full overflow-hidden">
                 <ProductGrid />

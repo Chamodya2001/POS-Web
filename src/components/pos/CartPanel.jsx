@@ -88,7 +88,7 @@ const CartPanel = () => {
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
     return (
-        <div className="flex flex-col h-full bg-white border-l border-slate-200 shadow-xl shadow-slate-200/50 relative z-30">
+        <div className="flex flex-col h-full bg-white rounded-l-2xl border-l border-slate-200 shadow-2xl relative z-30 overflow-hidden">
             <div className="p-5 border-b border-slate-100 flex items-center justify-between">
                 <div>
                     <h2 className="font-bold text-xl text-slate-800">Current Order</h2>
