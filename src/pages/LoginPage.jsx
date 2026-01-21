@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Store, ArrowRight, Lock, Mail, Loader2, AlertCircle } from 'lucide-react';
+import { Store, ArrowRight, Lock, Mail, Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
 
-export default function LoginPage() {
+export default function LoginPage({ onBack }) {
     const [email, setEmail] = useState('admin@looopos.com');
     const [password, setPassword] = useState('admin');
     const [error, setError] = useState('');
@@ -25,6 +25,15 @@ export default function LoginPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-slate-900 relative overflow-hidden">
+            {onBack && (
+                <button
+                    onClick={onBack}
+                    className="absolute top-8 left-8 p-3 bg-white/5 hover:bg-white/10 text-white rounded-2xl border border-white/10 transition-all flex items-center gap-2 text-sm font-medium group z-20"
+                >
+                    <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Landing
+                </button>
+            )}
+
             {/* Abstract Background Effects */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
                 <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary-600/20 rounded-full blur-[120px] animate-pulse" />
