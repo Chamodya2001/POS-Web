@@ -1,5 +1,8 @@
 import React from 'react';
-import { LayoutDashboard, Store, ShoppingBag, Users, Settings, LogOut, Package } from 'lucide-react';
+import {
+    LayoutDashboard, Store, ShoppingBag, Users,
+    Settings, LogOut, Package, UserCheck, UserPlus
+} from 'lucide-react';
 import clsx from 'clsx';
 
 import { useAuth } from '../context/AuthContext';
@@ -13,6 +16,9 @@ const Sidebar = ({ activeTab, onTabChange }) => {
         { id: 'products', icon: Package, label: 'Products' },
         { id: 'orders', icon: ShoppingBag, label: 'Orders' },
         { id: 'customers', icon: Users, label: 'Customers' },
+        { id: 'add-customer', icon: UserPlus, label: 'Add Customer' },
+        { id: 'employment', icon: UserCheck, label: 'Add Employment' },
+
         { id: 'settings', icon: Settings, label: 'Settings' },
     ];
 

@@ -12,10 +12,17 @@ import { ThemeProvider } from './context/ThemeContext';
 import { ProductProvider } from './context/ProductContext';
 import ProductsPage from './pages/ProductsPage';
 import LandingPage from './pages/LandingPage';
+import AddEmploymentPage from './pages/AddEmploymentPage';
+import AddCustomerPage from './pages/AddCustomerPage';
+import CustomerProfilePage from './pages/CustomerProfilePage';
+
+
+
 
 const AppContent = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [currentView, setCurrentView] = useState('landing');
+  const [selectedCustomerId, setSelectedCustomerId] = useState(null);
   const { user } = useAuth();
 
   // If we are in landing mode and not logged in, show landing page
@@ -34,11 +41,22 @@ const AppContent = () => {
       {activeTab === 'pos' && <POSPage />}
       {activeTab === 'dashboard' && <Dashboard />}
       {activeTab === 'orders' && <OrdersPage />}
-      {activeTab === 'customers' && <CustomersPage />}
+      {activeTab === 'customers' && (
+        <CustomersPage
+          onAddCustomer={() => setActiveTab('add-customer')}
+          onViewProfile={(id) => {
+            setSelectedCustomerId(id);
+            setActiveTab('customer-profile');
+          }}
+        />
+      )}
       {activeTab === 'products' && <ProductsPage />}
       {activeTab === 'settings' && <SettingsPage />}
+      {activeTab === 'employment' && <AddEmploymentPage />}
+      {activeTab === 'add-customer' && <AddCustomerPage />}
+      {activeTab === 'customer-profile' && <CustomerProfilePage customerId={selectedCustomerId} onBack={() => setActiveTab('customers')} />}
 
-      {['pos', 'dashboard', 'orders', 'customers', 'products', 'settings'].indexOf(activeTab) === -1 && (
+      {['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'add-customer', 'customer-profile'].indexOf(activeTab) === -1 && (
         <div className="flex flex-col items-center justify-center h-full text-slate-400">
           <h2 className="text-2xl font-bold text-slate-800 mb-2">Coming Soon</h2>
           <p className="text-sm">The {activeTab} module is under development.</p>
