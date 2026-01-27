@@ -15,6 +15,7 @@ import LandingPage from './pages/LandingPage';
 import AddEmploymentPage from './pages/AddEmploymentPage';
 import AddCustomerPage from './pages/AddCustomerPage';
 import CustomerProfilePage from './pages/CustomerProfilePage';
+import EmployeeReportPage from './pages/EmployeeReportPage';
 
 
 
@@ -53,10 +54,11 @@ const AppContent = () => {
       {activeTab === 'products' && <ProductsPage />}
       {activeTab === 'settings' && <SettingsPage />}
       {activeTab === 'employment' && <AddEmploymentPage />}
+      {activeTab === 'employee-report' && <EmployeeReportPage />}
       {activeTab === 'add-customer' && <AddCustomerPage />}
       {activeTab === 'customer-profile' && <CustomerProfilePage customerId={selectedCustomerId} onBack={() => setActiveTab('customers')} />}
 
-      {['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'add-customer', 'customer-profile'].indexOf(activeTab) === -1 && (
+      {['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'employee-report', 'add-customer', 'customer-profile'].indexOf(activeTab) === -1 && (
         <div className="flex flex-col items-center justify-center h-full text-slate-400">
           <h2 className="text-2xl font-bold text-slate-800 mb-2">Coming Soon</h2>
           <p className="text-sm">The {activeTab} module is under development.</p>

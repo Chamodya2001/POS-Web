@@ -28,7 +28,7 @@ export default function AddEmploymentPage() {
         gender_id: 1,
         status_id: 1,
         shop_name: "",
-        casior_quantity: 1,
+       
         user_name: "",
         password: ""
     });
@@ -81,7 +81,7 @@ export default function AddEmploymentPage() {
                     gender_id: 1,
                     status_id: 1,
                     shop_name: "",
-                    casior_quantity: 1,
+                    
                     user_name: "",
                     password: ""
                 });
@@ -280,7 +280,7 @@ export default function AddEmploymentPage() {
                                 placeholder="My Awesome Store"
                             />
                         </div>
-                        <div className="space-y-1.5">
+                        {/* <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-slate-500 uppercase">Cashier Quantity</label>
                             <input
                                 type="number"
@@ -290,7 +290,7 @@ export default function AddEmploymentPage() {
                                 onChange={handleChange}
                                 className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                             />
-                        </div>
+                        </div> */}
                         <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-slate-500 uppercase">Preferred Language</label>
                             <select

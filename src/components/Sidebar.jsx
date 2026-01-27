@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     LayoutDashboard, Store, ShoppingBag, Users,
-    Settings, LogOut, Package, UserCheck, UserPlus
+    Settings, LogOut, Package, UserCheck, UserPlus, BarChart3
 } from 'lucide-react';
 import clsx from 'clsx';
 
@@ -18,7 +18,7 @@ const Sidebar = ({ activeTab, onTabChange }) => {
         { id: 'customers', icon: Users, label: 'Customers' },
         { id: 'add-customer', icon: UserPlus, label: 'Add Customer' },
         { id: 'employment', icon: UserCheck, label: 'Add Employment' },
-
+        { id: 'employee-report', icon: BarChart3, label: 'Employee Report' },
         { id: 'settings', icon: Settings, label: 'Settings' },
     ];
 
