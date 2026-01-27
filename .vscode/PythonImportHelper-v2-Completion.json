@@ -1,0 +1,1568 @@
+[
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "fileConfig",
+        "importPath": "logging.config",
+        "description": "logging.config",
+        "isExtraImport": true,
+        "detail": "logging.config",
+        "documentation": {}
+    },
+    {
+        "label": "flask",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "flask",
+        "description": "flask",
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "current_app",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Response",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "context",
+        "importPath": "alembic",
+        "description": "alembic",
+        "isExtraImport": true,
+        "detail": "alembic",
+        "documentation": {}
+    },
+    {
+        "label": "Date",
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "isExtraImport": true,
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "Date",
+        "importPath": "sqlite3",
+        "description": "sqlite3",
+        "isExtraImport": true,
+        "detail": "sqlite3",
+        "documentation": {}
+    },
+    {
+        "label": "DateTime",
+        "importPath": "xmlrpc.client",
+        "description": "xmlrpc.client",
+        "isExtraImport": true,
+        "detail": "xmlrpc.client",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "ARRAY",
+        "importPath": "sqlalchemy.dialects.postgresql",
+        "description": "sqlalchemy.dialects.postgresql",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.dialects.postgresql",
+        "documentation": {}
+    },
+    {
+        "label": "ARRAY",
+        "importPath": "sqlalchemy.dialects.postgresql",
+        "description": "sqlalchemy.dialects.postgresql",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.dialects.postgresql",
+        "documentation": {}
+    },
+    {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Date",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "DateTime",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Date",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Column",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Integer",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "String",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Column",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Integer",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "String",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Column",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Integer",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "String",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "generate_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "check_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "generate_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "check_password_hash",
+        "importPath": "werkzeug.security",
+        "description": "werkzeug.security",
+        "isExtraImport": true,
+        "detail": "werkzeug.security",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "utils.extensions",
+        "description": "utils.extensions",
+        "isExtraImport": true,
+        "detail": "utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "utils.extensions",
+        "description": "utils.extensions",
+        "isExtraImport": true,
+        "detail": "utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "utils.extensions",
+        "description": "utils.extensions",
+        "isExtraImport": true,
+        "detail": "utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "IntegrityError",
+        "importPath": "sqlalchemy.exc",
+        "description": "sqlalchemy.exc",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.exc",
+        "documentation": {}
+    },
+    {
+        "label": "Candidate",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "isExtraImport": true,
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
+        "label": "CandidateSchema",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "isExtraImport": true,
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
+        "label": "Candidate",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "isExtraImport": true,
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
+        "label": "Candidate",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "isExtraImport": true,
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
+        "label": "NameSpace",
+        "importPath": "src.utils.namespace",
+        "description": "src.utils.namespace",
+        "isExtraImport": true,
+        "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "NameSpace",
+        "importPath": "src.utils.namespace",
+        "description": "src.utils.namespace",
+        "isExtraImport": true,
+        "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "Casior",
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "isExtraImport": true,
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "CasiorSchema",
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "isExtraImport": true,
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "base_response",
+        "importPath": "src.helper.base_responce",
+        "description": "src.helper.base_responce",
+        "isExtraImport": true,
+        "detail": "src.helper.base_responce",
+        "documentation": {}
+    },
+    {
+        "label": "base_response",
+        "importPath": "src.helper.base_responce",
+        "description": "src.helper.base_responce",
+        "isExtraImport": true,
+        "detail": "src.helper.base_responce",
+        "documentation": {}
+    },
+    {
+        "label": "base_response",
+        "importPath": "src.helper.base_responce",
+        "description": "src.helper.base_responce",
+        "isExtraImport": true,
+        "detail": "src.helper.base_responce",
+        "documentation": {}
+    },
+    {
+        "label": "Category",
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "isExtraImport": true,
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "CategorySchema",
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "isExtraImport": true,
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "Category",
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "isExtraImport": true,
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "Customer",
+        "importPath": "src.models.customer.customer_model",
+        "description": "src.models.customer.customer_model",
+        "isExtraImport": true,
+        "detail": "src.models.customer.customer_model",
+        "documentation": {}
+    },
+    {
+        "label": "CustomerSchema",
+        "importPath": "src.models.customer.customer_model",
+        "description": "src.models.customer.customer_model",
+        "isExtraImport": true,
+        "detail": "src.models.customer.customer_model",
+        "documentation": {}
+    },
+    {
+        "label": "Item",
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "ItemSchema",
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "SQLAlchemy",
+        "importPath": "flask_sqlalchemy",
+        "description": "flask_sqlalchemy",
+        "isExtraImport": true,
+        "detail": "flask_sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "Migrate",
+        "importPath": "flask_migrate",
+        "description": "flask_migrate",
+        "isExtraImport": true,
+        "detail": "flask_migrate",
+        "documentation": {}
+    },
+    {
+        "label": "JWTManager",
+        "importPath": "flask_jwt_extended",
+        "description": "flask_jwt_extended",
+        "isExtraImport": true,
+        "detail": "flask_jwt_extended",
+        "documentation": {}
+    },
+    {
+        "label": "Marshmallow",
+        "importPath": "flask_marshmallow",
+        "description": "flask_marshmallow",
+        "isExtraImport": true,
+        "detail": "flask_marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "importPath": "src.app",
+        "description": "src.app",
+        "isExtraImport": true,
+        "detail": "src.app",
+        "documentation": {}
+    },
+    {
+        "label": "get_engine",
+        "kind": 2,
+        "importPath": "migrations.env",
+        "description": "migrations.env",
+        "peekOfCode": "def get_engine():\n    try:\n        # this works with Flask-SQLAlchemy<3 and Alchemical\n        return current_app.extensions['migrate'].db.get_engine()\n    except (TypeError, AttributeError):\n        # this works with Flask-SQLAlchemy>=3\n        return current_app.extensions['migrate'].db.engine\ndef get_engine_url():\n    try:\n        return get_engine().url.render_as_string(hide_password=False).replace(",
+        "detail": "migrations.env",
+        "documentation": {}
+    },
+    {
+        "label": "get_engine_url",
+        "kind": 2,
+        "importPath": "migrations.env",
+        "description": "migrations.env",
+        "peekOfCode": "def get_engine_url():\n    try:\n        return get_engine().url.render_as_string(hide_password=False).replace(\n            '%', '%%')\n    except AttributeError:\n        return str(get_engine().url).replace('%', '%%')\n# add your model's MetaData object here\n# for 'autogenerate' support\n# from myapp import mymodel\n# target_metadata = mymodel.Base.metadata",
+        "detail": "migrations.env",
+        "documentation": {}
+    },
+    {
+        "label": "get_metadata",
+        "kind": 2,
+        "importPath": "migrations.env",
+        "description": "migrations.env",
+        "peekOfCode": "def get_metadata():\n    if hasattr(target_db, 'metadatas'):\n        return target_db.metadatas[None]\n    return target_db.metadata\ndef run_migrations_offline():\n    \"\"\"Run migrations in 'offline' mode.\n    This configures the context with just a URL\n    and not an Engine, though an Engine is acceptable\n    here as well.  By skipping the Engine creation\n    we don't even need a DBAPI to be available.",
+        "detail": "migrations.env",
+        "documentation": {}
+    },
+    {
+        "label": "run_migrations_offline",
+        "kind": 2,
+        "importPath": "migrations.env",
+        "description": "migrations.env",
+        "peekOfCode": "def run_migrations_offline():\n    \"\"\"Run migrations in 'offline' mode.\n    This configures the context with just a URL\n    and not an Engine, though an Engine is acceptable\n    here as well.  By skipping the Engine creation\n    we don't even need a DBAPI to be available.\n    Calls to context.execute() here emit the given string to the\n    script output.\n    \"\"\"\n    url = config.get_main_option(\"sqlalchemy.url\")",
+        "detail": "migrations.env",
+        "documentation": {}
+    },
+    {
+        "label": "run_migrations_online",
+        "kind": 2,
+        "importPath": "migrations.env",
+        "description": "migrations.env",
+        "peekOfCode": "def run_migrations_online():\n    \"\"\"Run migrations in 'online' mode.\n    In this scenario we need to create an Engine\n    and associate a connection with the context.\n    \"\"\"\n    # this callback is used to prevent an auto-migration from being generated\n    # when there are no changes to the schema\n    # reference: http://alembic.zzzcomputing.com/en/latest/cookbook.html\n    def process_revision_directives(context, revision, directives):\n        if getattr(config.cmd_opts, 'autogenerate', False):",
+        "detail": "migrations.env",
+        "documentation": {}
+    },
+    {
+        "label": "config",
+        "kind": 5,
+        "importPath": "migrations.env",
+        "description": "migrations.env",
+        "peekOfCode": "config = context.config\n# Interpret the config file for Python logging.\n# This line sets up loggers basically.\nfileConfig(config.config_file_name)\nlogger = logging.getLogger('alembic.env')\ndef get_engine():\n    try:\n        # this works with Flask-SQLAlchemy<3 and Alchemical\n        return current_app.extensions['migrate'].db.get_engine()\n    except (TypeError, AttributeError):",
+        "detail": "migrations.env",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "migrations.env",
+        "description": "migrations.env",
+        "peekOfCode": "logger = logging.getLogger('alembic.env')\ndef get_engine():\n    try:\n        # this works with Flask-SQLAlchemy<3 and Alchemical\n        return current_app.extensions['migrate'].db.get_engine()\n    except (TypeError, AttributeError):\n        # this works with Flask-SQLAlchemy>=3\n        return current_app.extensions['migrate'].db.engine\ndef get_engine_url():\n    try:",
+        "detail": "migrations.env",
+        "documentation": {}
+    },
+    {
+        "label": "target_db",
+        "kind": 5,
+        "importPath": "migrations.env",
+        "description": "migrations.env",
+        "peekOfCode": "target_db = current_app.extensions['migrate'].db\n# other values from the config, defined by the needs of env.py,\n# can be acquired:\n# my_important_option = config.get_main_option(\"my_important_option\")\n# ... etc.\ndef get_metadata():\n    if hasattr(target_db, 'metadatas'):\n        return target_db.metadatas[None]\n    return target_db.metadata\ndef run_migrations_offline():",
+        "detail": "migrations.env",
+        "documentation": {}
+    },
+    {
+        "label": "base_response",
+        "kind": 2,
+        "importPath": "src.helper.base_responce",
+        "description": "src.helper.base_responce",
+        "peekOfCode": "def base_response(status_code=200, success=False, message=None, data=None):\n    response_data = {\n        \"success\": success,\n        \"message\": message,\n        \"data\": data if data is not None else {},\n        \"status_code\": status_code\n    }\n    return Response(\n        mimetype=\"application/json\",\n        response=json.dumps(response_data),",
+        "detail": "src.helper.base_responce",
+        "documentation": {}
+    },
+    {
+        "label": "Candidate",
+        "kind": 6,
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "peekOfCode": "class Candidate(db.Model):\n    __tablename__ = NameSpace.CANDIDATE_TABLE\n    __table_args__ = {\"schema\": NameSpace.CANDIDATE_SCHEMA}\n    candidate_id = db.Column(\n        db.Integer,\n        primary_key=True,\n        autoincrement=True\n    )\n    shop_id = db.Column(db.String(128), nullable=False)\n    first_name = db.Column(db.String(128))",
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
+        "label": "CandidateSchema",
+        "kind": 6,
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "peekOfCode": "class CandidateSchema(Schema):\n    candidate_id = fields.Int(dump_only=True)\n    shop_id = fields.Str()\n    first_name = fields.Str()\n    last_name = fields.Str()\n    address = fields.Str()\n    district = fields.Str()\n    province = fields.Str()\n    town = fields.Str()\n    phone_number = fields.List(fields.Int(), required=True)",
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
+        "label": "Casior",
+        "kind": 6,
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "peekOfCode": "class Casior(db.Model):\n    __tablename__ = NameSpace.CASIOR_TABLE\n    __table_args__ = {\"schema\": NameSpace.CASIOR_SCHEMA}\n    casior_id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    candidate_id = db.Column(\n        db.Integer,\n        db.ForeignKey(\"candidate.candidate.candidate_id\"),\n        nullable=False\n    )\n    shop_id = db.Column(db.String(128), nullable=False)",
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "CasiorSchema",
+        "kind": 6,
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "peekOfCode": "class CasiorSchema(Schema):\n    casior_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    shop_id = fields.Str(required=True)\n    first_name = fields.Str()\n    last_name = fields.Str()\n    nic = fields.Str(required=True)\n    dob = fields.Date(allow_none=True)\n    phone_number = fields.List(fields.Int(), required=True)\n    address = fields.Str()",
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "Category",
+        "kind": 6,
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "peekOfCode": "class Category(db.Model):\n    __tablename__ = NameSpace.CATEGORY_TABLE\n    __table_args__ = {\"schema\":NameSpace.CATEGORY_SCHEMA}\n    category_id = db.Column(\n        db.Integer,\n        primary_key=True,\n        # autoincrement=True,\n        # default=db.Sequence('category.category_category_id_seq')\n    )\n    candidate_id = db.Column(",
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "CategorySchema",
+        "kind": 6,
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "peekOfCode": "class CategorySchema(Schema):\n    category_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    category_name = fields.Str(required=True)\n    discription = fields.Str(allow_none=True)\n    image_code = fields.Str(allow_none=True)\n    create_at = fields.DateTime(dump_only=True)\n    update_at = fields.DateTime(dump_only=True)\n    status_id = fields.Int(allow_none=True)\n    @validates_schema",
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "Gender",
+        "kind": 6,
+        "importPath": "src.models.common.genderModel",
+        "description": "src.models.common.genderModel",
+        "peekOfCode": "class Gender(db.Model):\n    __tablename__ = \"gender\"\n    __table_args__ = {\"schema\": \"common\"}\n    gender_id = Column(Integer, primary_key=True)\n    gender = Column(String, nullable=False)\n    ref_id = Column(Integer, nullable=False)\n    def save(self):\n        db.session.add(self)\n        db.session.commit()\n    def update(self, data):",
+        "detail": "src.models.common.genderModel",
+        "documentation": {}
+    },
+    {
+        "label": "GenderSchema",
+        "kind": 6,
+        "importPath": "src.models.common.genderModel",
+        "description": "src.models.common.genderModel",
+        "peekOfCode": "class GenderSchema(Schema):\n    gender_id = fields.Int(dump_only=True)\n    gender = fields.Str(required=True)\n    ref_id = fields.Int(required=True)",
+        "detail": "src.models.common.genderModel",
+        "documentation": {}
+    },
+    {
+        "label": "Language",
+        "kind": 6,
+        "importPath": "src.models.common.languageModel",
+        "description": "src.models.common.languageModel",
+        "peekOfCode": "class Language(db.Model):\n    __tablename__ = \"language\"\n    __table_args__ = {\"schema\": \"common\"}\n    language_id = Column(Integer, primary_key=True)\n    language = Column(String, nullable=False)\n    ref_id = Column(Integer, nullable=False)\n    def save(self):\n        db.session.add(self)\n        db.session.commit()\n    def update(self, data):",
+        "detail": "src.models.common.languageModel",
+        "documentation": {}
+    },
+    {
+        "label": "LanguageSchema",
+        "kind": 6,
+        "importPath": "src.models.common.languageModel",
+        "description": "src.models.common.languageModel",
+        "peekOfCode": "class LanguageSchema(Schema):\n    language_id = fields.Int(dump_only=True)\n    language = fields.Str(required=True)\n    ref_id = fields.Int(required=True)",
+        "detail": "src.models.common.languageModel",
+        "documentation": {}
+    },
+    {
+        "label": "Status",
+        "kind": 6,
+        "importPath": "src.models.common.statusModel",
+        "description": "src.models.common.statusModel",
+        "peekOfCode": "class Status(db.Model):\n    __tablename__ = \"status\"\n    __table_args__ = {\"schema\": \"common\"}\n    status_id = Column(Integer, primary_key=True)\n    status_name = Column(String(128), nullable=False)\n    ref_id = Column(Integer, nullable=False)\n    def save(self):\n        db.session.add(self)\n        db.session.commit()\n    def update(self, data):",
+        "detail": "src.models.common.statusModel",
+        "documentation": {}
+    },
+    {
+        "label": "StatusSchema",
+        "kind": 6,
+        "importPath": "src.models.common.statusModel",
+        "description": "src.models.common.statusModel",
+        "peekOfCode": "class StatusSchema(Schema):\n    status_id = fields.Int(dump_only=True)\n    status_name = fields.Str(required=True)\n    ref_id = fields.Int(required=True)",
+        "detail": "src.models.common.statusModel",
+        "documentation": {}
+    },
+    {
+        "label": "Customer",
+        "kind": 6,
+        "importPath": "src.models.customer.customer_model",
+        "description": "src.models.customer.customer_model",
+        "peekOfCode": "class Customer(db.Model):\n    __tablename__ = NameSpace.CUSTOMER_TABLE\n    __table_args__ = {\"schema\": NameSpace.CUSTOMER_SCHEMA}\n    customer_id = db.Column(db.Integer, primary_key=True)\n    casior_id = db.Column(\n        db.Integer,\n        db.ForeignKey(\"casior.casior.casior_id\"),\n        nullable=False\n    )\n    candidate_id = db.Column(",
+        "detail": "src.models.customer.customer_model",
+        "documentation": {}
+    },
+    {
+        "label": "CustomerSchema",
+        "kind": 6,
+        "importPath": "src.models.customer.customer_model",
+        "description": "src.models.customer.customer_model",
+        "peekOfCode": "class CustomerSchema(Schema):\n    customer_id = fields.Int(dump_only=True)\n    casior_id = fields.Int(required=True)\n    candidate_id = fields.Int(required=True)\n    first_name = fields.Str(required=True)\n    last_name = fields.Str(allow_none=True)\n    email = fields.Email(allow_none=True)\n    phone_number = fields.Str(allow_none=True)\n    address = fields.Str(allow_none=True)\n    nic = fields.Str(required=True)",
+        "detail": "src.models.customer.customer_model",
+        "documentation": {}
+    },
+    {
+        "label": "Item",
+        "kind": 6,
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "peekOfCode": "class Item(db.Model):\n    __tablename__ = NameSpace.ITEM_TABLE\n    __table_args__ = {\"schema\": NameSpace.ITEM_SCHEMA}\n    item_id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    candidate_id = db.Column(db.Integer, db.ForeignKey(\"candidate.candidate.candidate_id\"), nullable=False)\n    category_id = db.Column(db.Integer, db.ForeignKey(\"category.category.category_id\"), nullable=False)\n    item_name = db.Column(db.String(256), nullable=False)\n    short_code = db.Column(db.String(256))\n    bar_code = db.Column(db.String(512))\n    sale_price = db.Column(db.Float, nullable=False)",
+        "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "ItemSchema",
+        "kind": 6,
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "peekOfCode": "class ItemSchema(Schema):\n    item_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    category_id = fields.Int(required=True)\n    item_name = fields.Str(required=True)\n    short_code = fields.Str()\n    bar_code = fields.Str()\n    sale_price = fields.Float(required=True)\n    stoke_price = fields.Float(required=True)\n    measurement_id = fields.Int()",
+        "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "create_candidate",
+        "kind": 2,
+        "importPath": "src.routes.candidate.candidate_route",
+        "description": "src.routes.candidate.candidate_route",
+        "peekOfCode": "def create_candidate():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            status_code=400,\n            success=False,\n            message=\"No input data provided\",\n            data=None\n        )\n    errors = candidate_schema.validate(json_data)",
+        "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_candidates",
+        "kind": 2,
+        "importPath": "src.routes.candidate.candidate_route",
+        "description": "src.routes.candidate.candidate_route",
+        "peekOfCode": "def get_all_candidates():\n    try:\n        candidates = Candidate.query.all()\n        return base_response(\n            status_code=200,\n            success=True,\n            message=\"Candidates retrieved successfully\",\n            data=candidates_schema.dump(candidates)\n        )\n    except Exception as e:",
+        "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_candidate",
+        "kind": 2,
+        "importPath": "src.routes.candidate.candidate_route",
+        "description": "src.routes.candidate.candidate_route",
+        "peekOfCode": "def get_candidate(candidate_id):\n    candidate = Candidate.query.get(candidate_id)\n    if not candidate:\n        return base_response(\n            status_code=404,\n            success=False,\n            message=\"Candidate not found\",\n            data=None\n        )\n    return base_response(",
+        "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_candidate",
+        "kind": 2,
+        "importPath": "src.routes.candidate.candidate_route",
+        "description": "src.routes.candidate.candidate_route",
+        "peekOfCode": "def update_candidate(candidate_id):\n    candidate = Candidate.query.get(candidate_id)\n    if not candidate:\n        return base_response(\n            status_code=404,\n            success=False,\n            message=\"Candidate not found\",\n            data=None\n        )\n    json_data = request.get_json()",
+        "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_candidate",
+        "kind": 2,
+        "importPath": "src.routes.candidate.candidate_route",
+        "description": "src.routes.candidate.candidate_route",
+        "peekOfCode": "def delete_candidate(candidate_id):\n    candidate = Candidate.query.get(candidate_id)\n    if not candidate:\n        return base_response(\n            status_code=404,\n            success=False,\n            message=\"Candidate not found\",\n            data=None\n        )\n    try:",
+        "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
+        "label": "candidate_bp",
+        "kind": 5,
+        "importPath": "src.routes.candidate.candidate_route",
+        "description": "src.routes.candidate.candidate_route",
+        "peekOfCode": "candidate_bp = Blueprint(NameSpace.CANDIDATE_BP,__name__)\ncandidate_schema = CandidateSchema()\ncandidates_schema = CandidateSchema(many=True)\n@candidate_bp.route(\"/save\", methods=[\"POST\"])\ndef create_candidate():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            status_code=400,\n            success=False,",
+        "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
+        "label": "candidate_schema",
+        "kind": 5,
+        "importPath": "src.routes.candidate.candidate_route",
+        "description": "src.routes.candidate.candidate_route",
+        "peekOfCode": "candidate_schema = CandidateSchema()\ncandidates_schema = CandidateSchema(many=True)\n@candidate_bp.route(\"/save\", methods=[\"POST\"])\ndef create_candidate():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            status_code=400,\n            success=False,\n            message=\"No input data provided\",",
+        "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
+        "label": "candidates_schema",
+        "kind": 5,
+        "importPath": "src.routes.candidate.candidate_route",
+        "description": "src.routes.candidate.candidate_route",
+        "peekOfCode": "candidates_schema = CandidateSchema(many=True)\n@candidate_bp.route(\"/save\", methods=[\"POST\"])\ndef create_candidate():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            status_code=400,\n            success=False,\n            message=\"No input data provided\",\n            data=None",
+        "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
+        "label": "create_casior",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def create_casior():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = casior_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    candidate = Candidate.query.get(json_data.get(\"candidate_id\"))\n    if not candidate:\n        return base_response(404, False, \"Candidate not found\", None)",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_casiors",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def get_all_casiors():\n    try:\n        casiors = Casior.query.all()\n        return base_response(200, True, \"Casiors retrieved successfully\", casiors_schema.dump(casiors))\n    except Exception as e:\n        return base_response(500, False, \"Failed to retrieve casiors\", str(e))\n# ------------------------\n# GET CASIOR BY ID\n# ------------------------\n@casior_bp.route(\"/<int:casior_id>\", methods=[\"GET\"])",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_casior",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def get_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    return base_response(200, True, \"Casior retrieved successfully\", casior_schema.dump(casior))\n# ------------------------\n# UPDATE CASIOR\n# ------------------------\n@casior_bp.route(\"/<int:casior_id>\", methods=[\"PUT\"])\ndef update_casior(casior_id):",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_casior",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def update_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = casior_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_casior",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def delete_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    try:\n        casior.delete()\n        return base_response(200, True, \"Casior deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete casior\", str(e))",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "casior_bp",
+        "kind": 5,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "casior_bp = Blueprint(NameSpace.CASIOR_BP, __name__)\n# Single & multiple schemas\ncasior_schema = CasiorSchema()\ncasiors_schema = CasiorSchema(many=True)\n# ------------------------\n# CREATE CASIOR\n# ------------------------\n@casior_bp.route(\"/save\", methods=[\"POST\"])\ndef create_casior():\n    json_data = request.get_json()",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "casior_schema",
+        "kind": 5,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "casior_schema = CasiorSchema()\ncasiors_schema = CasiorSchema(many=True)\n# ------------------------\n# CREATE CASIOR\n# ------------------------\n@casior_bp.route(\"/save\", methods=[\"POST\"])\ndef create_casior():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "casiors_schema",
+        "kind": 5,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "casiors_schema = CasiorSchema(many=True)\n# ------------------------\n# CREATE CASIOR\n# ------------------------\n@casior_bp.route(\"/save\", methods=[\"POST\"])\ndef create_casior():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = casior_schema.validate(json_data)",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "create_category",
+        "kind": 2,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "def create_category():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate\n    errors = category_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    try:\n        existing_category = Category.query.filter(",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_categories",
+        "kind": 2,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "def get_all_categories():\n    try:\n        categories = Category.query.all()\n        return base_response(\n            200,\n            True,\n            \"Categories retrieved successfully\",\n            categories_schema.dump(categories)\n        )\n    except Exception as e:",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_category",
+        "kind": 2,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "def get_category(category_id):\n    category = Category.query.get(category_id)\n    if not category:\n        return base_response(404, False, \"Category not found\", None)\n    return base_response(\n        200,\n        True,\n        \"Category retrieved successfully\",\n        category_schema.dump(category)\n    )",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_category",
+        "kind": 2,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "def update_category(category_id):\n    category = Category.query.get(category_id)\n    if not category:\n        return base_response(404, False, \"Category not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = category_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_category",
+        "kind": 2,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "def delete_category(category_id):\n    category = Category.query.get(category_id)\n    if not category:\n        return base_response(404, False, \"Category not found\", None)\n    try:\n        category.delete()\n        return base_response(200, True, \"Category deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete category\", str(e))",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "category_bp",
+        "kind": 5,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "category_bp = Blueprint(NameSpace.CATEGORY_BP, __name__)\ncategory_schema = CategorySchema()\ncategories_schema = CategorySchema(many=True)\n# ------------------------\n# CREATE CATEGORY\n# ------------------------\n@category_bp.route(\"/save\", methods=[\"POST\"])\ndef create_category():\n    json_data = request.get_json()\n    if not json_data:",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "category_schema",
+        "kind": 5,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "category_schema = CategorySchema()\ncategories_schema = CategorySchema(many=True)\n# ------------------------\n# CREATE CATEGORY\n# ------------------------\n@category_bp.route(\"/save\", methods=[\"POST\"])\ndef create_category():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "categories_schema",
+        "kind": 5,
+        "importPath": "src.routes.category.category_route",
+        "description": "src.routes.category.category_route",
+        "peekOfCode": "categories_schema = CategorySchema(many=True)\n# ------------------------\n# CREATE CATEGORY\n# ------------------------\n@category_bp.route(\"/save\", methods=[\"POST\"])\ndef create_category():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate",
+        "detail": "src.routes.category.category_route",
+        "documentation": {}
+    },
+    {
+        "label": "create_customer",
+        "kind": 2,
+        "importPath": "src.routes.customer.customer_route",
+        "description": "src.routes.customer.customer_route",
+        "peekOfCode": "def create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            400, False, \"No input data provided\", None\n        )\n    errors = customer_schema.validate(json_data)\n    if errors:\n        return base_response(\n            422, False, \"Validation failed\", errors",
+        "detail": "src.routes.customer.customer_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_customers",
+        "kind": 2,
+        "importPath": "src.routes.customer.customer_route",
+        "description": "src.routes.customer.customer_route",
+        "peekOfCode": "def get_customers():\n    try:\n        customers = Customer.query.all()\n        return base_response(\n            200, True, \"Customers retrieved successfully\",\n            customers_schema.dump(customers)\n        )\n    except Exception as e:\n        return base_response(\n            500, False, \"Failed to fetch customers\", str(e)",
+        "detail": "src.routes.customer.customer_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_customer",
+        "kind": 2,
+        "importPath": "src.routes.customer.customer_route",
+        "description": "src.routes.customer.customer_route",
+        "peekOfCode": "def get_customer(customer_id):\n    try:\n        customer = Customer.query.get(customer_id)\n        if not customer:\n            return base_response(\n                404, False, \"Customer not found\", None\n            )\n        return base_response(\n            200, True, \"Customer retrieved successfully\",\n            customer_schema.dump(customer)",
+        "detail": "src.routes.customer.customer_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_customer",
+        "kind": 2,
+        "importPath": "src.routes.customer.customer_route",
+        "description": "src.routes.customer.customer_route",
+        "peekOfCode": "def update_customer(customer_id):\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            400, False, \"No input data provided\", None\n        )\n    errors = customer_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(\n            422, False, \"Validation failed\", errors",
+        "detail": "src.routes.customer.customer_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_customer",
+        "kind": 2,
+        "importPath": "src.routes.customer.customer_route",
+        "description": "src.routes.customer.customer_route",
+        "peekOfCode": "def delete_customer(customer_id):\n    try:\n        customer = Customer.query.get(customer_id)\n        if not customer:\n            return base_response(\n                404, False, \"Customer not found\", None\n            )\n        customer.delete()\n        return base_response(\n            200, True, \"Customer deleted successfully\", None",
+        "detail": "src.routes.customer.customer_route",
+        "documentation": {}
+    },
+    {
+        "label": "customer_bp",
+        "kind": 5,
+        "importPath": "src.routes.customer.customer_route",
+        "description": "src.routes.customer.customer_route",
+        "peekOfCode": "customer_bp = Blueprint(NameSpace.CUSTOMER_BP, __name__)\ncustomer_schema = CustomerSchema()\ncustomers_schema = CustomerSchema(many=True)\n# ---------------- CREATE ----------------\n@customer_bp.route(\"/save\", methods=[\"POST\"])\ndef create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            400, False, \"No input data provided\", None",
+        "detail": "src.routes.customer.customer_route",
+        "documentation": {}
+    },
+    {
+        "label": "customer_schema",
+        "kind": 5,
+        "importPath": "src.routes.customer.customer_route",
+        "description": "src.routes.customer.customer_route",
+        "peekOfCode": "customer_schema = CustomerSchema()\ncustomers_schema = CustomerSchema(many=True)\n# ---------------- CREATE ----------------\n@customer_bp.route(\"/save\", methods=[\"POST\"])\ndef create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            400, False, \"No input data provided\", None\n        )",
+        "detail": "src.routes.customer.customer_route",
+        "documentation": {}
+    },
+    {
+        "label": "customers_schema",
+        "kind": 5,
+        "importPath": "src.routes.customer.customer_route",
+        "description": "src.routes.customer.customer_route",
+        "peekOfCode": "customers_schema = CustomerSchema(many=True)\n# ---------------- CREATE ----------------\n@customer_bp.route(\"/save\", methods=[\"POST\"])\ndef create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            400, False, \"No input data provided\", None\n        )\n    errors = customer_schema.validate(json_data)",
+        "detail": "src.routes.customer.customer_route",
+        "documentation": {}
+    },
+    {
+        "label": "create_item",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def create_item():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate schema\n    errors = item_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    # Check candidate exists\n    candidate = Candidate.query.get(json_data[\"candidate_id\"])",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_items",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def get_all_items():\n    try:\n        items = Item.query.all()\n        return base_response(200, True, \"Items retrieved successfully\", items_schema.dump(items))\n    except Exception as e:\n        return base_response(500, False, \"Failed to retrieve items\", str(e))\n# ------------------------\n# GET ITEM BY ID\n# ------------------------\n@item_bp.route(\"/<int:item_id>\", methods=[\"GET\"])",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_item",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def get_item(item_id):\n    item = Item.query.get(item_id)\n    if not item:\n        return base_response(404, False, \"Item not found\", None)\n    return base_response(200, True, \"Item retrieved successfully\", item_schema.dump(item))\n# ------------------------\n# UPDATE ITEM\n# ------------------------\n@item_bp.route(\"/<int:item_id>\", methods=[\"PUT\"])\ndef update_item(item_id):",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_item",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def update_item(item_id):\n    item = Item.query.get(item_id)\n    if not item:\n        return base_response(404, False, \"Item not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = item_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_item",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def delete_item(item_id):\n    item = Item.query.get(item_id)\n    if not item:\n        return base_response(404, False, \"Item not found\", None)\n    try:\n        item.delete()\n        return base_response(200, True, \"Item deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete item\", str(e))",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "item_bp",
+        "kind": 5,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "item_bp = Blueprint(NameSpace.ITEM_BP, __name__)\nitem_schema = ItemSchema()\nitems_schema = ItemSchema(many=True)\n# ------------------------\n# CREATE ITEM\n# ------------------------\n@item_bp.route(\"/save\", methods=[\"POST\"])\ndef create_item():\n    json_data = request.get_json()\n    if not json_data:",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "item_schema",
+        "kind": 5,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "item_schema = ItemSchema()\nitems_schema = ItemSchema(many=True)\n# ------------------------\n# CREATE ITEM\n# ------------------------\n@item_bp.route(\"/save\", methods=[\"POST\"])\ndef create_item():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "items_schema",
+        "kind": 5,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "items_schema = ItemSchema(many=True)\n# ------------------------\n# CREATE ITEM\n# ------------------------\n@item_bp.route(\"/save\", methods=[\"POST\"])\ndef create_item():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate schema",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
+        "label": "Config",
+        "kind": 6,
+        "importPath": "src.utils.config",
+        "description": "src.utils.config",
+        "peekOfCode": "class Config:\n    SECRET_KEY = os.getenv(\"SECRET_KEY\", \"fallbacksecret\")\n    SQLALCHEMY_DATABASE_URI = os.getenv(\"SQLALCHEMY_DATABASE_URI\", \"postgresql://postgres:1234@localhost:5432/posDB\")\n    SQLALCHEMY_TRACK_MODIFICATIONS = False\n#config later after ubdate dev/qa\nclass DevelopmentConfig(Config):\n    SQLALCHEMY_DATABASE_URI = os.getenv(\"SQLALCHEMY_DATABASE_URI\", \"sqlite:///pos.db\")\n    DEBUG = True\nclass ProductionConfig(Config):\n    SQLALCHEMY_DATABASE_URI = os.getenv(\"SQLALCHEMY_DATABASE_URI\")",
+        "detail": "src.utils.config",
+        "documentation": {}
+    },
+    {
+        "label": "DevelopmentConfig",
+        "kind": 6,
+        "importPath": "src.utils.config",
+        "description": "src.utils.config",
+        "peekOfCode": "class DevelopmentConfig(Config):\n    SQLALCHEMY_DATABASE_URI = os.getenv(\"SQLALCHEMY_DATABASE_URI\", \"sqlite:///pos.db\")\n    DEBUG = True\nclass ProductionConfig(Config):\n    SQLALCHEMY_DATABASE_URI = os.getenv(\"SQLALCHEMY_DATABASE_URI\")\n    DEBUG = False",
+        "detail": "src.utils.config",
+        "documentation": {}
+    },
+    {
+        "label": "ProductionConfig",
+        "kind": 6,
+        "importPath": "src.utils.config",
+        "description": "src.utils.config",
+        "peekOfCode": "class ProductionConfig(Config):\n    SQLALCHEMY_DATABASE_URI = os.getenv(\"SQLALCHEMY_DATABASE_URI\")\n    DEBUG = False",
+        "detail": "src.utils.config",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "kind": 5,
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "peekOfCode": "db = SQLAlchemy()\nmigrate = Migrate()\njwt = JWTManager()\nma = Marshmallow()",
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "migrate",
+        "kind": 5,
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "peekOfCode": "migrate = Migrate()\njwt = JWTManager()\nma = Marshmallow()",
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "jwt",
+        "kind": 5,
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "peekOfCode": "jwt = JWTManager()\nma = Marshmallow()",
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "ma",
+        "kind": 5,
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "peekOfCode": "ma = Marshmallow()",
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "NameSpace",
+        "kind": 6,
+        "importPath": "src.utils.namespace",
+        "description": "src.utils.namespace",
+        "peekOfCode": "class NameSpace:\n    #candidate\n    CANDIDATE_PREFIX = \"/api/candidates\"\n    CANDIDATE_BP = \"candidate_bp\"\n    CANDIDATE_TABLE = \"candidate\"\n    CANDIDATE_SCHEMA =  \"candidate\"\n    # Category \n    CATEGORY_PREFIX = \"/api/category\"\n    CATEGORY_BP = \"category_bp\"\n    CATEGORY_TABLE =  \"category\"",
+        "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 2,
+        "importPath": "src.app",
+        "description": "src.app",
+        "peekOfCode": "def app():\n    app = Flask(__name__)\n    app.config.from_object(Config)\n    db.init_app(app)\n    migrate.init_app(app, db)\n    jwt.init_app(app)\n    ma.init_app(app)\n    from src.routes.candidate.candidate_route import candidate_bp\n    from src.routes.category.category_route import category_bp\n    from src.routes.casior.casior_route import casior_bp",
+        "detail": "src.app",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "run",
+        "description": "run",
+        "peekOfCode": "app = app()\nif __name__ == \"__main__\":\n    app.run(debug=True)",
+        "detail": "run",
+        "documentation": {}
+    }
+]
