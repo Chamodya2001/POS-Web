@@ -7,6 +7,7 @@ import {
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
 import { AddEmploymentPage_service } from './service/AddEmploymentPage_service';
+import Swal from "sweetalert2";
 
 export default function AddEmploymentPage() {
     const { theme } = useTheme();
@@ -47,42 +48,48 @@ export default function AddEmploymentPage() {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setMessage({ type: '', text: '' });
+   
 
-        try {
-            console.log("Form Data:", formData);
-            await AddEmploymentPage_service.addEmploye(formData);
-            setMessage({ type: 'success', text: 'Employee added successfully!' });
-            setFormData({
-                first_name: "",
-                last_name: "",
-                dob: "",
-                address: "",
-                district: "",
-                province: "",
-                town: "",
-                phone_number: [""],
-                nic: "",
-                language_id: 1,
-                gender_id: 1,
-                status_id: 1,
-                shop_name: "",
-                user_name: "",
-                password: ""
-            });
-        } catch (error) {
-            console.error("Error adding employee:", error);
-            setMessage({
-                type: 'error',
-                text: error.message || 'Something went wrong. Please try again.',
-            });
-        } finally {
-            setLoading(false);
-        }
-    };
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+        console.log("Form Data:", formData);
+        await AddEmploymentPage_service.addEmploye(formData);
+
+        // Reset the form
+        setFormData({
+            candidate_id:"14",
+            shop_id:"SHOP_001",
+            first_name: "",
+            last_name: "",
+            dob: "",
+            address: "",
+            district: "",
+            province: "",
+            town: "",
+            phone_number: [""],
+            nic: "",
+            language_id: 1,
+            gender_id: 1,
+            status_id: 1,
+            shop_name: "",
+            user_name: "",
+            password: ""
+        });
+
+        Swal.fire('Success!', 'Employee added successfully.', 'success');
+
+    } catch (error) {
+        console.error("Error adding employee:", error);
+        Swal.fire('Error', error.message || 'Something went wrong.', 'error');
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     const handleCancel = () => {
         setFormData({
