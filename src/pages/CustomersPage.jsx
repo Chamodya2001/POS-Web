@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Plus, Filter, Mail, Phone, MoreHorizontal, ShoppingBag, Star, Calendar, MapPin, Grid, List } from 'lucide-react';
+import { API_ROUTES } from '../config/apiConfig';
 
-const CUSTOMERS_DATA = [
-    { id: 1, name: 'Alex Morgan', email: 'alex.m@example.com', phone: '+1 (555) 123-4567', orders: 12, spent: 1240.50, lastVisit: '2 days ago', status: 'VIP', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100' },
-    { id: 2, name: 'Sarah Wilson', email: 'sarah.w@example.com', phone: '+1 (555) 987-6543', orders: 5, spent: 450.20, lastVisit: '1 week ago', status: 'Active', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100' },
-    { id: 3, name: 'James Doe', email: 'james.d@example.com', phone: '+1 (555) 456-7890', orders: 24, spent: 3400.00, lastVisit: 'Yesterday', status: 'VIP', avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=100' },
-    { id: 4, name: 'Emily Mack', email: 'emily.m@example.com', phone: '+1 (555) 234-5678', orders: 1, spent: 24.00, lastVisit: '1 month ago', status: 'New', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=100' },
-    { id: 5, name: 'Michael Scott', email: 'michael.s@example.com', phone: '+1 (555) 345-6789', orders: 8, spent: 890.00, lastVisit: '3 weeks ago', status: 'Active', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100' },
-    { id: 6, name: 'David Miller', email: 'david.m@example.com', phone: '+1 (555) 678-9012', orders: 3, spent: 150.00, lastVisit: '2 days ago', status: 'Inactive', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100' },
-];
 
-const CustomerCard = ({ customer }) => (
+const CustomerCard = ({ customer, onViewProfile }) => (
     <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all group relative">
         <button className="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
             <MoreHorizontal className="w-5 h-5" />
@@ -46,16 +39,90 @@ const CustomerCard = ({ customer }) => (
                 <button className="flex-1 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 text-sm font-medium transition-colors flex items-center justify-center gap-2">
                     <Mail className="w-4 h-4" /> Message
                 </button>
-                <button className="flex-1 py-2 rounded-lg bg-slate-900 text-white hover:bg-slate-800 text-sm font-medium transition-colors">
+                <button
+                    onClick={() => onViewProfile(customer.id)}
+                    className="flex-1 py-2 rounded-lg bg-slate-900 text-white hover:bg-slate-800 text-sm font-medium transition-colors"
+                >
                     View Profile
                 </button>
+
             </div>
         </div>
     </div>
 );
 
-export default function CustomersPage() {
-    const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+export default function CustomersPage({ onAddCustomer, onViewProfile }) {
+    const [viewMode, setViewMode] = useState('grid');
+    const [customers, setCustomers] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCustomers = async () => {
+            try {
+                const response = await fetch(API_ROUTES.CUSTOMERS.GET);
+                const data = await response.json();
+                if (data.success && data.data.length > 0) {
+                    // Map API fields to match the UI component's expected fields
+                    const mappedData = data.data.map(c => ({
+                        id: c.customer_id,
+                        name: `${c.first_name} ${c.last_name || ''}`,
+                        email: c.email,
+                        phone: c.phone_number,
+                        orders: 0,
+                        spent: 0,
+                        loan: c.loan_balance,
+                        status: c.status_id === 1 ? 'Active' : 'Inactive',
+                        avatar: `https://ui-avatars.com/api/?name=${c.first_name}+${c.last_name}&background=random`
+                    }));
+                    setCustomers(mappedData);
+                } else {
+                    // Fallback Demo Data
+                    setCustomers([
+                        {
+                            id: 1,
+                            name: 'Alex Morgan',
+                            email: 'alex.m@example.com',
+                            phone: '+1 (555) 123-4567',
+                            orders: 12,
+                            spent: 1240.50,
+                            loan: 150.75,
+                            status: 'Active',
+                            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100'
+                        },
+                        {
+                            id: 2,
+                            name: 'Sarah Wilson',
+                            email: 'sarah.w@example.com',
+                            phone: '+1 (555) 987-6543',
+                            orders: 5,
+                            spent: 450.20,
+                            loan: 0.00,
+                            status: 'Active',
+                            avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100'
+                        },
+                        {
+                            id: 3,
+                            name: 'James Doe',
+                            email: 'james.d@example.com',
+                            phone: '+1 (555) 456-7890',
+                            orders: 24,
+                            spent: 3400.00,
+                            loan: 1240.00,
+                            status: 'Active',
+                            avatar: 'https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&q=80&w=100'
+                        }
+                    ]);
+                }
+
+            } catch (err) {
+                console.error("Failed to fetch customers", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCustomers();
+    }, []);
 
     return (
         <div className="p-2 max-w-[1200px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -80,9 +147,13 @@ export default function CustomersPage() {
                             <List className="w-4 h-4" />
                         </button>
                     </div>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-xl text-sm font-medium hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/25">
+                    <button
+                        onClick={onAddCustomer}
+                        className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-xl text-sm font-medium hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/25"
+                    >
                         <Plus className="w-4 h-4" /> Add Customer
                     </button>
+
                 </div>
             </div>
 
@@ -105,11 +176,20 @@ export default function CustomersPage() {
                 </div>
             </div>
 
-            {viewMode === 'grid' ? (
+            {loading ? (
+                <div className="flex justify-center p-12">
+                    <div className="w-10 h-10 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            ) : viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {CUSTOMERS_DATA.map(customer => (
-                        <CustomerCard key={customer.id} customer={customer} />
+                    {customers.map(customer => (
+                        <CustomerCard key={customer.id} customer={customer} onViewProfile={onViewProfile} />
                     ))}
+                    {customers.length === 0 && (
+                        <div className="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
+                            <p className="text-slate-500 font-medium">No customers found.</p>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -118,15 +198,13 @@ export default function CustomersPage() {
                             <tr className="bg-slate-50/50 border-b border-slate-100 text-xs uppercase text-slate-500 font-semibold tracking-wider">
                                 <th className="py-4 px-6">Customer</th>
                                 <th className="py-4 px-6">Contact</th>
-                                <th className="py-4 px-6">Orders</th>
-                                <th className="py-4 px-6">Total Spent</th>
-                                <th className="py-4 px-6">Last Visit</th>
+                                <th className="py-4 px-6">Loan Balance</th>
                                 <th className="py-4 px-6">Status</th>
                                 <th className="py-4 px-6 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                            {CUSTOMERS_DATA.map(customer => (
+                            {customers.map(customer => (
                                 <tr key={customer.id} className="hover:bg-slate-50/80 transition-colors">
                                     <td className="py-4 px-6">
                                         <div className="flex items-center gap-3">
@@ -136,30 +214,33 @@ export default function CustomersPage() {
                                     </td>
                                     <td className="py-4 px-6 text-sm text-slate-500">
                                         <div className="flex flex-col">
-                                            <span>{customer.email}</span>
+                                            <span>{customer.email || 'N/A'}</span>
                                             <span className="text-xs opacity-70">{customer.phone}</span>
                                         </div>
                                     </td>
-                                    <td className="py-4 px-6 text-sm font-medium text-slate-700">{customer.orders}</td>
-                                    <td className="py-4 px-6 text-sm font-bold text-slate-800">${customer.spent.toLocaleString()}</td>
-                                    <td className="py-4 px-6 text-sm text-slate-500">{customer.lastVisit}</td>
+                                    <td className="py-4 px-6 text-sm font-bold text-red-600">${parseFloat(customer.loan || 0).toFixed(2)}</td>
                                     <td className="py-4 px-6">
-                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${customer.status === 'VIP' ? 'bg-amber-50 text-amber-700 border-amber-100' :
-                                                customer.status === 'New' ? 'bg-blue-50 text-blue-700 border-blue-100' :
-                                                    'bg-slate-50 text-slate-600 border-slate-100'
-                                            }`}>
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${customer.status === 'Active' ? 'bg-green-50 text-green-700 border-green-100' : 'bg-slate-50 text-slate-600 border-slate-100'}`}>
                                             {customer.status}
                                         </span>
                                     </td>
                                     <td className="py-4 px-6 text-right">
-                                        <button className="text-slate-400 hover:text-slate-600">
-                                            <MoreHorizontal className="w-5 h-5" />
+                                        <button
+                                            onClick={() => onViewProfile(customer.id)}
+                                            className="text-primary-600 hover:text-primary-700 font-bold text-sm"
+                                        >
+                                            View Profile
                                         </button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
+                    {customers.length === 0 && (
+                        <div className="text-center py-20">
+                            <p className="text-slate-500 font-medium">No customers found.</p>
+                        </div>
+                    )}
                 </div>
             )}
 
