@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import {
+import { 
     User, Mail, Phone, MapPin, Briefcase,
     Calendar, Shield, Lock, Save, ArrowLeft,
-    Image as ImageIcon, Globe, UserCheck
+    Image as ImageIcon, Globe, UserCheck 
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
-import { API_ROUTES } from '../config/apiConfig';
+import { AddEmploymentPage_service } from './service/AddEmploymentPage_service';
+import Swal from "sweetalert2";
 
 export default function AddEmploymentPage() {
     const { theme } = useTheme();
     const isDarkMode = theme === 'dark';
 
     const [formData, setFormData] = useState({
+        candidate_id:16,
+        shop_id:"SHOP_001",
         first_name: "",
         last_name: "",
         dob: "",
@@ -21,14 +23,12 @@ export default function AddEmploymentPage() {
         district: "",
         province: "",
         town: "",
-        phone_number: [0],
-        image_code: "",
+        phone_number: [""],
         nic: "",
         language_id: 1,
         gender_id: 1,
         status_id: 1,
         shop_name: "",
-       
         user_name: "",
         password: ""
     });
@@ -38,77 +38,78 @@ export default function AddEmploymentPage() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
         if (name === 'phone_number') {
-            setFormData(prev => ({ ...prev, [name]: [parseInt(value) || 0] }));
-        } else if (name === 'casior_quantity' || name.endsWith('_id')) {
-            setFormData(prev => ({ ...prev, [name]: parseInt(value) || 0 }));
+            setFormData(prev => ({ ...prev, [name]: [value] }));
+        } else if (name.endsWith('_id')) {
+            setFormData(prev => ({ ...prev, [name]: parseInt(value) || 1 }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
+   
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+        console.log("Form Data:", formData);
+        await AddEmploymentPage_service.addEmploye(formData);
+
+        // Reset the form
+        setFormData({
+            candidate_id:"14",
+            shop_id:"SHOP_001",
+            first_name: "",
+            last_name: "",
+            dob: "",
+            address: "",
+            district: "",
+            province: "",
+            town: "",
+            phone_number: [""],
+            nic: "",
+            language_id: 1,
+            gender_id: 1,
+            status_id: 1,
+            shop_name: "",
+            user_name: "",
+            password: ""
+        });
+
+        Swal.fire('Success!', 'Employee added successfully.', 'success');
+
+    } catch (error) {
+        console.error("Error adding employee:", error);
+        Swal.fire('Error', error.message || 'Something went wrong.', 'error');
+    } finally {
+        setLoading(false);
+    }
+};
+
+
+    const handleCancel = () => {
+        setFormData({
+            first_name: "",
+            last_name: "",
+            dob: "",
+            address: "",
+            district: "",
+            province: "",
+            town: "",
+            phone_number: [""],
+            nic: "",
+            language_id: 1,
+            gender_id: 1,
+            status_id: 1,
+            shop_name: "",
+            user_name: "",
+            password: ""
+        });
         setMessage({ type: '', text: '' });
-
-        try {
-            const response = await fetch(API_ROUTES.CANDIDATES.SAVE, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setMessage({ type: 'success', text: 'Employment registration successful!' });
-                // Reset form after successful submission
-                setFormData({
-                    first_name: "",
-                    last_name: "",
-                    dob: "",
-                    address: "",
-                    district: "",
-                    province: "",
-                    town: "",
-                    phone_number: [0],
-                    image_code: "",
-                    nic: "",
-                    language_id: 1,
-                    gender_id: 1,
-                    status_id: 1,
-                    shop_name: "",
-                    
-                    user_name: "",
-                    password: ""
-                });
-            } else if (response.status === 409) {
-                // Handle duplicate username or NIC
-                setMessage({
-                    type: 'error',
-                    text: `Duplicate entry: ${data.message || 'Username or NIC already exists. Please use different values.'}`
-                });
-            } else if (response.status === 422) {
-                // Validation errors
-                const errorMessages = Object.entries(data.data || {})
-                    .map(([field, errors]) => `${field}: ${Array.isArray(errors) ? errors.join(', ') : errors}`)
-                    .join(' | ');
-                setMessage({
-                    type: 'error',
-                    text: errorMessages || 'Validation failed. Please check your inputs.'
-                });
-            } else {
-                setMessage({ type: 'error', text: data.message || 'Registration failed.' });
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            setMessage({ type: 'error', text: 'Network error. Please check if the backend is running.' });
-        } finally {
-            setLoading(false);
-        }
     };
 
     return (
@@ -116,7 +117,9 @@ export default function AddEmploymentPage() {
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Add Employment</h1>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">Register a new merchant/employee to the system.</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Register a new merchant/employee to the system.
+                    </p>
                 </div>
                 {message.text && (
                     <div className={clsx(
@@ -128,14 +131,13 @@ export default function AddEmploymentPage() {
                 )}
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Personal Information */}
                 <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
                     <div className="flex items-center gap-2 mb-6 text-primary-600">
                         <User className="w-5 h-5" />
                         <h2 className="font-bold">Personal Information</h2>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-slate-500 uppercase">First Name</label>
@@ -144,8 +146,8 @@ export default function AddEmploymentPage() {
                                 name="first_name"
                                 value={formData.first_name}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                                 placeholder="John"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                             />
                         </div>
                         <div className="space-y-1.5">
@@ -155,8 +157,8 @@ export default function AddEmploymentPage() {
                                 name="last_name"
                                 value={formData.last_name}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                                 placeholder="Doe"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                             />
                         </div>
                         <div className="space-y-1.5">
@@ -166,8 +168,8 @@ export default function AddEmploymentPage() {
                                 name="nic"
                                 value={formData.nic}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                                 placeholder="199912345678"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                             />
                         </div>
                         <div className="space-y-1.5">
@@ -202,8 +204,8 @@ export default function AddEmploymentPage() {
                                 name="phone_number"
                                 value={formData.phone_number[0]}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                                 placeholder="07XXXXXXXX"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                             />
                         </div>
                     </div>
@@ -215,7 +217,6 @@ export default function AddEmploymentPage() {
                         <MapPin className="w-5 h-5" />
                         <h2 className="font-bold">Address & Location</h2>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="md:col-span-2 space-y-1.5">
                             <label className="text-xs font-semibold text-slate-500 uppercase">Address</label>
@@ -224,8 +225,8 @@ export default function AddEmploymentPage() {
                                 name="address"
                                 value={formData.address}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                                 placeholder="Street, Building, etc."
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                             />
                         </div>
                         <div className="space-y-1.5">
@@ -267,7 +268,6 @@ export default function AddEmploymentPage() {
                         <Briefcase className="w-5 h-5" />
                         <h2 className="font-bold">Business Details</h2>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-slate-500 uppercase">Shop Name</label>
@@ -276,21 +276,10 @@ export default function AddEmploymentPage() {
                                 name="shop_name"
                                 value={formData.shop_name}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                                 placeholder="My Awesome Store"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                             />
                         </div>
-                        {/* <div className="space-y-1.5">
-                            <label className="text-xs font-semibold text-slate-500 uppercase">Cashier Quantity</label>
-                            <input
-                                type="number"
-                                required
-                                name="casior_quantity"
-                                value={formData.casior_quantity}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
-                            />
-                        </div> */}
                         <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-slate-500 uppercase">Preferred Language</label>
                             <select
@@ -326,7 +315,6 @@ export default function AddEmploymentPage() {
                         <Lock className="w-5 h-5" />
                         <h2 className="font-bold">Security Credentials</h2>
                     </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-slate-500 uppercase">Username</label>
@@ -335,8 +323,8 @@ export default function AddEmploymentPage() {
                                 name="user_name"
                                 value={formData.user_name}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                                 placeholder="username123"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                             />
                         </div>
                         <div className="space-y-1.5">
@@ -347,8 +335,8 @@ export default function AddEmploymentPage() {
                                 name="password"
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                                 placeholder="••••••••"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                             />
                         </div>
                     </div>
@@ -357,6 +345,7 @@ export default function AddEmploymentPage() {
                 <div className="flex items-center justify-end gap-4 pt-4">
                     <button
                         type="button"
+                        onClick={handleCancel}
                         className="px-8 py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-2xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all active:scale-95"
                     >
                         Cancel
