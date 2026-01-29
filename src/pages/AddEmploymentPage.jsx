@@ -13,6 +13,8 @@ export default function AddEmploymentPage() {
     const isDarkMode = theme === 'dark';
 
     const [formData, setFormData] = useState({
+        candidate_id:16,
+        shop_id:"SHOP_001",
         first_name: "",
         last_name: "",
         dob: "",
@@ -21,7 +23,6 @@ export default function AddEmploymentPage() {
         province: "",
         town: "",
         phone_number: [""],
-        image_code: "",
         nic: "",
         language_id: 1,
         gender_id: 1,
@@ -64,7 +65,6 @@ export default function AddEmploymentPage() {
                 province: "",
                 town: "",
                 phone_number: [""],
-                image_code: "",
                 nic: "",
                 language_id: 1,
                 gender_id: 1,
@@ -94,7 +94,6 @@ export default function AddEmploymentPage() {
             province: "",
             town: "",
             phone_number: [""],
-            image_code: "",
             nic: "",
             language_id: 1,
             gender_id: 1,
