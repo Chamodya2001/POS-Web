@@ -29,7 +29,8 @@ def create_casior():
         return base_response(404, False, "Candidate not found", None)
 
     existing = Casior.query.filter_by(
-        machine_model_number=json_data.get("machine_model_number")
+        nic=json_data.get("nic"),
+        
     ).first()
     if existing:
         return base_response(409, False, "Casior already exists", None)
