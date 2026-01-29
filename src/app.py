@@ -2,6 +2,7 @@ from flask import Flask
 from .utils.config import Config
 from .utils.extensions import db, migrate, jwt, ma
 from .utils.namespace import NameSpace
+from flask_cors import CORS
 
 def app():
     app = Flask(__name__)
@@ -11,6 +12,15 @@ def app():
     migrate.init_app(app, db)
     jwt.init_app(app)
     ma.init_app(app)
+    
+     # Enable CORS
+    CORS(
+    app,
+    resources={r"/api/*": {"origins": "http://localhost:5173"}},
+    supports_credentials=True,
+    expose_headers=["Authorization", "x-api-name"],
+    allow_headers=["Authorization", "Content-Type", "x-api-name"],
+    )
 
     
     from src.routes.candidate.candidate_route import candidate_bp

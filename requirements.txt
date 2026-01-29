@@ -1,12 +1,18 @@
-pip install flask-jwt-extended
-pip install flask-marshmallow marshmallow
-pip install watchdog
-pip install marshmallow-sqlalchemy
+flask
+flask-sqlalchemy
+flask-migrate
+flask-marshmallow
+marshmallow
+marshmallow-sqlalchemy
+flask-jwt-extended
+flask-cors
+psycopg2-binary
+python-dotenv
+watchdog
 
-pip install flask
-pip install flask-sqlalchemy
-pip install flask-migrate
-pip install flask-marshmallow
-pip install marshmallow-sqlalchemy
-pip install flask-jwt-extended
-pip install psycopg2-binary
+# conda activate pos-env
+# pip install -r requirements.txt
+
+# Verify installed packages:
+
+# pip freeze
