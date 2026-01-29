@@ -4,13 +4,15 @@ import {
     Zap, Shield, BarChart3 as BarChart,
     Smartphone, ArrowRight, ShoppingCart,
     CheckCircle, Star, Package,
-    Layout as LayoutIcon, MessageSquare
+    Layout as LayoutIcon, MessageSquare,
+    Sun, Moon
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useProducts } from '../context/ProductContext';
 import clsx from 'clsx';
 
 const Navbar = ({ onLoginClick }) => {
+    const { theme, toggleTheme } = useTheme();
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -41,6 +43,13 @@ const Navbar = ({ onLoginClick }) => {
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-all"
+                        aria-label="Toggle Theme"
+                    >
+                        {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                    </button>
                     <button
                         onClick={onLoginClick}
                         className="px-6 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold text-sm hover:scale-105 active:scale-95 transition-all shadow-xl shadow-slate-900/10 dark:shadow-white/10"
@@ -131,11 +140,11 @@ export default function LandingPage({ onStart }) {
             </section>
 
             {/* Features Section */}
-            <section id="features" className="py-24 px-6 bg-white dark:bg-slate-950 relative">
+            <section id="features" className="scroll-mt-24 py-24 px-6 bg-white dark:bg-slate-950 relative">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-4">Powerful from Day One</h2>
-                        <p className="text-slate-500 dark:text-slate-400">Everything you need to grow your business at your fingertips.</p>
+                        <p className="text-slate-600 dark:text-slate-300 text-lg">Everything you need to grow your business at your fingertips.</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -168,12 +177,12 @@ export default function LandingPage({ onStart }) {
             </section>
 
             {/* Product Showcase */}
-            <section id="products" className="py-24 px-6 bg-slate-50 dark:bg-slate-900/30">
+            <section id="products" className="scroll-mt-24 py-24 px-6 bg-slate-50 dark:bg-slate-900/30">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex items-end justify-between mb-12">
                         <div>
                             <h2 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-4">Browse Our Shop</h2>
-                            <p className="text-slate-500 dark:text-slate-400">Experience our checkout flow firsthand with these sample items.</p>
+                            <p className="text-slate-600 dark:text-slate-300 text-lg">Experience our checkout flow firsthand with these sample items.</p>
                         </div>
                         <button className="hidden md:flex items-center gap-2 text-primary-600 font-bold hover:gap-3 transition-all">
                             View All Items <ArrowRight className="w-5 h-5" />
@@ -186,11 +195,11 @@ export default function LandingPage({ onStart }) {
                                 key={product.id}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
+                                viewport={{ once: true, margin: "-50px" }}
                                 transition={{ delay: idx * 0.1 }}
-                                className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group"
+                                className="bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all group flex flex-col h-full"
                             >
-                                <div className="h-56 relative overflow-hidden">
+                                <div className="h-56 relative overflow-hidden shrink-0">
                                     <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                     <div className="absolute top-3 right-3">
                                         <span className="px-3 py-1 bg-white/90 dark:bg-slate-900/90 backdrop-blur rounded-full text-xs font-bold shadow-sm">
@@ -198,9 +207,9 @@ export default function LandingPage({ onStart }) {
                                         </span>
                                     </div>
                                 </div>
-                                <div className="p-6">
-                                    <h4 className="font-bold text-slate-800 dark:text-white mb-2">{product.name}</h4>
-                                    <div className="flex items-center justify-between">
+                                <div className="p-6 flex flex-col grow">
+                                    <h4 className="font-bold text-slate-800 dark:text-white mb-2 line-clamp-2">{product.name}</h4>
+                                    <div className="flex items-center justify-between mt-auto">
                                         <span className="text-xl font-black text-primary-600">${product.price}</span>
                                         <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl hover:bg-primary-600 hover:text-white transition-all">
                                             <ShoppingCart className="w-5 h-5" />
