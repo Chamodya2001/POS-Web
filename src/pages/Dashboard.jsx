@@ -1,5 +1,6 @@
 import React from 'react';
 import { DollarSign, ShoppingBag, Users, Package, TrendingUp, ArrowUpRight, ArrowDownRight, Clock, CheckCircle, XCircle } from 'lucide-react';
+import {useCandidateData} from '../context/CandidateContext'
 
 const StatsCard = ({ title, value, change, icon: Icon, trend }) => (
   <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
@@ -51,6 +52,9 @@ const RecentOrderRow = ({ id, customer, items, total, status, date }) => (
 );
 
 export default function Dashboard() {
+ console.log("kkk",useCandidateData)
+
+
   return (
     <div className="p-2 space-y-6 max-w-[1200px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
 
