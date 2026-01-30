@@ -3,9 +3,11 @@ import { ArrowLeft, Upload, Save, X, Info, DollarSign, Package, Tag, Barcode, La
 import { useProducts } from '../context/ProductContext';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
+import { AddProductPage_service } from "../pages/service/AddProductPage_service";
+
 
 export default function AddProductPage({ onBack }) {
-    const { addCategory, categories, addProduct } = useProducts();
+    const { addCategory, categories } = useProducts();
 
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -13,18 +15,16 @@ export default function AddProductPage({ onBack }) {
         description: '',
         price: '',
         cost: '',
-        taxRate: 0,
+        discount: '',
         sku: '',
         barcode: '',
         stock: '',
-        lowStockThreshold: 5,
+        lowStockThreshold: '',
         category: '',
         status: 'active',
         image: '',
-        tags: '',
-        weight: '',
-        dimensions: '',
-        discount: '0'
+        taxRate: '',
+        tags: ''
     });
 
     const [newCategory, setNewCategory] = useState('');
@@ -41,21 +41,39 @@ export default function AddProductPage({ onBack }) {
     };
 
     const handleSave = async () => {
+    try {
         setLoading(true);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 800));
 
-        addProduct({
-            ...formData,
-            price: parseFloat(formData.price),
-            cost: parseFloat(formData.cost),
-            stock: parseInt(formData.stock),
-            categories: [formData.category], // simplified
-        });
+        const payload = {
+            candidate_id: 4, // later from auth
+            category_id: 3, // temporary
+            item_name: formData.name,
+            short_code: formData.sku,
+            bar_code: formData.barcode,
+            sale_price: Number(formData.price),
+            stoke_price: Number(formData.cost),
+            stoke_quantity: Number(formData.stock),
+            current_quantity: Number(formData.stock),
+            discount: Number(formData.discount),
+            image_code: formData.image,
+            status_id: formData.status === "active" ? 1 : 2
+        };
 
+        const response = await AddProductPage_service.addProduct(payload);
+
+        console.log("API response:", response);
+
+        alert("Product saved successfully");
+        onBack();
+
+    } catch (error) {
+        console.error("Save failed:", error);
+        alert(error.message || "Failed to save product");
+    } finally {
         setLoading(false);
-        if (onBack) onBack();
+    }
     };
+
 
     const handleAddCategory = () => {
         if (newCategory.trim()) {
