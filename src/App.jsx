@@ -16,7 +16,7 @@ import AddEmploymentPage from './pages/AddEmploymentPage';
 import AddCustomerPage from './pages/AddCustomerPage';
 import CustomerProfilePage from './pages/CustomerProfilePage';
 import EmployeeReportPage from './pages/EmployeeReportPage';
-
+import { CandidateProvider } from './context/CandidateContext';
 
 
 
@@ -69,12 +69,15 @@ const AppContent = () => {
 };
 
 function App() {
+  const candidateId = 17;
   return (
-    <ThemeProvider>
+      <ThemeProvider>
       <AuthProvider>
         <CartProvider>
           <ProductProvider>
-            <AppContent />
+            <CandidateProvider candidateId={candidateId}>
+              <AppContent />
+            </CandidateProvider>
           </ProductProvider>
         </CartProvider>
       </AuthProvider>
