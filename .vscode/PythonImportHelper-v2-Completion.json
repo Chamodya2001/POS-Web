@@ -105,6 +105,14 @@
         "documentation": {}
     },
     {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "request",
         "importPath": "flask",
         "description": "flask",
@@ -122,6 +130,46 @@
     },
     {
         "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "json",
         "importPath": "flask",
         "description": "flask",
         "isExtraImport": true,
@@ -249,6 +297,30 @@
         "documentation": {}
     },
     {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
         "label": "ARRAY",
         "importPath": "sqlalchemy.dialects.postgresql",
         "description": "sqlalchemy.dialects.postgresql",
@@ -409,6 +481,22 @@
         "documentation": {}
     },
     {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
         "label": "generate_password_hash",
         "importPath": "werkzeug.security",
         "description": "werkzeug.security",
@@ -649,11 +737,51 @@
         "documentation": {}
     },
     {
-        "label": "db",
-        "importPath": "utils.extensions",
-        "description": "utils.extensions",
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
         "isExtraImport": true,
-        "detail": "utils.extensions",
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
         "documentation": {}
     },
     {
@@ -670,10 +798,50 @@
         "description": "utils.extensions",
         "isExtraImport": true,
         "detail": "utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "utils.extensions",
+        "description": "utils.extensions",
+        "isExtraImport": true,
+        "detail": "utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "SQLAlchemyError",
+        "importPath": "sqlalchemy.exc",
+        "description": "sqlalchemy.exc",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.exc",
+        "documentation": {}
+    },
+    {
+        "label": "SQLAlchemyError",
+        "importPath": "sqlalchemy.exc",
+        "description": "sqlalchemy.exc",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.exc",
         "documentation": {}
     },
     {
         "label": "IntegrityError",
+        "importPath": "sqlalchemy.exc",
+        "description": "sqlalchemy.exc",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.exc",
+        "documentation": {}
+    },
+    {
+        "label": "SQLAlchemyError",
+        "importPath": "sqlalchemy.exc",
+        "description": "sqlalchemy.exc",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.exc",
+        "documentation": {}
+    },
+    {
+        "label": "SQLAlchemyError",
         "importPath": "sqlalchemy.exc",
         "description": "sqlalchemy.exc",
         "isExtraImport": true,
@@ -698,6 +866,22 @@
     },
     {
         "label": "Candidate",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "isExtraImport": true,
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
+        "label": "Candidate",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "isExtraImport": true,
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
+        "label": "CandidateSchema",
         "importPath": "src.models.candidate.candidate_model",
         "description": "src.models.candidate.candidate_model",
         "isExtraImport": true,
@@ -742,6 +926,30 @@
         "description": "src.models.casior.casior_model",
         "isExtraImport": true,
         "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "Casior",
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "isExtraImport": true,
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "CasiorSchema",
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "isExtraImport": true,
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "base_response",
+        "importPath": "src.helper.base_responce",
+        "description": "src.helper.base_responce",
+        "isExtraImport": true,
+        "detail": "src.helper.base_responce",
         "documentation": {}
     },
     {
@@ -793,6 +1001,38 @@
         "documentation": {}
     },
     {
+        "label": "CategorySchema",
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "isExtraImport": true,
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "Category",
+        "importPath": "src.models.category.category_model",
+        "description": "src.models.category.category_model",
+        "isExtraImport": true,
+        "detail": "src.models.category.category_model",
+        "documentation": {}
+    },
+    {
+        "label": "Customer",
+        "importPath": "src.models.customer.customer_model",
+        "description": "src.models.customer.customer_model",
+        "isExtraImport": true,
+        "detail": "src.models.customer.customer_model",
+        "documentation": {}
+    },
+    {
+        "label": "CustomerSchema",
+        "importPath": "src.models.customer.customer_model",
+        "description": "src.models.customer.customer_model",
+        "isExtraImport": true,
+        "detail": "src.models.customer.customer_model",
+        "documentation": {}
+    },
+    {
         "label": "Customer",
         "importPath": "src.models.customer.customer_model",
         "description": "src.models.customer.customer_model",
@@ -822,6 +1062,86 @@
         "description": "src.models.item.item_model",
         "isExtraImport": true,
         "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "Item",
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "ItemSchema",
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "OrderModel",
+        "importPath": "src.models.order.orderModel",
+        "description": "src.models.order.orderModel",
+        "isExtraImport": true,
+        "detail": "src.models.order.orderModel",
+        "documentation": {}
+    },
+    {
+        "label": "OrderSchema",
+        "importPath": "src.models.order.orderModel",
+        "description": "src.models.order.orderModel",
+        "isExtraImport": true,
+        "detail": "src.models.order.orderModel",
+        "documentation": {}
+    },
+    {
+        "label": "OrderModel",
+        "importPath": "src.models.order.orderModel",
+        "description": "src.models.order.orderModel",
+        "isExtraImport": true,
+        "detail": "src.models.order.orderModel",
+        "documentation": {}
+    },
+    {
+        "label": "OrderSchema",
+        "importPath": "src.models.order.orderModel",
+        "description": "src.models.order.orderModel",
+        "isExtraImport": true,
+        "detail": "src.models.order.orderModel",
+        "documentation": {}
+    },
+    {
+        "label": "OrderProcessModel",
+        "importPath": "src.models.order.OrderProcessModel",
+        "description": "src.models.order.OrderProcessModel",
+        "isExtraImport": true,
+        "detail": "src.models.order.OrderProcessModel",
+        "documentation": {}
+    },
+    {
+        "label": "OrderProcessSchema",
+        "importPath": "src.models.order.OrderProcessModel",
+        "description": "src.models.order.OrderProcessModel",
+        "isExtraImport": true,
+        "detail": "src.models.order.OrderProcessModel",
+        "documentation": {}
+    },
+    {
+        "label": "OrderProcessModel",
+        "importPath": "src.models.order.OrderProcessModel",
+        "description": "src.models.order.OrderProcessModel",
+        "isExtraImport": true,
+        "detail": "src.models.order.OrderProcessModel",
+        "documentation": {}
+    },
+    {
+        "label": "OrderProcessSchema",
+        "importPath": "src.models.order.OrderProcessModel",
+        "description": "src.models.order.OrderProcessModel",
+        "isExtraImport": true,
+        "detail": "src.models.order.OrderProcessModel",
         "documentation": {}
     },
     {
@@ -1115,6 +1435,42 @@
         "documentation": {}
     },
     {
+        "label": "OrderModel",
+        "kind": 6,
+        "importPath": "src.models.order.orderModel",
+        "description": "src.models.order.orderModel",
+        "peekOfCode": "class OrderModel(db.Model):\n    __tablename__ = NameSpace.ORDER_TABLE\n    __table_args__ = {\n        \"schema\": NameSpace.ORDER_SCHEMA,\n        \"extend_existing\": True\n    }\n    order_id = db.Column(db.Integer, primary_key=True)\n    candidate_id = db.Column(db.Integer, nullable=False)\n    order_process_id = db.Column(db.Integer, nullable=False)\n    item_id = db.Column(db.Integer, nullable=False)",
+        "detail": "src.models.order.orderModel",
+        "documentation": {}
+    },
+    {
+        "label": "OrderSchema",
+        "kind": 6,
+        "importPath": "src.models.order.orderModel",
+        "description": "src.models.order.orderModel",
+        "peekOfCode": "class OrderSchema(Schema):\n    order_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    order_process_id = fields.Int(required=True)\n    item_id = fields.Int(required=True)\n    item_name = fields.Str(required=False, allow_none=True)\n    price = fields.Float(required=True)\n    discount = fields.Float(required=False, allow_none=True)\n    quantity = fields.Float(required=False, allow_none=True)",
+        "detail": "src.models.order.orderModel",
+        "documentation": {}
+    },
+    {
+        "label": "OrderProcessModel",
+        "kind": 6,
+        "importPath": "src.models.order.OrderProcessModel",
+        "description": "src.models.order.OrderProcessModel",
+        "peekOfCode": "class OrderProcessModel(db.Model):\n    __tablename__ = NameSpace.ORDER_PROCESS_TABLE\n    __table_args__ = {\n        \"schema\": NameSpace.ORDER_SCHEMA,\n        \"extend_existing\": True\n    }\n    order_process_id = db.Column(db.Integer, primary_key=True)\n    candidate_id = db.Column(db.Integer, nullable=False)\n    casior_id = db.Column(db.Integer, nullable=False)\n    customer_id = db.Column(db.Integer, nullable=False)",
+        "detail": "src.models.order.OrderProcessModel",
+        "documentation": {}
+    },
+    {
+        "label": "OrderProcessSchema",
+        "kind": 6,
+        "importPath": "src.models.order.OrderProcessModel",
+        "description": "src.models.order.OrderProcessModel",
+        "peekOfCode": "class OrderProcessSchema(Schema):\n    order_process_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    casior_id = fields.Int(required=True)\n    customer_id = fields.Int(required=True)\n    payment_method_id = fields.Int(required=True)\n    total_amount = fields.Float(required=False, allow_none=True)\n    status_id = fields.Int(required=False, allow_none=True)\n    created_at = fields.DateTime(dump_only=True)\n    ubdated_at = fields.DateTime(dump_only=True)",
+        "detail": "src.models.order.OrderProcessModel",
+        "documentation": {}
+    },
+    {
         "label": "create_candidate",
         "kind": 2,
         "importPath": "src.routes.candidate.candidate_route",
@@ -1331,6 +1687,87 @@
         "documentation": {}
     },
     {
+        "label": "get_candidate_full_data",
+        "kind": 2,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "def get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------\n        candidate = Candidate.query.get(candidate_id)\n        if not candidate:\n            return base_response(404, False, \"Candidate not found\", None)\n        # -------------------------\n        # Fetch related entities",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "candidate_full_bp",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "candidate_full_bp = Blueprint(NameSpace.CANDIDATE_FULL_BP, __name__)\n# Schemas\ncandidate_schema = CandidateSchema()               # single object\ncasior_schema = CasiorSchema(many=True)           # list\ncategory_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "candidate_schema",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "candidate_schema = CandidateSchema()               # single object\ncasior_schema = CasiorSchema(many=True)           # list\ncategory_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "casior_schema",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "casior_schema = CasiorSchema(many=True)           # list\ncategory_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "category_schema",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "category_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "customer_schema",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "customer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "item_schema",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "item_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------\n        candidate = Candidate.query.get(candidate_id)",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "order_schema",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "order_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------\n        candidate = Candidate.query.get(candidate_id)\n        if not candidate:",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "order_process_schema_single",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "order_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------\n        candidate = Candidate.query.get(candidate_id)\n        if not candidate:\n            return base_response(404, False, \"Candidate not found\", None)",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
         "label": "create_customer",
         "kind": 2,
         "importPath": "src.routes.customer.customer_route",
@@ -1475,6 +1912,150 @@
         "documentation": {}
     },
     {
+        "label": "add_order_process",
+        "kind": 2,
+        "importPath": "src.routes.order.order_process_routes",
+        "description": "src.routes.order.order_process_routes",
+        "peekOfCode": "def add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        # 1️⃣ Save order_process (HEADER)\n        order_process = OrderProcessModel(req_data)\n        db.session.add(order_process)\n        db.session.flush()  \n        # 👆 IMPORTANT: gets order_process_id without commit\n        order_process_id = order_process.order_process_id",
+        "detail": "src.routes.order.order_process_routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_order_processes",
+        "kind": 2,
+        "importPath": "src.routes.order.order_process_routes",
+        "description": "src.routes.order.order_process_routes",
+        "peekOfCode": "def get_all_order_processes():\n    orders = OrderProcessModel.get_all()\n    return base_response(\n        status_code=success.STATUS_CODE_200,\n        success=True,\n        message=\"Order processes retrieved successfully\",\n        data=order_process_list_schema.dump(orders)\n    )\n# ---------------- GET BY ID ----------------\n@order_process_bp.route(\"/get/<int:order_process_id>\", methods=[\"GET\"])",
+        "detail": "src.routes.order.order_process_routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_order_process",
+        "kind": 2,
+        "importPath": "src.routes.order.order_process_routes",
+        "description": "src.routes.order.order_process_routes",
+        "peekOfCode": "def get_order_process(order_process_id):\n    order_process = OrderProcessModel.get_by_id(order_process_id)\n    if not order_process:\n        return base_response(\n            status_code=error.STATUS_CODE_404,\n            success=False,\n            message=\"Order process not found\",\n            data=None\n        )\n    return base_response(",
+        "detail": "src.routes.order.order_process_routes",
+        "documentation": {}
+    },
+    {
+        "label": "update_order_process",
+        "kind": 2,
+        "importPath": "src.routes.order.order_process_routes",
+        "description": "src.routes.order.order_process_routes",
+        "peekOfCode": "def update_order_process(order_process_id):\n    order_process = OrderProcessModel.get_by_id(order_process_id)\n    if not order_process:\n        return base_response(\n            status_code=error.STATUS_CODE_404,\n            success=False,\n            message=\"Order process not found\",\n            data=None\n        )\n    try:",
+        "detail": "src.routes.order.order_process_routes",
+        "documentation": {}
+    },
+    {
+        "label": "delete_order_process",
+        "kind": 2,
+        "importPath": "src.routes.order.order_process_routes",
+        "description": "src.routes.order.order_process_routes",
+        "peekOfCode": "def delete_order_process(order_process_id):\n    order_process = OrderProcessModel.get_by_id(order_process_id)\n    if not order_process:\n        return base_response(\n            status_code=error.STATUS_CODE_404,\n            success=False,\n            message=\"Order process not found\",\n            data=None\n        )\n    order_process.delete()",
+        "detail": "src.routes.order.order_process_routes",
+        "documentation": {}
+    },
+    {
+        "label": "order_process_bp",
+        "kind": 5,
+        "importPath": "src.routes.order.order_process_routes",
+        "description": "src.routes.order.order_process_routes",
+        "peekOfCode": "order_process_bp = Blueprint(\n    NameSpace.ORDER_PROCESS_BP, __name__\n)\norder_process_schema = OrderProcessSchema()\norder_process_list_schema = OrderProcessSchema(many=True)\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)",
+        "detail": "src.routes.order.order_process_routes",
+        "documentation": {}
+    },
+    {
+        "label": "order_process_schema",
+        "kind": 5,
+        "importPath": "src.routes.order.order_process_routes",
+        "description": "src.routes.order.order_process_routes",
+        "peekOfCode": "order_process_schema = OrderProcessSchema()\norder_process_list_schema = OrderProcessSchema(many=True)\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        # 1️⃣ Save order_process (HEADER)\n        order_process = OrderProcessModel(req_data)",
+        "detail": "src.routes.order.order_process_routes",
+        "documentation": {}
+    },
+    {
+        "label": "order_process_list_schema",
+        "kind": 5,
+        "importPath": "src.routes.order.order_process_routes",
+        "description": "src.routes.order.order_process_routes",
+        "peekOfCode": "order_process_list_schema = OrderProcessSchema(many=True)\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        # 1️⃣ Save order_process (HEADER)\n        order_process = OrderProcessModel(req_data)\n        db.session.add(order_process)",
+        "detail": "src.routes.order.order_process_routes",
+        "documentation": {}
+    },
+    {
+        "label": "add_order",
+        "kind": 2,
+        "importPath": "src.routes.order.order_routes",
+        "description": "src.routes.order.order_routes",
+        "peekOfCode": "def add_order():\n    try:\n        req_data = request.get_json(force=True)\n        data = order_schema.load(req_data)\n        order = OrderModel(data)\n        order.save()\n        return base_response(\n            status_code=success.STATUS_CODE_201,\n            success=True,\n            message=\"Order created successfully\",",
+        "detail": "src.routes.order.order_routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_orders",
+        "kind": 2,
+        "importPath": "src.routes.order.order_routes",
+        "description": "src.routes.order.order_routes",
+        "peekOfCode": "def get_all_orders():\n    orders = OrderModel.get_all()\n    return base_response(\n        status_code=success.STATUS_CODE_200,\n        success=True,\n        message=\"Orders retrieved successfully\",\n        data=order_list_schema.dump(orders)\n    )\n# ---------------- GET BY ID ----------------\n@order_bp.route(\"/get/<int:order_id>\", methods=[\"GET\"])",
+        "detail": "src.routes.order.order_routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_order",
+        "kind": 2,
+        "importPath": "src.routes.order.order_routes",
+        "description": "src.routes.order.order_routes",
+        "peekOfCode": "def get_order(order_id):\n    order = OrderModel.get_by_id(order_id)\n    if not order:\n        return base_response(\n            status_code=error.STATUS_CODE_404,\n            success=False,\n            message=\"Order not found\",\n            data=None\n        )\n    return base_response(",
+        "detail": "src.routes.order.order_routes",
+        "documentation": {}
+    },
+    {
+        "label": "update_order",
+        "kind": 2,
+        "importPath": "src.routes.order.order_routes",
+        "description": "src.routes.order.order_routes",
+        "peekOfCode": "def update_order(order_id):\n    order = OrderModel.get_by_id(order_id)\n    if not order:\n        return base_response(\n            status_code=error.STATUS_CODE_404,\n            success=False,\n            message=\"Order not found\",\n            data=None\n        )\n    try:",
+        "detail": "src.routes.order.order_routes",
+        "documentation": {}
+    },
+    {
+        "label": "delete_order",
+        "kind": 2,
+        "importPath": "src.routes.order.order_routes",
+        "description": "src.routes.order.order_routes",
+        "peekOfCode": "def delete_order(order_id):\n    order = OrderModel.get_by_id(order_id)\n    if not order:\n        return base_response(\n            status_code=error.STATUS_CODE_404,\n            success=False,\n            message=\"Order not found\",\n            data=None\n        )\n    order.delete()",
+        "detail": "src.routes.order.order_routes",
+        "documentation": {}
+    },
+    {
+        "label": "order_bp",
+        "kind": 5,
+        "importPath": "src.routes.order.order_routes",
+        "description": "src.routes.order.order_routes",
+        "peekOfCode": "order_bp = Blueprint(\n    NameSpace.ORDER_BP, __name__\n)\norder_schema = OrderSchema()\norder_list_schema = OrderSchema(many=True)\n# ---------------- ADD ----------------\n@order_bp.route(\"/add\", methods=[\"POST\"])\n# @Auth.auth_required\ndef add_order():\n    try:",
+        "detail": "src.routes.order.order_routes",
+        "documentation": {}
+    },
+    {
+        "label": "order_schema",
+        "kind": 5,
+        "importPath": "src.routes.order.order_routes",
+        "description": "src.routes.order.order_routes",
+        "peekOfCode": "order_schema = OrderSchema()\norder_list_schema = OrderSchema(many=True)\n# ---------------- ADD ----------------\n@order_bp.route(\"/add\", methods=[\"POST\"])\n# @Auth.auth_required\ndef add_order():\n    try:\n        req_data = request.get_json(force=True)\n        data = order_schema.load(req_data)\n        order = OrderModel(data)",
+        "detail": "src.routes.order.order_routes",
+        "documentation": {}
+    },
+    {
+        "label": "order_list_schema",
+        "kind": 5,
+        "importPath": "src.routes.order.order_routes",
+        "description": "src.routes.order.order_routes",
+        "peekOfCode": "order_list_schema = OrderSchema(many=True)\n# ---------------- ADD ----------------\n@order_bp.route(\"/add\", methods=[\"POST\"])\n# @Auth.auth_required\ndef add_order():\n    try:\n        req_data = request.get_json(force=True)\n        data = order_schema.load(req_data)\n        order = OrderModel(data)\n        order.save()",
+        "detail": "src.routes.order.order_routes",
+        "documentation": {}
+    },
+    {
         "label": "Config",
         "kind": 6,
         "importPath": "src.utils.config",
@@ -1543,6 +2124,24 @@
         "importPath": "src.utils.namespace",
         "description": "src.utils.namespace",
         "peekOfCode": "class NameSpace:\n    #candidate\n    CANDIDATE_PREFIX = \"/api/candidates\"\n    CANDIDATE_BP = \"candidate_bp\"\n    CANDIDATE_TABLE = \"candidate\"\n    CANDIDATE_SCHEMA =  \"candidate\"\n    # Category \n    CATEGORY_PREFIX = \"/api/category\"\n    CATEGORY_BP = \"category_bp\"\n    CATEGORY_TABLE =  \"category\"",
+        "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "success",
+        "kind": 6,
+        "importPath": "src.utils.namespace",
+        "description": "src.utils.namespace",
+        "peekOfCode": "class success:\n      STATUS_CODE_201 = \"201\"\n      STATUS_CODE_200 = \"200\"\nclass error:\n    STATUS_CODE_400 = \"400\"\n    STATUS_CODE_500 = \"500\"\n    STATUS_CODE_404 = \"404\"",
+        "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "error",
+        "kind": 6,
+        "importPath": "src.utils.namespace",
+        "description": "src.utils.namespace",
+        "peekOfCode": "class error:\n    STATUS_CODE_400 = \"400\"\n    STATUS_CODE_500 = \"500\"\n    STATUS_CODE_404 = \"404\"",
         "detail": "src.utils.namespace",
         "documentation": {}
     },

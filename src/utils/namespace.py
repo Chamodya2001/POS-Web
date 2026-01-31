@@ -31,3 +31,24 @@ class NameSpace:
     CUSTOMER_TABLE = "customer"
     CUSTOMER_SCHEMA = "customer"
     
+    #order
+    ORDER_SCHEMA = "order"
+    ORDER_TABLE = "order"
+    ORDER_PROCESS_TABLE = "order_process"
+    ORDER_PROCESS_BP = "order_process_bp"
+    ORDER_PROCESS_PREFIX = "/api/order-process"
+    
+   #candidate_full_bp
+    ORDER_PREFIX = "/api/order"
+    ORDER_BP = "order_bp"
+    CANDIDATE_FULL_PREFIX = "/api/candidate-full"
+    CANDIDATE_FULL_BP = "candidate_full_bp" 
+
+class success:
+      STATUS_CODE_201 = "201"
+      STATUS_CODE_200 = "200"
+
+class error:
+    STATUS_CODE_400 = "400"
+    STATUS_CODE_500 = "500"
+    STATUS_CODE_404 = "404"

@@ -28,12 +28,18 @@ def app():
     from src.routes.casior.casior_route import casior_bp
     from src.routes.item.item_route import item_bp
     from src.routes.customer.customer_route import customer_bp
+    from src.routes.common.commonRoute import candidate_full_bp
+    from src.routes.order.order_routes import order_bp
+    from src.routes.order.order_process_routes import order_process_bp
    
     app.register_blueprint(candidate_bp, url_prefix= NameSpace.CANDIDATE_PREFIX)
     app.register_blueprint(category_bp,url_prefix = NameSpace.CATEGORY_PREFIX)
     app.register_blueprint(casior_bp,url_prefix = NameSpace.CASIOR_PREFIX)
     app.register_blueprint(item_bp,url_prefix = NameSpace.ITEM_PREFIX)
     app.register_blueprint(customer_bp,url_prefix = NameSpace.CUSTOMER_PREFIX)
+    app.register_blueprint(candidate_full_bp,url_prefix = NameSpace.CANDIDATE_FULL_PREFIX)
+    app.register_blueprint(order_bp,url_prefix = NameSpace.ORDER_PREFIX)
+    app.register_blueprint(order_process_bp,url_prefix = NameSpace.ORDER_PROCESS_PREFIX)
     
     return app
 EnvironmentError
