@@ -25,6 +25,8 @@ class NameSpace:
     ITEM_TABLE = "item"
     ITEM_SCHEMA = "item"
     
+    
+    
     # Customer
     CUSTOMER_PREFIX = "/api/customer"
     CUSTOMER_BP = "customer_bp"

@@ -137,6 +137,22 @@
         "documentation": {}
     },
     {
+        "label": "current_app",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "send_from_directory",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "Blueprint",
         "importPath": "flask",
         "description": "flask",
@@ -1145,6 +1161,14 @@
         "documentation": {}
     },
     {
+        "label": "secure_filename",
+        "importPath": "werkzeug.utils",
+        "description": "werkzeug.utils",
+        "isExtraImport": true,
+        "detail": "werkzeug.utils",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -1840,6 +1864,15 @@
         "documentation": {}
     },
     {
+        "label": "upload_image",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def upload_image():\n    if \"image\" not in request.files:\n        return base_response(400, False, \"No file part\", None)\n    file = request.files[\"image\"]\n    if file.filename == \"\":\n        return base_response(400, False, \"No selected file\", None)\n    filename = secure_filename(file.filename)\n    # Save to backend static folder\n    upload_folder = os.path.join(current_app.root_path, \"static\", \"images\", \"products\")\n    os.makedirs(upload_folder, exist_ok=True)",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
         "label": "create_item",
         "kind": 2,
         "importPath": "src.routes.item.item_route",
@@ -1885,11 +1918,20 @@
         "documentation": {}
     },
     {
+        "label": "get_image",
+        "kind": 2,
+        "importPath": "src.routes.item.item_route",
+        "description": "src.routes.item.item_route",
+        "peekOfCode": "def get_image(filename):\n    folder = os.path.join(current_app.root_path, \"static\", \"images\", \"products\")\n    return send_from_directory(folder, filename)",
+        "detail": "src.routes.item.item_route",
+        "documentation": {}
+    },
+    {
         "label": "item_bp",
         "kind": 5,
         "importPath": "src.routes.item.item_route",
         "description": "src.routes.item.item_route",
-        "peekOfCode": "item_bp = Blueprint(NameSpace.ITEM_BP, __name__)\nitem_schema = ItemSchema()\nitems_schema = ItemSchema(many=True)\n# ------------------------\n# CREATE ITEM\n# ------------------------\n@item_bp.route(\"/save\", methods=[\"POST\"])\ndef create_item():\n    json_data = request.get_json()\n    if not json_data:",
+        "peekOfCode": "item_bp = Blueprint(NameSpace.ITEM_BP, __name__)\nitem_schema = ItemSchema()\nitems_schema = ItemSchema(many=True)\n# ------------------------\n# UPLOAD IMAGE\n# ------------------------\n@item_bp.route(\"/upload-image\", methods=[\"POST\"])\ndef upload_image():\n    if \"image\" not in request.files:\n        return base_response(400, False, \"No file part\", None)",
         "detail": "src.routes.item.item_route",
         "documentation": {}
     },
@@ -1898,7 +1940,7 @@
         "kind": 5,
         "importPath": "src.routes.item.item_route",
         "description": "src.routes.item.item_route",
-        "peekOfCode": "item_schema = ItemSchema()\nitems_schema = ItemSchema(many=True)\n# ------------------------\n# CREATE ITEM\n# ------------------------\n@item_bp.route(\"/save\", methods=[\"POST\"])\ndef create_item():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)",
+        "peekOfCode": "item_schema = ItemSchema()\nitems_schema = ItemSchema(many=True)\n# ------------------------\n# UPLOAD IMAGE\n# ------------------------\n@item_bp.route(\"/upload-image\", methods=[\"POST\"])\ndef upload_image():\n    if \"image\" not in request.files:\n        return base_response(400, False, \"No file part\", None)\n    file = request.files[\"image\"]",
         "detail": "src.routes.item.item_route",
         "documentation": {}
     },
@@ -1907,7 +1949,7 @@
         "kind": 5,
         "importPath": "src.routes.item.item_route",
         "description": "src.routes.item.item_route",
-        "peekOfCode": "items_schema = ItemSchema(many=True)\n# ------------------------\n# CREATE ITEM\n# ------------------------\n@item_bp.route(\"/save\", methods=[\"POST\"])\ndef create_item():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    # Validate schema",
+        "peekOfCode": "items_schema = ItemSchema(many=True)\n# ------------------------\n# UPLOAD IMAGE\n# ------------------------\n@item_bp.route(\"/upload-image\", methods=[\"POST\"])\ndef upload_image():\n    if \"image\" not in request.files:\n        return base_response(400, False, \"No file part\", None)\n    file = request.files[\"image\"]\n    if file.filename == \"\":",
         "detail": "src.routes.item.item_route",
         "documentation": {}
     },

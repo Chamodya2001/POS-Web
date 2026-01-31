@@ -1,5 +1,7 @@
-from flask import Blueprint, request
-from src.models.item.item_model import Item,ItemSchema
+from flask import Blueprint, request, current_app, send_from_directory
+from werkzeug.utils import secure_filename
+import os
+from src.models.item.item_model import Item, ItemSchema
 from src.models.candidate.candidate_model import Candidate
 from src.models.category.category_model import Category
 from src.helper.base_responce import base_response
@@ -10,6 +12,27 @@ item_bp = Blueprint(NameSpace.ITEM_BP, __name__)
 
 item_schema = ItemSchema()
 items_schema = ItemSchema(many=True)
+
+# ------------------------
+# UPLOAD IMAGE
+# ------------------------
+@item_bp.route("/upload-image", methods=["POST"])
+def upload_image():
+   
+    if "image" not in request.files:
+        return base_response(400, False, "No file part", None)
+
+    file = request.files["image"]
+    if file.filename == "":
+        return base_response(400, False, "No selected file", None)
+
+    filename = secure_filename(file.filename)
+    # Save to backend static folder
+    upload_folder = os.path.join(current_app.root_path, "static", "images", "products")
+    os.makedirs(upload_folder, exist_ok=True)
+    file.save(os.path.join(upload_folder, filename))
+
+    return base_response(200, True, "Image uploaded successfully", {"image_code": filename})
 
 # ------------------------
 # CREATE ITEM
@@ -110,3 +133,11 @@ def delete_item(item_id):
     except Exception as e:
         db.session.rollback()
         return base_response(500, False, "Failed to delete item", str(e))
+
+# ------------------------
+# SERVE IMAGE
+# ------------------------
+@item_bp.route("/images/<filename>", methods=["GET"])
+def get_image(filename):
+    folder = os.path.join(current_app.root_path, "static", "images", "products")
+    return send_from_directory(folder, filename)
