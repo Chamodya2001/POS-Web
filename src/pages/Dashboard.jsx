@@ -10,6 +10,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { useCandidateData } from '../context/CandidateContext';
+import config from '../helper/config';
 
 // ----------------- Stats Card -----------------
 const StatsCard = ({ title, value, change, icon: Icon, trend }) => (
@@ -179,7 +180,7 @@ const Dashboard = () => {
               items.map((item, i) => (
                 <div key={i} className="flex items-center gap-4 group cursor-pointer">
                   <div className="w-12 h-12 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
-                    <img src={item.image_code || ''} alt={item.item_name} className="w-full h-full object-cover" />
+                    <img  src={`${config.pos_api_url}/static/images/products/${item.image_code || ''}`} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-medium text-slate-800 truncate group-hover:text-primary-600 transition-colors">
@@ -187,7 +188,7 @@ const Dashboard = () => {
                     </h4>
                     <p className="text-xs text-slate-400">{item.current_quantity || 0} sales today</p>
                   </div>
-                  <div className="text-sm font-bold text-slate-800">${item.sale_price || 0}</div>
+                  <div className="text-sm font-bold text-slate-800">Rs.{item.sale_price || 0}</div>
                 </div>
               ))
             ) : (
