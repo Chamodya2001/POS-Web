@@ -1,133 +1,121 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import candidateFullData_service from "./service/candidateFullData_service";
+import config from "../helper/config";
 
-const ProductContext = createContext();
-
+const ProductContext = createContext(null);
 export const useProducts = () => useContext(ProductContext);
 
-const INITIAL_CATEGORIES = [
-    { id: 'fruits', name: 'Fruits & Veg', count: 12 },
-    { id: 'dairy', name: 'Dairy & Eggs', count: 8 },
-    { id: 'beverages', name: 'Beverages', count: 24 },
-    { id: 'snacks', name: 'Snacks', count: 45 },
-    { id: 'bakery', name: 'Bakery', count: 15 },
-    { id: 'household', name: 'Household', count: 30 },
-];
-
-const INITIAL_PRODUCTS = [
-    {
-        id: '1',
-        name: 'Fresh Organic Bananas',
-        category: 'fruits',
-        price: 1.99,
-        cost: 1.20,
-        stock: 150,
-        sku: 'FRU-BAN-001',
-        status: 'active',
-        image: 'https://images.unsplash.com/photo-1603833665858-e61d17a86224?q=80&w=200&auto=format&fit=crop'
-    },
-    {
-        id: '2',
-        name: 'Whole Grain Bread',
-        category: 'bakery',
-        price: 3.49,
-        cost: 2.10,
-        stock: 24,
-        sku: 'BAK-BRD-012',
-        status: 'active',
-        image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=200&auto=format&fit=crop'
-    },
-    {
-        id: '3',
-        name: 'Premium Espresso Beans',
-        category: 'beverages',
-        price: 14.99,
-        cost: 8.50,
-        stock: 5,
-        sku: 'BEV-COF-099',
-        status: 'active',
-        image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=200&auto=format&fit=crop'
-    },
-    {
-        id: '4',
-        name: 'Organic Greek Yogurt',
-        category: 'dairy',
-        price: 4.99,
-        cost: 3.00,
-        stock: 42,
-        sku: 'DAI-YOG-005',
-        status: 'active',
-        image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?q=80&w=200&auto=format&fit=crop'
-    },
-    {
-        id: '5',
-        name: 'Dark Chocolate Sea Salt',
-        category: 'snacks',
-        price: 2.99,
-        cost: 1.50,
-        stock: 85,
-        sku: 'SNA-CHO-022',
-        status: 'active',
-        image: 'https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=200&auto=format&fit=crop'
-    }
-];
+// Helper function to create URL-friendly slugs
+const slugify = (text) =>
+  text
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/\s+/g, "-");
 
 export const ProductProvider = ({ children }) => {
-    const [products, setProducts] = useState(() => {
-        const saved = localStorage.getItem('pos_products');
-        return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
-    });
+  const candidate_id = 17;
 
-    const [categories, setCategories] = useState(() => {
-        const saved = localStorage.getItem('pos_categories');
-        return saved ? JSON.parse(saved) : INITIAL_CATEGORIES;
-    });
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [candidateAllData, setCandidateAllData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        localStorage.setItem('pos_products', JSON.stringify(products));
-    }, [products]);
+  /* ================= FETCH DATA ================= */
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const res = await candidateFullData_service(candidate_id);
+        const data = res?.data;
 
-    useEffect(() => {
-        localStorage.setItem('pos_categories', JSON.stringify(categories));
-    }, [categories]);
+        if (!data) throw new Error("No data returned from API");
 
-    const addProduct = (product) => {
-        const newProduct = {
-            ...product,
-            id: Date.now().toString(),
-            createdAt: new Date().toISOString(),
-        };
-        setProducts(prev => [newProduct, ...prev]);
-        return newProduct;
+        // Map categories
+        const mappedCategories = [
+          { id: "all", name: "All Items", count: 0 },
+          ...(data.categories || []).map(cat => ({
+            id: slugify(cat.category_name),
+            name: cat.category_name,
+            count: 0, // will update later
+            originalId: cat.category_id, // optional, keep reference
+          }))
+        ];
+
+        // Create a mapping from category_id → slug
+        const categoryMap = {};
+        mappedCategories.forEach(cat => {
+          if (cat.originalId) categoryMap[cat.originalId] = cat.id;
+        });
+
+        // Map products
+        const mappedProducts = (data.items || []).map(item => ({
+          id: String(item.item_id),
+          name: item.item_name,
+          category: categoryMap[item.category_id] || "all",
+          price: item.selling_price,
+          cost: item.cost_price,
+          stock: item.current_quantity,
+          sku: item.bar_code || "",
+          status: item.current_quantity > 0 ? "active" : "out_of_stock",
+          image: item.image_code
+            ? `${config.pos_api_url}/static/images/products/${item.image_code}`
+            : "/placeholder.png"
+        }));
+
+        // Update category counts
+        const categoriesWithCounts = mappedCategories.map(cat => ({
+          ...cat,
+          count: mappedProducts.filter(p => p.category === cat.id).length
+        }));
+
+        // Set states
+        setCandidateAllData(res);
+        setCategories(categoriesWithCounts);
+        setProducts(mappedProducts);
+
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load products");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const updateProduct = (id, updates) => {
-        setProducts(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
-    };
+    fetchData();
+  }, [candidate_id]);
 
-    const deleteProduct = (id) => {
-        setProducts(prev => prev.filter(p => p.id !== id));
-    };
+  /* ================= CRUD HELPERS ================= */
+  const addProduct = (product) => {
+    setProducts(prev => [product, ...prev]);
+  };
 
-    const addCategory = (name) => {
-        const newCategory = {
-            id: name.toLowerCase().replace(/\s+/g, '-'),
-            name,
-            count: 0
-        };
-        setCategories(prev => [...prev, newCategory]);
-        return newCategory;
-    };
-
-    return (
-        <ProductContext.Provider value={{
-            products,
-            categories,
-            addProduct,
-            updateProduct,
-            deleteProduct,
-            addCategory
-        }}>
-            {children}
-        </ProductContext.Provider>
+  const updateProduct = (id, updates) => {
+    setProducts(prev =>
+      prev.map(p => (p.id === id ? { ...p, ...updates } : p))
     );
+  };
+
+  const deleteProduct = (id) => {
+    setProducts(prev => prev.filter(p => p.id !== id));
+  };
+
+  /* ================= CONTEXT VALUE ================= */
+  return (
+    <ProductContext.Provider
+      value={{
+        candidateAllData,
+        products,
+        categories,
+        loading,
+        error,
+        addProduct,
+        updateProduct,
+        deleteProduct
+      }}
+    >
+      {children}
+    </ProductContext.Provider>
+  );
 };

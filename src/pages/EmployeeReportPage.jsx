@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
     Search, Download, Users, TrendingUp, Calendar, Phone, Badge,
-    FileText, BarChart3, Zap, DollarSign, ArrowUp, X, Loader
+    FileText, BarChart3, Zap, Banknote, ArrowUp, X, Loader, Trash2
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
@@ -14,7 +14,7 @@ const DEMO_EMPLOYEES = [
         casior_id: 1,
         first_name: "Rohit",
         last_name: "Perera",
-        user_name: "rohit_pnm",
+        email: "rohit@example.com",
         shop_name: "Main Branch Store",
         status_id: 1,
         create_at: "2024-06-15T10:30:00Z",
@@ -30,7 +30,7 @@ const DEMO_EMPLOYEES = [
         casior_id: 2,
         first_name: "Priya",
         last_name: "Silva",
-        user_name: "priya_silva",
+        email: "priya@example.com",
         shop_name: "Downtown Mall",
         status_id: 1,
         create_at: "2024-07-20T14:15:00Z",
@@ -46,7 +46,7 @@ const DEMO_EMPLOYEES = [
         casior_id: 3,
         first_name: "Kasun",
         last_name: "Jayawardena",
-        user_name: "kasun_jawa",
+        email: "kasun@example.com",
         shop_name: "Airport Terminal Store",
         status_id: 1,
         create_at: "2024-08-10T09:45:00Z",
@@ -62,7 +62,7 @@ const DEMO_EMPLOYEES = [
         casior_id: 4,
         first_name: "Amara",
         last_name: "Fernando",
-        user_name: "amara_fdo",
+        email: "amara@example.com",
         shop_name: "Kandy Shopping Center",
         status_id: 1,
         create_at: "2024-09-05T11:20:00Z",
@@ -78,7 +78,7 @@ const DEMO_EMPLOYEES = [
         casior_id: 5,
         first_name: "Sandun",
         last_name: "Jayasena",
-        user_name: "sandun_js",
+        email: "sandun@example.com",
         shop_name: "Beach Road Outlet",
         status_id: 1,
         create_at: "2024-10-12T15:30:00Z",
@@ -94,7 +94,7 @@ const DEMO_EMPLOYEES = [
         casior_id: 6,
         first_name: "Chaminda",
         last_name: "Gunarathne",
-        user_name: "chaminda_gn",
+        email: "chaminda@example.com",
         shop_name: "Jaffna Central",
         status_id: 0,
         create_at: "2024-11-03T08:00:00Z",
@@ -110,7 +110,7 @@ const DEMO_EMPLOYEES = [
         casior_id: 7,
         first_name: "Dilini",
         last_name: "Abeysekara",
-        user_name: "dilini_abc",
+        email: "dilini@example.com",
         shop_name: "City Center Store",
         status_id: 1,
         create_at: "2024-05-22T13:45:00Z",
@@ -126,7 +126,7 @@ const DEMO_EMPLOYEES = [
         casior_id: 8,
         first_name: "Nuwan",
         last_name: "Dissanayake",
-        user_name: "nuwan_dis",
+        email: "nuwan@example.com",
         shop_name: "Ratnapura Branch",
         status_id: 1,
         create_at: "2024-04-18T10:15:00Z",
@@ -143,7 +143,7 @@ const DEMO_EMPLOYEES = [
 // Generate mock sales data
 const generateSalesData = (employeeId) => {
     const baseAmount = 5000 + Math.random() * 10000;
-    
+
     // Daily data (last 30 days)
     const dailyData = [];
     for (let i = 29; i >= 0; i--) {
@@ -156,7 +156,7 @@ const generateSalesData = (employeeId) => {
             transactions: Math.floor(10 + Math.random() * 30)
         });
     }
-    
+
     // Weekly data
     const weeklyData = [];
     for (let i = 11; i >= 0; i--) {
@@ -169,7 +169,7 @@ const generateSalesData = (employeeId) => {
             transactions: Math.floor(70 + Math.random() * 100)
         });
     }
-    
+
     // Monthly data
     const monthlyData = [];
     for (let i = 11; i >= 0; i--) {
@@ -181,7 +181,7 @@ const generateSalesData = (employeeId) => {
             transactions: Math.floor(300 + Math.random() * 400)
         });
     }
-    
+
     // Yearly data
     const yearlyData = [];
     for (let i = 4; i >= 0; i--) {
@@ -192,7 +192,7 @@ const generateSalesData = (employeeId) => {
             transactions: Math.floor(3600 + Math.random() * 2000)
         });
     }
-    
+
     return {
         daily: dailyData,
         weekly: weeklyData,
@@ -238,7 +238,7 @@ const EmployeeCardSelector = ({ employee, isSelected, isDarkMode, onClick }) => 
                     'text-sm',
                     isDarkMode ? 'text-slate-400' : 'text-slate-500'
                 )}>
-                    @{employee.user_name}
+                    {employee.email}
                 </p>
                 <div className="flex items-center gap-2 mt-2">
                     <Badge className="w-3 h-3" />
@@ -264,6 +264,15 @@ const EmployeeCardSelector = ({ employee, isSelected, isDarkMode, onClick }) => 
                         <Zap className="w-5 h-5 fill-current" />
                     </div>
                 )}
+                <button
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(employee.casior_id);
+                    }}
+                    className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-all"
+                >
+                    <Trash2 className="w-4 h-4" />
+                </button>
             </div>
         </div>
     </div>
@@ -290,7 +299,7 @@ const SalesReportCard = ({ label, value, trend, icon: Icon, isDarkMode }) => (
                     isDarkMode ? 'text-white' : 'text-slate-900'
                 )}>
                     {typeof value === 'number' && label.includes('Sales')
-                        ? `$${value.toLocaleString('en-US', { maximumFractionDigits: 2 })}`
+                        ? `RS ${value.toLocaleString('en-US', { maximumFractionDigits: 2 })}`
                         : typeof value === 'number'
                             ? value.toLocaleString()
                             : value
@@ -365,8 +374,8 @@ const SalesDataTable = ({ data, period, isDarkMode }) => {
                 <tbody>
                     {data.map((item, index) => {
                         const dateLabel = period === 'daily' ? item.date :
-                                        period === 'weekly' ? item.week :
-                                        period === 'monthly' ? item.month : item.year;
+                            period === 'weekly' ? item.week :
+                                period === 'monthly' ? item.month : item.year;
                         const avgTransaction = item.transactions > 0 ? item.sales / item.transactions : 0;
 
                         return (
@@ -389,7 +398,7 @@ const SalesDataTable = ({ data, period, isDarkMode }) => {
                                     'px-6 py-4 text-right font-semibold text-green-600',
                                     isDarkMode ? 'text-green-400' : ''
                                 )}>
-                                    ${item.sales.toLocaleString('en-US', { maximumFractionDigits: 2 })}
+                                    RS {item.sales.toLocaleString('en-US', { maximumFractionDigits: 2 })}
                                 </td>
                                 <td className={clsx(
                                     'px-6 py-4 text-right',
@@ -401,7 +410,7 @@ const SalesDataTable = ({ data, period, isDarkMode }) => {
                                     'px-6 py-4 text-right',
                                     isDarkMode ? 'text-slate-300' : 'text-slate-600'
                                 )}>
-                                    ${avgTransaction.toLocaleString('en-US', { maximumFractionDigits: 2 })}
+                                    RS {avgTransaction.toLocaleString('en-US', { maximumFractionDigits: 2 })}
                                 </td>
                             </tr>
                         );
@@ -435,17 +444,25 @@ export default function EmployeeReportPage() {
         }
     }, [selectedEmployee]);
 
+    const handleDeleteEmployee = (id) => {
+        if (window.confirm('Remove this employee from the system?')) {
+            setEmployees(prev => prev.filter(emp => emp.casior_id !== id));
+            if (selectedEmployee?.casior_id === id) setSelectedEmployee(null);
+            // Add API call here 
+        }
+    };
+
     const filteredEmployees = employees.filter(emp =>
         emp.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         emp.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        emp.user_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        emp.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
         emp.shop_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const currentSalesData = selectedEmployee && salesData
         ? selectedPeriod === 'daily' ? salesData.daily :
-          selectedPeriod === 'weekly' ? salesData.weekly :
-          selectedPeriod === 'monthly' ? salesData.monthly : salesData.yearly
+            selectedPeriod === 'weekly' ? salesData.weekly :
+                selectedPeriod === 'monthly' ? salesData.monthly : salesData.yearly
         : [];
 
     // Calculate totals
@@ -466,14 +483,14 @@ export default function EmployeeReportPage() {
 
         const reportData = currentSalesData.map((item) => {
             const dateLabel = selectedPeriod === 'daily' ? item.date :
-                            selectedPeriod === 'weekly' ? item.week :
-                            selectedPeriod === 'monthly' ? item.month : item.year;
+                selectedPeriod === 'weekly' ? item.week :
+                    selectedPeriod === 'monthly' ? item.month : item.year;
             const avgTransaction = item.transactions > 0 ? item.sales / item.transactions : 0;
 
             return {
-                [selectedPeriod === 'daily' ? 'Date' : 
-                 selectedPeriod === 'weekly' ? 'Week' :
-                 selectedPeriod === 'monthly' ? 'Month' : 'Year']: dateLabel,
+                [selectedPeriod === 'daily' ? 'Date' :
+                    selectedPeriod === 'weekly' ? 'Week' :
+                        selectedPeriod === 'monthly' ? 'Month' : 'Year']: dateLabel,
                 'Total Sales': item.sales,
                 'Transactions': item.transactions,
                 'Avg. Transaction': avgTransaction
@@ -558,27 +575,14 @@ export default function EmployeeReportPage() {
                             {/* Employee List */}
                             <div className="space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
                                 {filteredEmployees.map(emp => (
-                                    <button
+                                    <EmployeeCardSelector
                                         key={emp.casior_id}
+                                        employee={emp}
+                                        isSelected={selectedEmployee?.casior_id === emp.casior_id}
+                                        isDarkMode={isDarkMode}
                                         onClick={() => setSelectedEmployee(emp)}
-                                        className={clsx(
-                                            'w-full text-left px-4 py-3 rounded-lg border-2 transition-all duration-200',
-                                            selectedEmployee?.casior_id === emp.casior_id
-                                                ? isDarkMode
-                                                    ? 'bg-blue-900/50 border-blue-500 text-white'
-                                                    : 'bg-blue-50 border-blue-500 text-slate-900'
-                                                : isDarkMode
-                                                    ? 'bg-slate-700/50 border-slate-600 text-slate-300 hover:border-slate-500'
-                                                    : 'bg-slate-50 border-slate-200 text-slate-900 hover:border-slate-300'
-                                        )}
-                                    >
-                                        <div className="font-semibold text-sm">
-                                            {emp.first_name} {emp.last_name}
-                                        </div>
-                                        <div className="text-xs opacity-75 truncate">
-                                            {emp.shop_name}
-                                        </div>
-                                    </button>
+                                        onDelete={handleDeleteEmployee}
+                                    />
                                 ))}
                             </div>
                         </div>
@@ -644,7 +648,7 @@ export default function EmployeeReportPage() {
                                                     'text-sm',
                                                     isDarkMode ? 'text-slate-400' : 'text-slate-600'
                                                 )}>
-                                                    @{selectedEmployee.user_name} • {selectedEmployee.shop_name}
+                                                    {selectedEmployee.email} • {selectedEmployee.shop_name}
                                                 </p>
                                                 <div className="flex items-center gap-3 mt-2">
                                                     <Phone className="w-4 h-4" />
@@ -706,7 +710,7 @@ export default function EmployeeReportPage() {
                                                 label="Total Sales"
                                                 value={totalSales}
                                                 trend={8.5}
-                                                icon={DollarSign}
+                                                icon={Banknote}
                                                 isDarkMode={isDarkMode}
                                             />
                                             <SalesReportCard

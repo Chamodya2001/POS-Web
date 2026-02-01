@@ -115,7 +115,7 @@ export default function CustomerProfilePage({ customerId, onBack }) {
                             </div>
                             <div className="text-center">
                                 <p className="text-xs text-slate-400 mb-1">Total Spent</p>
-                                <p className="font-bold text-primary-600">$1,450.00</p>
+                                <p className="font-bold text-primary-600">RS 1,450.00</p>
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@ export default function CustomerProfilePage({ customerId, onBack }) {
                         <div className="relative z-10">
                             <p className="text-primary-100 text-sm font-medium mb-1 uppercase tracking-wider">Loan Balance</p>
                             <h3 className="text-4xl font-black mb-6">
-                                ${parseFloat(customer.loan_balance || 0).toFixed(2)}
+                                RS {parseFloat(customer.loan_balance || 0).toFixed(2)}
                             </h3>
                             <button className="w-full py-3 bg-white/20 backdrop-blur-md rounded-2xl text-white font-bold text-sm hover:bg-white/30 transition-all">
                                 Make a Payment
@@ -203,7 +203,7 @@ export default function CustomerProfilePage({ customerId, onBack }) {
                                             <p className="text-xs text-slate-500">Jan 22, 2026 • 2 Items</p>
                                         </div>
                                     </div>
-                                    <p className="font-bold text-slate-800 dark:text-white">$124.50</p>
+                                    <p className="font-bold text-slate-800 dark:text-white">RS 124.50</p>
                                 </div>
                             ))}
                         </div>
