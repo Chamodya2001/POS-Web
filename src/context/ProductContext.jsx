@@ -118,6 +118,10 @@ export const ProductProvider = ({ children }) => {
         return newCategory;
     };
 
+    const deleteCategory = (id) => {
+        setCategories(prev => prev.filter(cat => cat.id !== id));
+    };
+
     return (
         <ProductContext.Provider value={{
             products,
@@ -125,7 +129,8 @@ export const ProductProvider = ({ children }) => {
             addProduct,
             updateProduct,
             deleteProduct,
-            addCategory
+            addCategory,
+            deleteCategory
         }}>
             {children}
         </ProductContext.Provider>

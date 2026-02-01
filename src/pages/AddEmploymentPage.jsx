@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { 
+import {
     User, Mail, Phone, MapPin, Briefcase,
     Calendar, Shield, Lock, Save, ArrowLeft,
-    Image as ImageIcon, Globe, UserCheck 
+    Image as ImageIcon, Globe, UserCheck
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
@@ -14,8 +14,8 @@ export default function AddEmploymentPage() {
     const isDarkMode = theme === 'dark';
 
     const [formData, setFormData] = useState({
-        candidate_id:16,
-        shop_id:"SHOP_001",
+        candidate_id: 16,
+        shop_id: "SHOP_001",
         first_name: "",
         last_name: "",
         dob: "",
@@ -29,7 +29,7 @@ export default function AddEmploymentPage() {
         gender_id: 1,
         status_id: 1,
         shop_name: "",
-        user_name: "",
+        email: "",
         password: ""
     });
 
@@ -48,47 +48,47 @@ export default function AddEmploymentPage() {
         }
     };
 
-   
 
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage({ type: '', text: '' });
 
-    try {
-        console.log("Form Data:", formData);
-        await AddEmploymentPage_service.addEmploye(formData);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setMessage({ type: '', text: '' });
 
-        // Reset the form
-        setFormData({
-            candidate_id:"14",
-            shop_id:"SHOP_001",
-            first_name: "",
-            last_name: "",
-            dob: "",
-            address: "",
-            district: "",
-            province: "",
-            town: "",
-            phone_number: [""],
-            nic: "",
-            language_id: 1,
-            gender_id: 1,
-            status_id: 1,
-            shop_name: "",
-            user_name: "",
-            password: ""
-        });
+        try {
+            console.log("Form Data:", formData);
+            await AddEmploymentPage_service.addEmploye(formData);
 
-        Swal.fire('Success!', 'Employee added successfully.', 'success');
+            // Reset the form
+            setFormData({
+                candidate_id: "14",
+                shop_id: "SHOP_001",
+                first_name: "",
+                last_name: "",
+                dob: "",
+                address: "",
+                district: "",
+                province: "",
+                town: "",
+                phone_number: [""],
+                nic: "",
+                language_id: 1,
+                gender_id: 1,
+                status_id: 1,
+                shop_name: "",
+                email: "",
+                password: ""
+            });
 
-    } catch (error) {
-        console.error("Error adding employee:", error);
-        Swal.fire('Error', error.message || 'Something went wrong.', 'error');
-    } finally {
-        setLoading(false);
-    }
-};
+            Swal.fire('Success!', 'Employee added successfully.', 'success');
+
+        } catch (error) {
+            console.error("Error adding employee:", error);
+            Swal.fire('Error', error.message || 'Something went wrong.', 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
 
 
     const handleCancel = () => {
@@ -106,7 +106,7 @@ const handleSubmit = async (e) => {
             gender_id: 1,
             status_id: 1,
             shop_name: "",
-            user_name: "",
+            email: "",
             password: ""
         });
         setMessage({ type: '', text: '' });
@@ -317,13 +317,14 @@ const handleSubmit = async (e) => {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-1.5">
-                            <label className="text-xs font-semibold text-slate-500 uppercase">Username</label>
+                            <label className="text-xs font-semibold text-slate-500 uppercase">Email Address</label>
                             <input
+                                type="email"
                                 required
-                                name="user_name"
-                                value={formData.user_name}
+                                name="email"
+                                value={formData.email}
                                 onChange={handleChange}
-                                placeholder="username123"
+                                placeholder="example@gmail.com"
                                 className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-2 focus:ring-primary-500/20 outline-none transition-all dark:text-white"
                             />
                         </div>

@@ -17,6 +17,12 @@ import AddCustomerPage from './pages/AddCustomerPage';
 import CustomerProfilePage from './pages/CustomerProfilePage';
 import EmployeeReportPage from './pages/EmployeeReportPage';
 import { CandidateProvider } from './context/CandidateContext';
+import SuppliersPage from './pages/SuppliersPage';
+import AddSupplierPage from './pages/AddSupplierPage';
+import StockManagementPage from './pages/StockManagementPage';
+import AddStockPage from './pages/AddStockPage';
+import CategoriesPage from './pages/CategoriesPage';
+import StockHistoryPage from './pages/StockHistoryPage';
 
 
 
@@ -24,6 +30,7 @@ const AppContent = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [currentView, setCurrentView] = useState('landing');
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const [selectedSupplier, setSelectedSupplier] = useState(null);
   const { user } = useAuth();
 
   // If we are in landing mode and not logged in, show landing page
@@ -58,7 +65,52 @@ const AppContent = () => {
       {activeTab === 'add-customer' && <AddCustomerPage />}
       {activeTab === 'customer-profile' && <CustomerProfilePage customerId={selectedCustomerId} onBack={() => setActiveTab('customers')} />}
 
-      {['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'employee-report', 'add-customer', 'customer-profile'].indexOf(activeTab) === -1 && (
+      {activeTab === 'suppliers' && (
+        <SuppliersPage
+          onAddSupplier={() => {
+            setSelectedSupplier(null);
+            setActiveTab('add-supplier');
+          }}
+          onEditSupplier={(supplier) => {
+            setSelectedSupplier(supplier);
+            setActiveTab('add-supplier');
+          }}
+        />
+      )}
+
+      {activeTab === 'add-supplier' && (
+        <AddSupplierPage
+          supplierToEdit={selectedSupplier}
+          onBack={() => setActiveTab('suppliers')}
+          onSuccess={() => setActiveTab('suppliers')}
+        />
+      )}
+
+      {activeTab === 'stock' && (
+        <StockManagementPage
+          onAddStock={() => setActiveTab('add-stock')}
+          onViewHistory={(id) => setActiveTab('stock-history')}
+        />
+      )}
+
+      {activeTab === 'stock-history' && (
+        <StockHistoryPage
+          onBack={() => setActiveTab('stock')}
+        />
+      )}
+
+      {activeTab === 'add-stock' && (
+        <AddStockPage
+          onBack={() => setActiveTab('stock')}
+          onSuccess={() => setActiveTab('stock')}
+        />
+      )}
+
+      {activeTab === 'categories' && (
+        <CategoriesPage />
+      )}
+
+      {['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'employee-report', 'add-customer', 'customer-profile', 'suppliers', 'add-supplier', 'stock', 'add-stock', 'categories', 'stock-history'].indexOf(activeTab) === -1 && (
         <div className="flex flex-col items-center justify-center h-full text-slate-400">
           <h2 className="text-2xl font-bold text-slate-800 mb-2">Coming Soon</h2>
           <p className="text-sm">The {activeTab} module is under development.</p>
@@ -71,7 +123,7 @@ const AppContent = () => {
 function App() {
   const candidateId = 4;
   return (
-      <ThemeProvider>
+    <ThemeProvider>
       <AuthProvider>
         <CartProvider>
           <ProductProvider>

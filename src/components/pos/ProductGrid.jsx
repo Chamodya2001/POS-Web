@@ -94,7 +94,7 @@ const ProductGrid = () => {
                             <p className="text-xs text-slate-500 mb-auto">{product.stock} in stock</p>
 
                             <div className="flex items-center justify-between mt-2">
-                                <span className="font-bold text-lg text-primary-600">${product.price.toFixed(2)}</span>
+                                <span className="font-bold text-lg text-primary-600">RS {product.price.toFixed(2)}</span>
                             </div>
                         </div>
                     </div>

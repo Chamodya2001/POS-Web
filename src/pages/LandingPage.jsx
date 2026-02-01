@@ -210,7 +210,7 @@ export default function LandingPage({ onStart }) {
                                 <div className="p-6 flex flex-col grow">
                                     <h4 className="font-bold text-slate-800 dark:text-white mb-2 line-clamp-2">{product.name}</h4>
                                     <div className="flex items-center justify-between mt-auto">
-                                        <span className="text-xl font-black text-primary-600">${product.price}</span>
+                                        <span className="text-xl font-black text-primary-600">RS {product.price}</span>
                                         <button className="p-2 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl hover:bg-primary-600 hover:text-white transition-all">
                                             <ShoppingCart className="w-5 h-5" />
                                         </button>

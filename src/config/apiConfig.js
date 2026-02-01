@@ -13,6 +13,20 @@ export const API_ROUTES = {
         GET: `${API_BASE_URL}/api/customer/get`,
         GET_BY_ID: (id) => `${API_BASE_URL}/api/customer/get-by-id/${id}`,
     },
+    SUPPLIERS: {
+        SAVE: `${API_BASE_URL}/api/supplier/save`,
+        GET: `${API_BASE_URL}/api/supplier/get`,
+        GET_BY_ID: (id) => `${API_BASE_URL}/api/supplier/get-by-id/${id}`,
+        UPDATE: (id) => `${API_BASE_URL}/api/supplier/update-by-id/${id}`,
+        DELETE: (id) => `${API_BASE_URL}/api/supplier/delete-by-id/${id}`,
+    },
+    ITEMS: {
+        SAVE: `${API_BASE_URL}/api/item/save`,
+        GET: `${API_BASE_URL}/api/item/get`,
+        UPDATE: (id) => `${API_BASE_URL}/api/item/${id}`,
+        DELETE: (id) => `${API_BASE_URL}/api/item/${id}`,
+        GET_BY_ID: (id) => `${API_BASE_URL}/api/item/${id}`,
+    },
     // Add other routes as needed
 };
 

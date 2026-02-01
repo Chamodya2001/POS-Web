@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  DollarSign,
+  Banknote,
   ShoppingBag,
   Users,
   Package,
@@ -20,9 +20,8 @@ const StatsCard = ({ title, value, change, icon: Icon, trend }) => (
         <Icon className="w-6 h-6 text-primary-600" />
       </div>
       <div
-        className={`flex items-center gap-1 text-sm font-medium ${
-          trend === 'up' ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'
-        } px-2 py-1 rounded-lg`}
+        className={`flex items-center gap-1 text-sm font-medium ${trend === 'up' ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'
+          } px-2 py-1 rounded-lg`}
       >
         {trend === 'up' ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
         {change}
@@ -54,16 +53,15 @@ const RecentOrderRow = ({ id, customer, itemsText, total, status, date }) => (
       </div>
     </td>
     <td className="py-4 px-4 text-sm text-slate-500">{itemsText}</td>
-    <td className="py-4 px-4 font-medium text-slate-800">${total}</td>
+    <td className="py-4 px-4 font-medium text-slate-800">RS {total}</td>
     <td className="py-4 px-4">
       <span
-        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
-          status === 'Completed'
-            ? 'bg-green-50 text-green-700 border-green-100'
-            : status === 'Pending'
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${status === 'Completed'
+          ? 'bg-green-50 text-green-700 border-green-100'
+          : status === 'Pending'
             ? 'bg-amber-50 text-amber-700 border-amber-100'
             : 'bg-slate-50 text-slate-700 border-slate-100'
-        }`}
+          }`}
       >
         {status === 'Completed' ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
         {status}
@@ -94,9 +92,9 @@ const Dashboard = () => {
 
   // ------------------ Helper to format order items ------------------
   const getOrderItemsText = (orderItems) => {
-  // Sum the quantities of all items
-  return orderItems.reduce((total, item) => total + (item.quantity || 1), 0);
-};
+    // Sum the quantities of all items
+    return orderItems.reduce((total, item) => total + (item.quantity || 1), 0);
+  };
 
 
   return (
@@ -111,7 +109,7 @@ const Dashboard = () => {
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatsCard title="Total Sales" value={`Rs.${orders.reduce((sum, o) => sum + (o.order_process.total_amount || 0), 0)}`} change="+12.5%" trend="up" icon={DollarSign} />
+        <StatsCard title="Total Sales" value={`RS ${orders.reduce((sum, o) => sum + (o.order_process.total_amount || 0), 0)}`} change="+12.5%" trend="up" icon={Banknote} />
         <StatsCard title="Total Orders" value={orders.length} change="+8.2%" trend="up" icon={ShoppingBag} />
         <StatsCard title="Active Customers" value={customers.length} change="+2.4%" trend="up" icon={Users} />
         <StatsCard title="Products Sold" value={items.length} change="-1.5%" trend="down" icon={Package} />
@@ -180,7 +178,7 @@ const Dashboard = () => {
               items.map((item, i) => (
                 <div key={i} className="flex items-center gap-4 group cursor-pointer">
                   <div className="w-12 h-12 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
-                    <img  src={`${config.pos_api_url}/static/images/products/${item.image_code || ''}`} className="w-full h-full object-cover" />
+                    <img src={`${config.pos_api_url}/static/images/products/${item.image_code || ''}`} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-medium text-slate-800 truncate group-hover:text-primary-600 transition-colors">
@@ -188,7 +186,7 @@ const Dashboard = () => {
                     </h4>
                     <p className="text-xs text-slate-400">{item.current_quantity || 0} sales today</p>
                   </div>
-                  <div className="text-sm font-bold text-slate-800">Rs.{item.sale_price || 0}</div>
+                  <div className="text-sm font-bold text-slate-800">RS {item.sale_price || 0}</div>
                 </div>
               ))
             ) : (
