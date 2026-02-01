@@ -1,94 +1,50 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
+import { API_ROUTES } from '../config/apiConfig';
 
 const ProductContext = createContext();
 
 export const useProducts = () => useContext(ProductContext);
 
-const INITIAL_CATEGORIES = [
-    { id: 'fruits', name: 'Fruits & Veg', count: 12 },
-    { id: 'dairy', name: 'Dairy & Eggs', count: 8 },
-    { id: 'beverages', name: 'Beverages', count: 24 },
-    { id: 'snacks', name: 'Snacks', count: 45 },
-    { id: 'bakery', name: 'Bakery', count: 15 },
-    { id: 'household', name: 'Household', count: 30 },
-];
-
-const INITIAL_PRODUCTS = [
-    {
-        id: '1',
-        name: 'Fresh Organic Bananas',
-        category: 'fruits',
-        price: 1.99,
-        cost: 1.20,
-        stock: 150,
-        sku: 'FRU-BAN-001',
-        status: 'active',
-        image: 'https://images.unsplash.com/photo-1603833665858-e61d17a86224?q=80&w=200&auto=format&fit=crop'
-    },
-    {
-        id: '2',
-        name: 'Whole Grain Bread',
-        category: 'bakery',
-        price: 3.49,
-        cost: 2.10,
-        stock: 24,
-        sku: 'BAK-BRD-012',
-        status: 'active',
-        image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=200&auto=format&fit=crop'
-    },
-    {
-        id: '3',
-        name: 'Premium Espresso Beans',
-        category: 'beverages',
-        price: 14.99,
-        cost: 8.50,
-        stock: 5,
-        sku: 'BEV-COF-099',
-        status: 'active',
-        image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=200&auto=format&fit=crop'
-    },
-    {
-        id: '4',
-        name: 'Organic Greek Yogurt',
-        category: 'dairy',
-        price: 4.99,
-        cost: 3.00,
-        stock: 42,
-        sku: 'DAI-YOG-005',
-        status: 'active',
-        image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?q=80&w=200&auto=format&fit=crop'
-    },
-    {
-        id: '5',
-        name: 'Dark Chocolate Sea Salt',
-        category: 'snacks',
-        price: 2.99,
-        cost: 1.50,
-        stock: 85,
-        sku: 'SNA-CHO-022',
-        status: 'active',
-        image: 'https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=200&auto=format&fit=crop'
-    }
-];
-
 export const ProductProvider = ({ children }) => {
     const [products, setProducts] = useState(() => {
         const saved = localStorage.getItem('pos_products');
-        return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
+        return saved ? JSON.parse(saved) : [];
     });
 
-    const [categories, setCategories] = useState(() => {
-        const saved = localStorage.getItem('pos_categories');
-        return saved ? JSON.parse(saved) : INITIAL_CATEGORIES;
-    });
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchCategories = async () => {
+        try {
+            const response = await axios.get(API_ROUTES.CATEGORIES.GET);
+            if (response.data.success) {
+                // Map backend fields to frontend fields if necessary
+                const mappedCategories = response.data.data.map(cat => ({
+                    id: cat.category_id.toString(),
+                    name: cat.category_name,
+                    description: cat.discription,
+                    image: cat.image_code,
+                    status: cat.status_id,
+                    candidate_id: cat.candidate_id,
+                    count: 0 // Backend doesn't provide count yet
+                }));
+                setCategories(mappedCategories);
+            }
+        } catch (error) {
+            console.error("Error fetching categories:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
     useEffect(() => {
         localStorage.setItem('pos_products', JSON.stringify(products));
     }, [products]);
-
-    useEffect(() => {
-        localStorage.setItem('pos_categories', JSON.stringify(categories));
-    }, [categories]);
 
     const addProduct = (product) => {
         const newProduct = {
@@ -108,29 +64,56 @@ export const ProductProvider = ({ children }) => {
         setProducts(prev => prev.filter(p => p.id !== id));
     };
 
-    const addCategory = (name) => {
-        const newCategory = {
-            id: name.toLowerCase().replace(/\s+/g, '-'),
-            name,
-            count: 0
-        };
-        setCategories(prev => [...prev, newCategory]);
-        return newCategory;
+    const addCategory = async (categoryData) => {
+        try {
+            const response = await axios.post(API_ROUTES.CATEGORIES.SAVE, categoryData);
+            if (response.data.success) {
+                await fetchCategories();
+                return response.data.data;
+            }
+        } catch (error) {
+            console.error("Error adding category:", error);
+            throw error;
+        }
     };
 
-    const deleteCategory = (id) => {
-        setCategories(prev => prev.filter(cat => cat.id !== id));
+    const deleteCategory = async (id) => {
+        try {
+            const response = await axios.delete(API_ROUTES.CATEGORIES.DELETE(id));
+            if (response.data.success) {
+                await fetchCategories();
+            }
+        } catch (error) {
+            console.error("Error deleting category:", error);
+        }
+    };
+
+    const uploadCategoryImage = async (fileData) => {
+        try {
+            const response = await axios.post(API_ROUTES.CATEGORIES.UPLOAD_IMAGE, fileData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error("Error uploading category image:", error);
+            throw error;
+        }
     };
 
     return (
         <ProductContext.Provider value={{
             products,
             categories,
+            loading,
             addProduct,
             updateProduct,
             deleteProduct,
             addCategory,
-            deleteCategory
+            deleteCategory,
+            uploadCategoryImage,
+            refreshCategories: fetchCategories
         }}>
             {children}
         </ProductContext.Provider>
