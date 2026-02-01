@@ -34,7 +34,7 @@ class Casior(db.Model):
     
     
     
-    user_name = db.Column(db.String(256), nullable=False)
+    email = db.Column(db.String(256), nullable=False)
     password = db.Column(db.String(256), nullable=False)
     create_at = db.Column(db.DateTime, default=func.now())
     update_at = db.Column(db.DateTime, onupdate=func.now())
@@ -68,7 +68,7 @@ class Casior(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"<Casior {self.casior_id} - {self.user_name}>"
+        return f"<Casior {self.casior_id} - {self.email}>"
 
 
 
@@ -93,7 +93,7 @@ class CasiorSchema(Schema):
     status_id = fields.Int(required=True)
    
     shop_name = fields.Str()
-    user_name = fields.Str(required=True)
+    email = fields.Str(required=True)
     password = fields.Str(required=True, load_only=True)
     status_id = fields.Int(required=True)
    

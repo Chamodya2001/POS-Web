@@ -37,7 +37,7 @@ def create_candidate():
     try:
         # Check duplicate candidate
         existing_candidate = Candidate.query.filter(
-            (func.lower(func.trim(Candidate.user_name)) == json_data["user_name"].strip().lower()) |
+            (func.lower(func.trim(Candidate.email)) == json_data["email"].strip().lower()) |
             (Candidate.nic == json_data["nic"].strip())
         ).first()
 

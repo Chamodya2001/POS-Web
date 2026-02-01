@@ -58,7 +58,7 @@ class Candidate(db.Model):
     shop_name = db.Column(db.String(128))
     casior_quantity = db.Column(db.Integer)
 
-    user_name = db.Column(db.String(128), nullable=False, unique=True)
+    email = db.Column(db.String(128), nullable=False, unique=True)
     password_hash = db.Column(db.String(256), nullable=False)
 
                        # for storing date of birth
@@ -119,7 +119,7 @@ class CandidateSchema(Schema):
     shop_name = fields.Str()
     casior_quantity = fields.Int()
 
-    user_name = fields.Str(required=True)
+    email = fields.Str(required=True)
     password = fields.Str(load_only=True, required=True)
 
 
