@@ -47,11 +47,16 @@ export default function AddProductPage({ onBack }) {
 
     const handleSave = async () => {
         try {
+            if (!formData.category) {
+                alert("Please select a category");
+                return;
+            }
+
             setLoading(true);
 
             const payload = {
                 candidate_id: 17, // later from auth
-                category_id: 3, // temporary
+                category_id: parseInt(formData.category),
                 item_name: formData.name,
                 short_code: formData.sku,
                 bar_code: formData.barcode,
@@ -80,12 +85,25 @@ export default function AddProductPage({ onBack }) {
     };
 
 
-    const handleAddCategory = () => {
+    const handleAddCategory = async () => {
         if (newCategory.trim()) {
-            const cat = addCategory(newCategory);
-            setFormData(prev => ({ ...prev, category: cat.id }));
-            setNewCategory('');
-            setShowCategoryInput(false);
+            try {
+                const catData = {
+                    category_name: newCategory,
+                    candidate_id: 17, // default
+                    discription: 'Created from product page',
+                    image_code: 'default.jpg',
+                    status_id: 1
+                };
+                const cat = await addCategory(catData);
+                if (cat) {
+                    setFormData(prev => ({ ...prev, category: cat.category_id.toString() }));
+                    setNewCategory('');
+                    setShowCategoryInput(false);
+                }
+            } catch (error) {
+                alert("Failed to add category: " + error.message);
+            }
         }
     };
 

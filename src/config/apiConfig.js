@@ -27,6 +27,14 @@ export const API_ROUTES = {
         DELETE: (id) => `${API_BASE_URL}/api/item/${id}`,
         GET_BY_ID: (id) => `${API_BASE_URL}/api/item/${id}`,
     },
+    CATEGORIES: {
+        SAVE: `${API_BASE_URL}/api/category/save`,
+        GET: `${API_BASE_URL}/api/category/get`,
+        GET_BY_ID: (id) => `${API_BASE_URL}/api/category/${id}`,
+        UPDATE: (id) => `${API_BASE_URL}/api/category/${id}`,
+        DELETE: (id) => `${API_BASE_URL}/api/category/${id}`,
+        UPLOAD_IMAGE: `${API_BASE_URL}/api/item/upload-image`, // Reuse item upload for now
+    },
     // Add other routes as needed
 };
 

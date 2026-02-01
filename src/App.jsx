@@ -30,6 +30,7 @@ const AppContent = () => {
   const [currentView, setCurrentView] = useState('landing');
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const { user } = useAuth();
 
   // If we are in landing mode and not logged in, show landing page
@@ -57,7 +58,12 @@ const AppContent = () => {
           }}
         />
       )}
-      {activeTab === 'products' && <ProductsPage />}
+      {activeTab === 'products' && (
+        <ProductsPage
+          initialCategoryId={selectedCategoryId}
+          onClearFilter={() => setSelectedCategoryId(null)}
+        />
+      )}
       {activeTab === 'settings' && <SettingsPage />}
       {activeTab === 'employment' && <AddEmploymentPage />}
       {activeTab === 'employee-report' && <EmployeeReportPage />}
@@ -106,7 +112,12 @@ const AppContent = () => {
       )}
 
       {activeTab === 'categories' && (
-        <CategoriesPage />
+        <CategoriesPage
+          onViewItems={(id) => {
+            setSelectedCategoryId(id);
+            setActiveTab('products');
+          }}
+        />
       )}
 
       {['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'employee-report', 'add-customer', 'customer-profile', 'suppliers', 'add-supplier', 'stock', 'add-stock', 'categories', 'stock-history'].indexOf(activeTab) === -1 && (
