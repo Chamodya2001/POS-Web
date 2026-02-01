@@ -120,7 +120,7 @@ export default function ProductsPage() {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 text-sm font-bold text-slate-800 dark:text-white">
-                                        ${parseFloat(product.price).toFixed(2)}
+                                        RS {parseFloat(product.price).toFixed(2)}
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className={clsx(

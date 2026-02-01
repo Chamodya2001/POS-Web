@@ -76,8 +76,8 @@ export default function OrdersPage() {
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${activeTab === tab
-                                        ? 'bg-slate-800 text-white shadow-md shadow-slate-800/20'
-                                        : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                                    ? 'bg-slate-800 text-white shadow-md shadow-slate-800/20'
+                                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
                                     }`}
                             >
                                 {tab}
@@ -136,7 +136,7 @@ export default function OrdersPage() {
                                             <Calendar className="w-3.5 h-3.5 opacity-70" /> {order.date}
                                         </div>
                                     </td>
-                                    <td className="py-4 px-6 font-semibold text-slate-800">${order.total.toFixed(2)}</td>
+                                    <td className="py-4 px-6 font-semibold text-slate-800">RS {order.total.toFixed(2)}</td>
                                     <td className="py-4 px-6 text-sm text-slate-500">{order.payment}</td>
                                     <td className="py-4 px-6">
                                         <StatusBadge status={order.status} />

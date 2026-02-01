@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, Filter, Mail, Phone, MoreHorizontal, ShoppingBag, Star, Calendar, MapPin, Grid, List } from 'lucide-react';
+import { Search, Plus, Filter, Mail, Phone, MoreHorizontal, ShoppingBag, Star, Calendar, MapPin, Grid, List, Trash2 } from 'lucide-react';
 import { API_ROUTES } from '../config/apiConfig';
 
 
-const CustomerCard = ({ customer, onViewProfile }) => (
+const CustomerCard = ({ customer, onViewProfile, onDelete }) => (
     <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all group relative">
-        <button className="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-            <MoreHorizontal className="w-5 h-5" />
-        </button>
+        <div className="absolute top-4 right-4 flex gap-2">
+            <button
+                onClick={() => onDelete(customer.id)}
+                className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+            >
+                <Trash2 className="w-4 h-4" />
+            </button>
+            <button className="text-slate-300 hover:text-slate-600">
+                <MoreHorizontal className="w-5 h-5" />
+            </button>
+        </div>
 
         <div className="flex flex-col items-center text-center">
             <div className="relative">
@@ -31,7 +39,7 @@ const CustomerCard = ({ customer, onViewProfile }) => (
                 </div>
                 <div className="bg-slate-50 p-2 rounded-xl border border-slate-100">
                     <p className="text-xs text-slate-400 mb-1">Spent</p>
-                    <p className="font-semibold text-primary-600">${customer.spent.toLocaleString()}</p>
+                    <p className="font-semibold text-primary-600">RS {customer.spent.toLocaleString()}</p>
                 </div>
             </div>
 
@@ -124,6 +132,13 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
         fetchCustomers();
     }, []);
 
+    const handleDelete = (id) => {
+        if (window.confirm('Are you sure you want to delete this customer?')) {
+            setCustomers(prev => prev.filter(c => c.id !== id));
+            // Add API call here later
+        }
+    };
+
     return (
         <div className="p-2 max-w-[1200px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
 
@@ -183,7 +198,7 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
             ) : viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {customers.map(customer => (
-                        <CustomerCard key={customer.id} customer={customer} onViewProfile={onViewProfile} />
+                        <CustomerCard key={customer.id} customer={customer} onViewProfile={onViewProfile} onDelete={handleDelete} />
                     ))}
                     {customers.length === 0 && (
                         <div className="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
@@ -218,19 +233,27 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
                                             <span className="text-xs opacity-70">{customer.phone}</span>
                                         </div>
                                     </td>
-                                    <td className="py-4 px-6 text-sm font-bold text-red-600">${parseFloat(customer.loan || 0).toFixed(2)}</td>
+                                    <td className="py-4 px-6 text-sm font-bold text-red-600">RS {parseFloat(customer.loan || 0).toFixed(2)}</td>
                                     <td className="py-4 px-6">
                                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${customer.status === 'Active' ? 'bg-green-50 text-green-700 border-green-100' : 'bg-slate-50 text-slate-600 border-slate-100'}`}>
                                             {customer.status}
                                         </span>
                                     </td>
                                     <td className="py-4 px-6 text-right">
-                                        <button
-                                            onClick={() => onViewProfile(customer.id)}
-                                            className="text-primary-600 hover:text-primary-700 font-bold text-sm"
-                                        >
-                                            View Profile
-                                        </button>
+                                        <div className="flex justify-end gap-3">
+                                            <button
+                                                onClick={() => onViewProfile(customer.id)}
+                                                className="text-primary-600 hover:text-primary-700 font-bold text-sm"
+                                            >
+                                                View
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(customer.id)}
+                                                className="text-slate-300 hover:text-red-500 transition-colors"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

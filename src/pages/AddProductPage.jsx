@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Upload, Save, X, Info, DollarSign, Package, Tag, Barcode, Layers, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Upload, Save, X, Info, Banknote, Package, Tag, Barcode, Layers, Image as ImageIcon } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
@@ -12,7 +12,7 @@ export default function AddProductPage({ onBack }) {
     const { addCategory, categories } = useProducts();
 
     const fileInputRef = useRef(null);
-  
+
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -26,7 +26,7 @@ export default function AddProductPage({ onBack }) {
         lowStockThreshold: '',
         category: '',
         status: 'active',
-        image_code :'',
+        image_code: '',
         image: '',
         taxRate: '',
         tags: ''
@@ -46,37 +46,37 @@ export default function AddProductPage({ onBack }) {
     };
 
     const handleSave = async () => {
-    try {
-        setLoading(true);
+        try {
+            setLoading(true);
 
-        const payload = {
-            candidate_id: 17, // later from auth
-            category_id: 3, // temporary
-            item_name: formData.name,
-            short_code: formData.sku,
-            bar_code: formData.barcode,
-            sale_price: Number(formData.price),
-            stoke_price: Number(formData.cost),
-            stoke_quantity: Number(formData.stock),
-            current_quantity: Number(formData.stock),
-            discount: Number(formData.discount),
-            image_code: formData.image_code,
-            status_id: formData.status === "active" ? 1 : 2
-        };
+            const payload = {
+                candidate_id: 17, // later from auth
+                category_id: 3, // temporary
+                item_name: formData.name,
+                short_code: formData.sku,
+                bar_code: formData.barcode,
+                sale_price: Number(formData.price),
+                stoke_price: Number(formData.cost),
+                stoke_quantity: Number(formData.stock),
+                current_quantity: Number(formData.stock),
+                discount: Number(formData.discount),
+                image_code: formData.image_code,
+                status_id: formData.status === "active" ? 1 : 2
+            };
 
-        const response = await AddProductPage_service.addProduct(payload);
+            const response = await AddProductPage_service.addProduct(payload);
 
-        console.log("API response:", response);
+            console.log("API response:", response);
 
-        alert("Product saved successfully");
-        onBack();
+            alert("Product saved successfully");
+            onBack();
 
-    } catch (error) {
-        console.error("Save failed:", error);
-        alert(error.message || "Failed to save product");
-    } finally {
-        setLoading(false);
-    }
+        } catch (error) {
+            console.error("Save failed:", error);
+            alert(error.message || "Failed to save product");
+        } finally {
+            setLoading(false);
+        }
     };
 
 
@@ -99,21 +99,21 @@ export default function AddProductPage({ onBack }) {
     };
 
     const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+        const file = e.target.files[0];
+        if (!file) return;
 
-    try {
-        const formData = new FormData();
-        formData.append('image', file); // key MUST be "image"
+        try {
+            const formData = new FormData();
+            formData.append('image', file); // key MUST be "image"
 
-        const res = await AddProductPage_service.uploadItemImage(formData);
-        console.log("kcd",res)
-        setFormData(prev => ({ ...prev,image_code:res, image: `${config.pos_api_url}/static/images/products/${res}` }));
-    } catch (err) {
-        console.error("Image upload failed:", err);
-        alert("Image upload failed");
-    }
-};
+            const res = await AddProductPage_service.uploadItemImage(formData);
+            console.log("kcd", res)
+            setFormData(prev => ({ ...prev, image_code: res, image: `${config.pos_api_url}/static/images/products/${res}` }));
+        } catch (err) {
+            console.error("Image upload failed:", err);
+            alert("Image upload failed");
+        }
+    };
 
     return (
         <div className="max-w-[1200px] mx-auto pb-20 animate-in fade-in zoom-in-95 duration-300">
@@ -185,11 +185,11 @@ export default function AddProductPage({ onBack }) {
                     {/* Pricing */}
                     <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
                         <h3 className="font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
-                            <DollarSign className="w-5 h-5 text-green-500" /> Pricing & Costs
+                            <Banknote className="w-5 h-5 text-green-500" /> Pricing & Costs
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Base Price ($)</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Base Price (RS)</label>
                                 <input
                                     type="number"
                                     name="price"
@@ -200,7 +200,7 @@ export default function AddProductPage({ onBack }) {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Cost Price ($)</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Cost Price (RS)</label>
                                 <input
                                     type="number"
                                     name="cost"
@@ -211,7 +211,7 @@ export default function AddProductPage({ onBack }) {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Discount ($)</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Discount (RS)</label>
                                 <input
                                     type="number"
                                     name="discount"
@@ -227,7 +227,7 @@ export default function AddProductPage({ onBack }) {
                             <div className="mt-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 flex items-center justify-between text-sm">
                                 <div>
                                     <span className="text-slate-500 dark:text-slate-400">Profit per item:</span>
-                                    <span className={clsx("ml-2 font-bold", profit >= 0 ? "text-green-600" : "text-red-500")}>${profit}</span>
+                                    <span className={clsx("ml-2 font-bold", profit >= 0 ? "text-green-600" : "text-red-500")}>RS {profit}</span>
                                 </div>
                                 <div>
                                     <span className="text-slate-500 dark:text-slate-400">Margin:</span>
@@ -311,52 +311,52 @@ export default function AddProductPage({ onBack }) {
                 <div className="space-y-6">
                     {/* Media */}
                     <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
-            <h3 className="font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
-                <ImageIcon className="w-5 h-5 text-blue-500" /> Product Image
-            </h3>
+                        <h3 className="font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                            <ImageIcon className="w-5 h-5 text-blue-500" /> Product Image
+                        </h3>
 
-            <input
-                type="file"
-                ref={fileInputRef}
-                className="hidden"
-                accept="image/*"
-                onChange={handleFileChange}
-            />
-
-            <div
-                className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer"
-                onClick={handleClick}
-            >
-                {formData.image ? (
-                    <div className="relative w-full aspect-square rounded-lg overflow-hidden">
-                        <img
-                            src={formData.image}
-                            alt="Preview"
-                            className="w-full h-full object-cover"
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            className="hidden"
+                            accept="image/*"
+                            onChange={handleFileChange}
                         />
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setFormData(prev => ({ ...prev, image: '' }));
-                            }}
-                            className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
+
+                        <div
+                            className="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer"
+                            onClick={handleClick}
                         >
-                            <X className="w-4 h-4" />
-                        </button>
-                    </div>
-                ) : (
-                    <>
-                        <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-3">
-                            <Upload className="w-6 h-6" />
+                            {formData.image ? (
+                                <div className="relative w-full aspect-square rounded-lg overflow-hidden">
+                                    <img
+                                        src={formData.image}
+                                        alt="Preview"
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setFormData(prev => ({ ...prev, image: '' }));
+                                        }}
+                                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
+                                    >
+                                        <X className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-3">
+                                        <Upload className="w-6 h-6" />
+                                    </div>
+                                    <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                                        Click to upload image
+                                    </p>
+                                    <p className="text-xs text-slate-500">SVG, PNG, JPG or GIF</p>
+                                </>
+                            )}
                         </div>
-                        <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Click to upload image
-                        </p>
-                        <p className="text-xs text-slate-500">SVG, PNG, JPG or GIF</p>
-                    </>
-                )}
-            </div>
-        </div>
+                    </div>
 
                     {/* Organization */}
                     <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
