@@ -69,7 +69,7 @@ const AppContent = () => {
 };
 
 function App() {
-  const candidateId = 17;
+  const candidateId = 4;
   return (
       <ThemeProvider>
       <AuthProvider>

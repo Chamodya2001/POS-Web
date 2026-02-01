@@ -1,11 +1,31 @@
 import React, { useState } from 'react';
 import { Plus, Search, Filter, MoreVertical, Edit, Trash2 } from 'lucide-react';
-import { useProducts } from '../context/ProductContext';
+// import { useProducts } from '../context/ProductContext';
+//import { Product_service } from '../context/service/Product_service';
 import AddProductPage from './AddProductPage';
 import clsx from 'clsx';
+import { useCandidateData } from '../context/CandidateContext';
 
 export default function ProductsPage() {
-    const { products, deleteProduct } = useProducts();
+    const { candidateData, loading, error, updateCandidateData } = useCandidateData();
+    console.log("Candidate Data in ProductsPage:", candidateData);
+
+    // candidateData may contain different keys depending on API response; adjust as needed
+    const products = candidateData?.items || candidateData?.products || candidateData?.productList || [];
+
+    const handleDelete = async (id) => {
+        try {
+            await Product_service.deleteProduct(id);
+            // update local candidate data to remove deleted product (optimistic update)
+            updateCandidateData({
+                ...candidateData,
+                products: products.filter(p => p.id !== id)
+            });
+        } catch (err) {
+            console.error('Failed to delete product', err);
+            // optionally show user feedback here
+        }
+    };
     const [isAdding, setIsAdding] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterCategory, setFilterCategory] = useState('all');
@@ -138,7 +158,7 @@ export default function ProductsPage() {
                                                 <Edit className="w-4 h-4" />
                                             </button>
                                             <button
-                                                onClick={() => deleteProduct(product.id)}
+                                                onClick={() => handleDelete(product.id)}
                                                 className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                                             >
                                                 <Trash2 className="w-4 h-4" />
