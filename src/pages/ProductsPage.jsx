@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Search, Filter, MoreVertical, Edit, Trash2 } from 'lucide-react';
 // import { useProducts } from '../context/ProductContext';
 //import { Product_service } from '../context/service/Product_service';
@@ -7,35 +7,23 @@ import clsx from 'clsx';
 import { useCandidateData } from '../context/CandidateContext';
 
 export default function ProductsPage() {
-    const { candidateData, loading, error, updateCandidateData } = useCandidateData();
-    console.log("Candidate Data in ProductsPage:", candidateData);
-
-    // candidateData may contain different keys depending on API response; adjust as needed
-    const products = candidateData?.items || candidateData?.products || candidateData?.productList || [];
-
-    const handleDelete = async (id) => {
-        try {
-            await Product_service.deleteProduct(id);
-            // update local candidate data to remove deleted product (optimistic update)
-            updateCandidateData({
-                ...candidateData,
-                products: products.filter(p => p.id !== id)
-            });
-        } catch (err) {
-            console.error('Failed to delete product', err);
-            // optionally show user feedback here
-        }
-    };
+    const { products, deleteProduct } = useProducts();
     const [isAdding, setIsAdding] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [filterCategory, setFilterCategory] = useState('all');
+    const [filterCategory, setFilterCategory] = useState(initialCategoryId || 'all');
+
+    useEffect(() => {
+        if (initialCategoryId) {
+            setFilterCategory(initialCategoryId);
+        }
+    }, [initialCategoryId]);
 
     if (isAdding) {
         return <AddProductPage onBack={() => setIsAdding(false)} />;
     }
 
     const filteredProducts = products.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        const matchesSearch = product.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             product.sku?.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = filterCategory === 'all' || product.category === filterCategory;
         return matchesSearch && matchesCategory;
@@ -73,14 +61,16 @@ export default function ProductsPage() {
                     <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <select
                         value={filterCategory}
-                        onChange={(e) => setFilterCategory(e.target.value)}
+                        onChange={(e) => {
+                            setFilterCategory(e.target.value);
+                            if (onClearFilter) onClearFilter();
+                        }}
                         className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white shadow-sm appearance-none"
                     >
                         <option value="all">All Categories</option>
-                        {/* We could map actual categories here if we pulled them from context */}
-                        <option value="fruits">Fruits & Veg</option>
-                        <option value="dairy">Dairy</option>
-                        <option value="bakery">Bakery</option>
+                        {categories.map(cat => (
+                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                        ))}
                     </select>
                 </div>
             </div>
