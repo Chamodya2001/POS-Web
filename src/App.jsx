@@ -16,7 +16,6 @@ import AddEmploymentPage from './pages/AddEmploymentPage';
 import AddCustomerPage from './pages/AddCustomerPage';
 import CustomerProfilePage from './pages/CustomerProfilePage';
 import EmployeeReportPage from './pages/EmployeeReportPage';
-import { CandidateProvider } from './context/CandidateContext';
 import SuppliersPage from './pages/SuppliersPage';
 import AddSupplierPage from './pages/AddSupplierPage';
 import StockManagementPage from './pages/StockManagementPage';
@@ -132,15 +131,12 @@ const AppContent = () => {
 };
 
 function App() {
-  const candidateId = 4;
   return (
     <ThemeProvider>
       <AuthProvider>
         <CartProvider>
           <ProductProvider>
-            <CandidateProvider candidateId={candidateId}>
               <AppContent />
-            </CandidateProvider>
           </ProductProvider>
         </CartProvider>
       </AuthProvider>

@@ -70,11 +70,12 @@ export const CartProvider = ({ children }) => {
 
     const calculateTotal = () => {
         const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-        const tax = subtotal * taxRate;
-        const total = subtotal + tax - discount;
+        const discount = cart.reduce((discount, item) => discount + ((item.discount || 0) * item.quantity), 0);
+       // const tax = subtotal * taxRate;
+        const total = subtotal - discount;
         return {
             subtotal,
-            tax,
+           // tax,
             discount,
             total: Math.max(0, total)
         };
@@ -89,7 +90,7 @@ export const CartProvider = ({ children }) => {
         calculateTotal,
         discount,
         setDiscount,
-        taxRate
+       // taxRate
     };
 
     return (

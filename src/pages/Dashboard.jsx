@@ -9,7 +9,7 @@ import {
   Clock,
   CheckCircle
 } from 'lucide-react';
-import { useCandidateData } from '../context/CandidateContext';
+import { useProducts } from '../context/ProductContext';
 import config from '../helper/config';
 
 // ----------------- Stats Card -----------------
@@ -73,22 +73,21 @@ const RecentOrderRow = ({ id, customer, itemsText, total, status, date }) => (
 
 // ----------------- Dashboard -----------------
 const Dashboard = () => {
-  const { candidateData, loading, error } = useCandidateData();
+  const { candidateAllData, loading, error } = useProducts();
   const [items, setItems] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    if (candidateData?.data) {
-      setItems(candidateData.data.items || []);
-      setCustomers(candidateData.data.customers || []);
-      setOrders(candidateData.data.orders || []);
+    if (candidateAllData?.data) {
+      setItems(candidateAllData.data.items || []);
+      setCustomers(candidateAllData.data.customers || []);
+      setOrders(candidateAllData.data.orders || []);
     }
-  }, [candidateData]);
-
+  }, [candidateAllData]);
   if (loading) return <div>Loading candidate data...</div>;
   if (error) return <div>Error loading candidate data</div>;
-  if (!candidateData?.data) return <div>No candidate data found</div>;
+  if (!candidateAllData?.data) return <div>No candidate data found</div>;
 
   // ------------------ Helper to format order items ------------------
   const getOrderItemsText = (orderItems) => {
