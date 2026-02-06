@@ -29,6 +29,7 @@ export const ProductProvider = ({ children }) => {
         setLoading(true);
         const res = await candidateFullData_service(candidate_id);
         const data = res?.data;
+        console.log(data)
 
         if (!data) throw new Error("No data returned from API");
 
@@ -54,21 +55,31 @@ export const ProductProvider = ({ children }) => {
           id: String(item.item_id),
           name: item.item_name,
           category: categoryMap[item.category_id] || "all",
-          price: item.selling_price,
+          price: item.sale_price,
           cost: item.cost_price,
           stock: item.current_quantity,
           sku: item.bar_code || "",
           status: item.current_quantity > 0 ? "active" : "out_of_stock",
           image: item.image_code
             ? `${config.pos_api_url}/static/images/products/${item.image_code}`
-            : "/placeholder.png"
+            : "/placeholder.png",
+          bar_code:item.bar_code,
+          discount:item.discount,
+          measurement_id:item.measurement_id,
+          stoke_price:item.stoke_price,
+          stoke_ubdate_date:item.stoke_ubdate_date
+
         }));
 
         // Update category counts
         const categoriesWithCounts = mappedCategories.map(cat => ({
           ...cat,
-          count: mappedProducts.filter(p => p.category === cat.id).length
+          count:
+            cat.id === "all"
+              ? mappedProducts.length
+              : mappedProducts.filter(p => p.category === cat.id).length
         }));
+
 
         // Set states
         setCandidateAllData(res);
@@ -86,6 +97,10 @@ export const ProductProvider = ({ children }) => {
     fetchData();
   }, [candidate_id]);
 
+
+
+
+
   /* ================= CRUD HELPERS ================= */
   const addProduct = (product) => {
     setProducts(prev => [product, ...prev]);
@@ -102,6 +117,9 @@ export const ProductProvider = ({ children }) => {
   };
 
   /* ================= CONTEXT VALUE ================= */
+
+
+
   return (
     <ProductContext.Provider
       value={{
