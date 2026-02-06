@@ -4,87 +4,10 @@ import { useCart } from '../../context/CartContext';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const CheckoutModal = ({ isOpen, onClose, total, onComplete }) => {
-    const [paymentMethod, setPaymentMethod] = useState('card');
-    const [isProcessing, setIsProcessing] = useState(false);
-
-    if (!isOpen) return null;
-
-    const handlePayment = () => {
-        setIsProcessing(true);
-        setTimeout(() => {
-            setIsProcessing(false);
-            onComplete();
-        }, 1500);
-    };
-
-    return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
-                <div className="p-6 border-b border-slate-100">
-                    <h2 className="text-xl font-bold text-slate-800">Payment</h2>
-                    <p className="text-sm text-slate-500">Select payment method for order #12345</p>
-                </div>
-
-                <div className="p-6 space-y-6">
-                    <div className="text-center py-4 bg-primary-50 rounded-xl border border-primary-100 border-dashed">
-                        <p className="text-slate-500 text-sm mb-1">Total Amount</p>
-                        <p className="text-4xl font-bold text-primary-600">RS {total.toFixed(2)}</p>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-3">
-                        {[
-                            { id: 'card', label: 'Card', icon: CreditCard },
-                            { id: 'cash', label: 'Cash', icon: Banknote },
-                            { id: 'wallet', label: 'E-Wallet', icon: Landmark },
-                        ].map((method) => (
-                            <button
-                                key={method.id}
-                                onClick={() => setPaymentMethod(method.id)}
-                                className={clsx(
-                                    "flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-200",
-                                    paymentMethod === method.id
-                                        ? "bg-slate-900 text-white border-slate-900 shadow-lg"
-                                        : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                                )}
-                            >
-                                <method.icon className="w-6 h-6 mb-2" />
-                                <span className="text-xs font-medium">{method.label}</span>
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="p-6 border-t border-slate-100 bg-slate-50">
-                    <button
-                        onClick={handlePayment}
-                        disabled={isProcessing}
-                        className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold text-lg shadow-lg shadow-primary-500/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                    >
-                        {isProcessing ? (
-                            <span className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        ) : (
-                            <>
-                                Confirm Payment <CheckCircle className="w-5 h-5" />
-                            </>
-                        )}
-                    </button>
-                    <button
-                        onClick={onClose}
-                        disabled={isProcessing}
-                        className="w-full mt-3 py-3 text-slate-500 hover:text-slate-800 font-medium text-sm text-center"
-                    >
-                        Cancel Transaction
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
 
 const CartPanel = () => {
     const { cart, removeFromCart, updateQuantity, calculateTotal, clearCart } = useCart();
-    const { subtotal, tax, total } = calculateTotal();
+    const { subtotal, tax,discount, total } = calculateTotal();
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
     return (
@@ -158,9 +81,14 @@ const CartPanel = () => {
                         <span>Subtotal</span>
                         <span className="font-medium">RS {subtotal.toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between text-sm text-slate-600">
+                    {/* <div className="flex justify-between text-sm text-slate-600">
                         <span>Tax (10%)</span>
                         <span className="font-medium">RS {tax.toFixed(2)}</span>
+                    </div> */}
+
+                    <div className="flex justify-between text-sm text-slate-600">
+                        <span>Discount</span>
+                        <span className="font-medium">RS {discount.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-xl font-bold text-slate-900 pt-3 border-t border-slate-100">
                         <span>Total</span>
@@ -186,6 +114,93 @@ const CartPanel = () => {
                     clearCart();
                 }}
             />
+        </div>
+    );
+};
+
+const CheckoutModal = ({ isOpen, onClose, total, onComplete }) => {
+    const [paymentMethod, setPaymentMethod] = useState('card');
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    if (!isOpen) return null;
+
+    const handlePayment = () => {
+        setIsProcessing(true);
+        setTimeout(() => {
+            setIsProcessing(false);
+
+            if (paymentMethod === 'card') {
+                alert("Card payment successful!");
+            } else if (paymentMethod === 'cash') {
+                alert("Cash payment successful!");
+            } else if (paymentMethod === 'loan') {
+                alert("Order marked as on loan!");
+            }
+            
+            onComplete();
+        }, 1500);
+    };
+
+    return (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
+                <div className="p-6 border-b border-slate-100">
+                    <h2 className="text-xl font-bold text-slate-800">Payment</h2>
+                    <p className="text-sm text-slate-500">Select payment method for order #12345</p>
+                </div>
+
+                <div className="p-6 space-y-6">
+                    <div className="text-center py-4 bg-primary-50 rounded-xl border border-primary-100 border-dashed">
+                        <p className="text-slate-500 text-sm mb-1">Total Amount</p>
+                        <p className="text-4xl font-bold text-primary-600">RS {total.toFixed(2)}</p>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-3">
+                        {[
+                            { id: 'card', label: 'Card', icon: CreditCard },
+                            { id: 'cash', label: 'Cash', icon: Banknote },
+                            { id: 'loan', label: 'On Loan', icon: Landmark },
+                        ].map((method) => (
+                            <button
+                                key={method.id}
+                                onClick={() => setPaymentMethod(method.id)}
+                                className={clsx(
+                                    "flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-200",
+                                    paymentMethod === method.id
+                                        ? "bg-slate-900 text-white border-slate-900 shadow-lg"
+                                        : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                                )}
+                            >
+                                <method.icon className="w-6 h-6 mb-2" />
+                                <span className="text-xs font-medium">{method.label}</span>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="p-6 border-t border-slate-100 bg-slate-50">
+                    <button
+                        onClick={handlePayment}
+                        disabled={isProcessing}
+                        className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold text-lg shadow-lg shadow-primary-500/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                    >
+                        {isProcessing ? (
+                            <span className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        ) : (
+                            <>
+                                Confirm Payment <CheckCircle className="w-5 h-5" />
+                            </>
+                        )}
+                    </button>
+                    <button
+                        onClick={onClose}
+                        disabled={isProcessing}
+                        className="w-full mt-3 py-3 text-slate-500 hover:text-slate-800 font-medium text-sm text-center"
+                    >
+                        Cancel Transaction
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };

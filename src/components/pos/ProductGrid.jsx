@@ -2,31 +2,20 @@ import React, { useState } from 'react';
 import { Search, Filter, Plus } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import clsx from 'clsx';
+import { useProducts } from '../../context/ProductContext';
 
-const CATEGORIES = [
-    { id: 'all', label: 'All Items' },
-    { id: 'fruits', label: 'Fruits & Veg' },
-    { id: 'dairy', label: 'Dairy & Eggs' },
-    { id: 'beverages', label: 'Beverages' },
-    { id: 'snacks', label: 'Snacks' },
-    { id: 'bakery', label: 'Bakery' },
-    { id: 'household', label: 'Household' },
-];
-
-const MOCK_PRODUCTS = [
-    { id: 1, name: 'Fresh Organic Bananas', category: 'fruits', price: 1.99, image: 'https://images.unsplash.com/photo-1603833665858-e61d17a86224?q=80&w=200&auto=format&fit=crop', stock: 50 },
-    { id: 2, name: 'Red Apple Premium', category: 'fruits', price: 2.49, image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=200&auto=format&fit=crop', stock: 45 },
-    { id: 3, name: 'Whole Milk 1L', category: 'dairy', price: 3.20, image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?q=80&w=200&auto=format&fit=crop', stock: 20 },
-    { id: 4, name: 'Orange Juice', category: 'beverages', price: 4.50, image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?q=80&w=200&auto=format&fit=crop', stock: 15 },
-    { id: 5, name: 'Chocolate Chip Cookies', category: 'snacks', price: 3.99, image: 'https://images.unsplash.com/photo-1499636138143-bd630f5cf446?q=80&w=200&auto=format&fit=crop', stock: 30 },
-    { id: 6, name: 'Sourdough Bread', category: 'bakery', price: 5.00, image: 'https://images.unsplash.com/photo-1585476263060-b55d7d5a525f?q=80&w=200&auto=format&fit=crop', stock: 12 },
-    { id: 7, name: 'Avocado', category: 'fruits', price: 1.50, image: 'https://images.unsplash.com/photo-1523049673856-42848f512769?q=80&w=200&auto=format&fit=crop', stock: 40 },
-    { id: 8, name: 'Greek Yogurt', category: 'dairy', price: 1.25, image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?q=80&w=200&auto=format&fit=crop', stock: 25 },
-    { id: 9, name: 'Soda Can', category: 'beverages', price: 1.00, image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?q=80&w=200&auto=format&fit=crop', stock: 100 },
-    { id: 10, name: 'Potato Chips', category: 'snacks', price: 2.20, image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?q=80&w=200&auto=format&fit=crop', stock: 60 },
-];
 
 const ProductGrid = () => {
+   
+        const {
+    candidateAllData,
+    products: MOCK_PRODUCTS,
+    categories: CATEGORIES,
+    loading,
+    } = useProducts();
+
+
+
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const { addToCart } = useCart();
@@ -43,18 +32,31 @@ const ProductGrid = () => {
             <div className="mb-6 space-y-4">
                 <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar no-scrollbar">
                     {CATEGORIES.map((cat) => (
-                        <button
-                            key={cat.id}
-                            onClick={() => setActiveCategory(cat.id)}
-                            className={clsx(
-                                "px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 border",
-                                activeCategory === cat.id
-                                    ? "bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20"
-                                    : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                            )}
+                    <button
+                        key={cat.id}
+                        onClick={() => setActiveCategory(cat.id)}
+                        className={clsx(
+                        "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 border",
+                        activeCategory === cat.id
+                            ? "bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20"
+                            : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                        )}
+                    >
+                        {/* Category name */}
+                        <span>{cat.name}</span>
+
+                        {/* Count badge */}
+                        <span
+                        className={clsx(
+                            "px-2 py-0.5 rounded-full text-xs font-semibold",
+                            activeCategory === cat.id
+                            ? "bg-white/20 text-white"
+                            : "bg-slate-100 text-slate-500"
+                        )}
                         >
-                            {cat.label}
-                        </button>
+                        {cat.count}
+                        </span>
+                    </button>
                     ))}
                 </div>
 
@@ -92,6 +94,8 @@ const ProductGrid = () => {
                         <div className="flex flex-col flex-1">
                             <h3 className="font-semibold text-slate-800 text-sm line-clamp-2 leading-tight mb-1">{product.name}</h3>
                             <p className="text-xs text-slate-500 mb-auto">{product.stock} in stock</p>
+                             <p className="text-xs text-slate-500 mb-auto">Discount RS.{product.discount} </p>
+                             <p className="text-xs text-slate-500 mb-auto">Stoke price RS.{product.stoke_price} </p>
 
                             <div className="flex items-center justify-between mt-2">
                                 <span className="font-bold text-lg text-primary-600">RS {product.price.toFixed(2)}</span>
