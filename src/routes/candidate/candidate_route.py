@@ -129,7 +129,7 @@ def get_candidate(candidate_id):
 
 
 
-@candidate_bp.route("/ubdate-by-id/<int:candidate_id>", methods=["PUT"])
+@candidate_bp.route("/update-by-id/<int:candidate_id>", methods=["PUT"])
 def update_candidate(candidate_id):
     candidate = Candidate.query.get(candidate_id)
 
@@ -218,3 +218,52 @@ def delete_candidate(candidate_id):
             message="Failed to delete candidate",
             data=str(e)
         )
+@candidate_bp.route("/login", methods=["POST"])
+def login():
+    json_data = request.get_json()
+    if not json_data:
+        return base_response(400, False, "No input data provided", None)
+
+    email = json_data.get("email")
+    password = json_data.get("password")
+
+    if not email or not password:
+        return base_response(400, False, "Email and password are required", None)
+
+    try:
+        candidate = Candidate.query.filter(
+            func.lower(func.trim(Candidate.email)) == email.strip().lower()
+        ).first()
+
+        # Check hashed password
+        is_valid = candidate.check_password(password)
+        
+        # Fallback for plain text (for initial setup convenience as requested)
+        if not is_valid and candidate.password_hash == password:
+            print(f"DEBUG: Plain text password match for {email}. Re-hashing...")
+            candidate.set_password(password)
+            db.session.commit()
+            is_valid = True
+
+        if not is_valid:
+            return base_response(401, False, "Invalid email or password", None)
+
+        # Update last login
+        candidate.last_login = func.now()
+        db.session.commit()
+
+        dumped_data = candidate_schema.dump(candidate)
+        print(f"DEBUG: Login successful for {email}. Dumped data: {dumped_data}")
+
+        return base_response(
+            status_code=200,
+            success=True,
+            message="Login successful",
+            data={
+                "user": dumped_data,
+                "role": "super_admin" # Hardcoding for now as requested
+            }
+        )
+
+    except Exception as e:
+        return base_response(500, False, "Internal server error", str(e))
