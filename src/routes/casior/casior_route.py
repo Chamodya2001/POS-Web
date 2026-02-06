@@ -119,3 +119,48 @@ def delete_casior(casior_id):
         db.session.rollback()
         return base_response(500, False, "Failed to delete casior", str(e))
 
+@casior_bp.route("/login", methods=["POST"])
+def login():
+    json_data = request.get_json()
+    if not json_data:
+        return base_response(400, False, "No input data provided", None)
+
+    email = json_data.get("email")
+    password = json_data.get("password")
+
+    if not email or not password:
+        return base_response(400, False, "Email and password are required", None)
+
+    try:
+        casior = Casior.query.filter_by(email=email).first()
+        if not casior:
+            return base_response(401, False, "Invalid email or password", None)
+
+        # Check hashed password
+        is_valid = casior.check_password(password)
+        
+        # Fallback for plain text
+        if not is_valid and casior.password == password:
+            print(f"DEBUG: Plain text password match for casior {email}. Re-hashing...")
+            casior.set_password(password)
+            db.session.commit()
+            is_valid = True
+
+        if not is_valid:
+            return base_response(401, False, "Invalid email or password", None)
+
+        dumped_data = casior_schema.dump(casior)
+        print(f"DEBUG: Casior login successful for {email}. Dumped data: {dumped_data}")
+
+        return base_response(
+            status_code=200,
+            success=True,
+            message="Login successful",
+            data={
+                "user": dumped_data,
+                "role": "admin"
+            }
+        )
+
+    except Exception as e:
+        return base_response(500, False, "Internal server error", str(e))
