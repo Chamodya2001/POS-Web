@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import candidateFullData_service from "./service/candidateFullData_service";
 import config from "../helper/config";
+import { useAuth } from "./AuthContext";
 
 const ProductContext = createContext(null);
 export const useProducts = () => useContext(ProductContext);
@@ -14,24 +15,46 @@ const slugify = (text) =>
     .replace(/\s+/g, "-");
 
 export const ProductProvider = ({ children }) => {
-  const candidate_id = 17;
+  const { user } = useAuth();
+
+  // Extract candidate_id from user. Try plural variants if needed, or 'id' as fallback
+  const candidate_id = user?.candidate_id || user?.id;
+
+  console.log("ProductProvider: Current user object:", user);
+  console.log("ProductProvider: Extracted candidate_id:", candidate_id);
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [candidateAllData, setCandidateAllData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   /* ================= FETCH DATA ================= */
   useEffect(() => {
+    console.log("ProductContext: Powering up for candidate_id:", candidate_id);
+
+    if (!candidate_id) {
+      console.warn("ProductContext: No candidate_id found. Skipping fetch.");
+      setLoading(false);
+      setProducts([]);
+      setCategories([]);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         setLoading(true);
+        setError(null);
+        console.log(`ProductContext: Fetching full data for candidate ${candidate_id}...`);
+
         const res = await candidateFullData_service(candidate_id);
         const data = res?.data;
-        console.log(data)
+        console.log("ProductContext: Full Data Response Received:", res);
 
-        if (!data) throw new Error("No data returned from API");
+        if (!data || Object.keys(data).length === 0) {
+          throw new Error("No data returned from API for this candidate.");
+        }
 
         // Map categories
         const mappedCategories = [
@@ -39,8 +62,8 @@ export const ProductProvider = ({ children }) => {
           ...(data.categories || []).map(cat => ({
             id: slugify(cat.category_name),
             name: cat.category_name,
-            count: 0, // will update later
-            originalId: cat.category_id, // optional, keep reference
+            count: 0,
+            originalId: cat.category_id,
           }))
         ];
 
@@ -63,12 +86,11 @@ export const ProductProvider = ({ children }) => {
           image: item.image_code
             ? `${config.pos_api_url}/static/images/products/${item.image_code}`
             : "/placeholder.png",
-          bar_code:item.bar_code,
-          discount:item.discount,
-          measurement_id:item.measurement_id,
-          stoke_price:item.stoke_price,
-          stoke_ubdate_date:item.stoke_ubdate_date
-
+          bar_code: item.bar_code,
+          discount: item.discount,
+          measurement_id: item.measurement_id,
+          stoke_price: item.stoke_price,
+          stoke_ubdate_date: item.stoke_ubdate_date
         }));
 
         // Update category counts
@@ -80,12 +102,11 @@ export const ProductProvider = ({ children }) => {
               : mappedProducts.filter(p => p.category === cat.id).length
         }));
 
-
         // Set states
         setCandidateAllData(res);
         setCategories(categoriesWithCounts);
         setProducts(mappedProducts);
-
+        setError(null);
       } catch (err) {
         console.error(err);
         setError("Failed to load products");

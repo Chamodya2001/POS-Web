@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, Filter, MoreVertical, Edit, Trash2 } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
+import { useAuth } from '../context/AuthContext';
 import AddProductPage from './AddProductPage';
 import clsx from 'clsx';
 
 export default function ProductsPage({ initialCategoryId, onClearFilter }) {
     const { products, deleteProduct, categories } = useProducts();
+    const { user } = useAuth();
     const [isAdding, setIsAdding] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterCategory, setFilterCategory] = useState(initialCategoryId || 'all');
@@ -145,12 +147,14 @@ export default function ProductsPage({ initialCategoryId, onClearFilter }) {
                                             <button className="p-2 text-slate-400 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors">
                                                 <Edit className="w-4 h-4" />
                                             </button>
-                                            <button
-                                                onClick={() => deleteProduct(product.id)}
-                                                className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
+                                            {user?.role !== 'admin' && (
+                                                <button
+                                                    onClick={() => deleteProduct(product.id)}
+                                                    className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            )}
                                         </div>
                                     </td>
                                 </tr>

@@ -2,20 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { Search, Plus, Filter, Mail, Phone, MoreHorizontal, Building2, MapPin, Grid, List, Trash2, Edit2 } from 'lucide-react';
 import { API_ROUTES } from '../config/apiConfig';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 import clsx from 'clsx';
 
-const SupplierCard = ({ supplier, onEdit, onDelete }) => (
+const SupplierCard = ({ supplier, onEdit, onDelete, canDelete }) => (
     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm hover:shadow-md transition-all group relative">
         <div className="absolute top-4 right-4 flex gap-2">
             <button onClick={() => onEdit(supplier)} className="p-2 text-slate-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors">
                 <Edit2 className="w-4 h-4" />
             </button>
-            <button onClick={() => onDelete(supplier.id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
-                <Trash2 className="w-4 h-4" />
-            </button>
+            {canDelete && (
+                <button onClick={() => onDelete(supplier.id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                    <Trash2 className="w-4 h-4" />
+                </button>
+            )}
         </div>
 
         <div className="flex flex-col items-center text-center">
+            {/* ... rest of the card ... */}
             <div className="w-20 h-20 rounded-2xl bg-primary-50 dark:bg-primary-900/10 flex items-center justify-center mb-4 border border-primary-100 dark:border-primary-800">
                 <Building2 className="w-10 h-10 text-primary-600" />
             </div>
@@ -52,6 +56,8 @@ const SupplierCard = ({ supplier, onEdit, onDelete }) => (
 
 export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
     const { theme } = useTheme();
+    const { user } = useAuth();
+    const canDelete = user?.role !== 'admin';
     const [viewMode, setViewMode] = useState('grid');
     const [suppliers, setSuppliers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -96,6 +102,7 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
     }, []);
 
     const handleDelete = async (id) => {
+        if (!canDelete) return;
         if (!window.confirm('Are you sure you want to delete this supplier?')) return;
 
         try {
@@ -173,7 +180,7 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
             ) : viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredSuppliers.map(supplier => (
-                        <SupplierCard key={supplier.id} supplier={supplier} onEdit={onEditSupplier} onDelete={handleDelete} />
+                        <SupplierCard key={supplier.id} supplier={supplier} onEdit={onEditSupplier} onDelete={handleDelete} canDelete={canDelete} />
                     ))}
                     {filteredSuppliers.length === 0 && (
                         <div className="col-span-full text-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
@@ -182,6 +189,7 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
                     )}
                 </div>
             ) : (
+                /* List View */
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
                     <table className="w-full text-left border-collapse">
                         <thead>
@@ -219,9 +227,11 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
                                             <button onClick={() => onEditSupplier(supplier)} className="p-2 text-slate-400 hover:text-primary-600 transition-colors">
                                                 <Edit2 className="w-4 h-4" />
                                             </button>
-                                            <button onClick={() => handleDelete(supplier.id)} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
+                                            {canDelete && (
+                                                <button onClick={() => handleDelete(supplier.id)} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            )}
                                         </div>
                                     </td>
                                 </tr>
