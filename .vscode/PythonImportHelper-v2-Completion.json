@@ -1577,7 +1577,7 @@
         "kind": 6,
         "importPath": "src.models.casior.casior_model",
         "description": "src.models.casior.casior_model",
-        "peekOfCode": "class Casior(db.Model):\n    __tablename__ = NameSpace.EMPLOYE_TABLE\n    __table_args__ = {\"schema\": NameSpace.EMPLOYE_SCHEMA}\n    employe_id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    candidate_id = db.Column(\n        db.Integer,\n        db.ForeignKey(\"candidate.candidate.candidate_id\"),\n        nullable=False\n    )\n    shop_id = db.Column(db.String(128), nullable=False)",
+        "peekOfCode": "class Casior(db.Model):\n    __tablename__ = NameSpace.CASIOR_TABLE\n    __table_args__ = {\"schema\": NameSpace.CASIOR_SCHEMA}\n    casior_id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    candidate_id = db.Column(\n        db.Integer,\n        db.ForeignKey(\"candidate.candidate.candidate_id\"),\n        nullable=False\n    )\n    shop_id = db.Column(db.String(128), nullable=False)",
         "detail": "src.models.casior.casior_model",
         "documentation": {}
     },
@@ -1586,7 +1586,7 @@
         "kind": 6,
         "importPath": "src.models.casior.casior_model",
         "description": "src.models.casior.casior_model",
-        "peekOfCode": "class CasiorSchema(Schema):\n    employe_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    shop_id = fields.Str(required=True)\n    first_name = fields.Str()\n    last_name = fields.Str()\n    nic = fields.Str(required=True)\n    dob = fields.Date(allow_none=True)\n    phone_number = fields.List(fields.Int(), required=True)\n    address = fields.Str()",
+        "peekOfCode": "class CasiorSchema(Schema):\n    casior_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    shop_id = fields.Str(required=True)\n    first_name = fields.Str()\n    last_name = fields.Str()\n    nic = fields.Str(required=True)\n    dob = fields.Date(allow_none=True)\n    phone_number = fields.List(fields.Int(), required=True)\n    address = fields.Str()",
         "detail": "src.models.casior.casior_model",
         "documentation": {}
     },
@@ -1667,7 +1667,7 @@
         "kind": 6,
         "importPath": "src.models.customer.customer_model",
         "description": "src.models.customer.customer_model",
-        "peekOfCode": "class Customer(db.Model):\n    __tablename__ = NameSpace.CUSTOMER_TABLE\n    __table_args__ = {\"schema\": NameSpace.CUSTOMER_SCHEMA}\n    customer_id = db.Column(db.Integer, primary_key=True)\n    employe_id = db.Column(\n        db.Integer,\n        db.ForeignKey(\"casior.casior.employe_id\"),\n        nullable=False\n    )\n    candidate_id = db.Column(",
+        "peekOfCode": "class Customer(db.Model):\n    __tablename__ = NameSpace.CUSTOMER_TABLE\n    __table_args__ = {\"schema\": NameSpace.CUSTOMER_SCHEMA}\n    customer_id = db.Column(db.Integer, primary_key=True)\n    casior_id = db.Column(\n        db.Integer,\n        db.ForeignKey(\"casior.casior.casior_id\"),\n        nullable=False\n    )\n    candidate_id = db.Column(",
         "detail": "src.models.customer.customer_model",
         "documentation": {}
     },
@@ -1676,7 +1676,7 @@
         "kind": 6,
         "importPath": "src.models.customer.customer_model",
         "description": "src.models.customer.customer_model",
-        "peekOfCode": "class CustomerSchema(Schema):\n    customer_id = fields.Int(dump_only=True)\n    employe_id = fields.Int(required=True)\n    candidate_id = fields.Int(required=True)\n    first_name = fields.Str(required=True)\n    last_name = fields.Str(allow_none=True)\n    email = fields.Email(allow_none=True)\n    phone_number = fields.Str(allow_none=True)\n    address = fields.Str(allow_none=True)\n    nic = fields.Str(required=True)",
+        "peekOfCode": "class CustomerSchema(Schema):\n    customer_id = fields.Int(dump_only=True)\n    casior_id = fields.Int(required=True)\n    candidate_id = fields.Int(required=True)\n    first_name = fields.Str(required=True)\n    last_name = fields.Str(allow_none=True)\n    email = fields.Email(allow_none=True)\n    phone_number = fields.Str(allow_none=True)\n    address = fields.Str(allow_none=True)\n    nic = fields.Str(required=True)",
         "detail": "src.models.customer.customer_model",
         "documentation": {}
     },
@@ -1757,7 +1757,7 @@
         "kind": 6,
         "importPath": "src.models.order.OrderProcessModel",
         "description": "src.models.order.OrderProcessModel",
-        "peekOfCode": "class OrderProcessModel(db.Model):\n    __tablename__ = NameSpace.ORDER_PROCESS_TABLE\n    __table_args__ = {\n        \"schema\": NameSpace.ORDER_SCHEMA,\n        \"extend_existing\": True\n    }\n    order_process_id = db.Column(db.Integer, primary_key=True)\n    candidate_id = db.Column(db.Integer, nullable=False)\n    employe_id = db.Column(db.Integer, nullable=False)\n    customer_id = db.Column(db.Integer, nullable=False)",
+        "peekOfCode": "class OrderProcessModel(db.Model):\n    __tablename__ = NameSpace.ORDER_PROCESS_TABLE\n    __table_args__ = {\n        \"schema\": NameSpace.ORDER_SCHEMA,\n        \"extend_existing\": True\n    }\n    order_process_id = db.Column(db.Integer, primary_key=True)\n    candidate_id = db.Column(db.Integer, nullable=False)\n    casior_id = db.Column(db.Integer, nullable=False)\n    customer_id = db.Column(db.Integer, nullable=False)",
         "detail": "src.models.order.OrderProcessModel",
         "documentation": {}
     },
@@ -1766,7 +1766,7 @@
         "kind": 6,
         "importPath": "src.models.order.OrderProcessModel",
         "description": "src.models.order.OrderProcessModel",
-        "peekOfCode": "class OrderProcessSchema(Schema):\n    order_process_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    employe_id = fields.Int(required=True)\n    customer_id = fields.Int(required=True)\n    payment_method_id = fields.Int(required=True)\n    total_amount = fields.Float(required=False, allow_none=True)\n    status_id = fields.Int(required=False, allow_none=True)\n    created_at = fields.DateTime(dump_only=True)\n    ubdated_at = fields.DateTime(dump_only=True)",
+        "peekOfCode": "class OrderProcessSchema(Schema):\n    order_process_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    casior_id = fields.Int(required=True)\n    customer_id = fields.Int(required=True)\n    payment_method_id = fields.Int(required=True)\n    total_amount = fields.Float(required=False, allow_none=True)\n    status_id = fields.Int(required=False, allow_none=True)\n    created_at = fields.DateTime(dump_only=True)\n    ubdated_at = fields.DateTime(dump_only=True)",
         "detail": "src.models.order.OrderProcessModel",
         "documentation": {}
     },
@@ -1865,7 +1865,7 @@
         "kind": 2,
         "importPath": "src.routes.casior.casior_route",
         "description": "src.routes.casior.casior_route",
-        "peekOfCode": "def get_all_casiors():\n    try:\n        casiors = Casior.query.all()\n        return base_response(200, True, \"Casiors retrieved successfully\", casiors_schema.dump(casiors))\n    except Exception as e:\n        return base_response(500, False, \"Failed to retrieve casiors\", str(e))\n# ------------------------\n# GET CASIOR BY ID\n# ------------------------\n@casior_bp.route(\"/<int:employe_id>\", methods=[\"GET\"])",
+        "peekOfCode": "def get_all_casiors():\n    try:\n        casiors = Casior.query.all()\n        return base_response(200, True, \"Casiors retrieved successfully\", casiors_schema.dump(casiors))\n    except Exception as e:\n        return base_response(500, False, \"Failed to retrieve casiors\", str(e))\n# ------------------------\n# GET CASIOR BY ID\n# ------------------------\n@casior_bp.route(\"/<int:casior_id>\", methods=[\"GET\"])",
         "detail": "src.routes.casior.casior_route",
         "documentation": {}
     },
@@ -1874,7 +1874,7 @@
         "kind": 2,
         "importPath": "src.routes.casior.casior_route",
         "description": "src.routes.casior.casior_route",
-        "peekOfCode": "def get_casior(employe_id):\n    casior = Casior.query.get(employe_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    return base_response(200, True, \"Casior retrieved successfully\", casior_schema.dump(casior))\n# ------------------------\n# UPDATE CASIOR\n# ------------------------\n@casior_bp.route(\"/<int:employe_id>\", methods=[\"PUT\"])\ndef update_casior(employe_id):",
+        "peekOfCode": "def get_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    return base_response(200, True, \"Casior retrieved successfully\", casior_schema.dump(casior))\n# ------------------------\n# UPDATE CASIOR\n# ------------------------\n@casior_bp.route(\"/<int:casior_id>\", methods=[\"PUT\"])\ndef update_casior(casior_id):",
         "detail": "src.routes.casior.casior_route",
         "documentation": {}
     },
@@ -1883,7 +1883,7 @@
         "kind": 2,
         "importPath": "src.routes.casior.casior_route",
         "description": "src.routes.casior.casior_route",
-        "peekOfCode": "def update_casior(employe_id):\n    casior = Casior.query.get(employe_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = casior_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
+        "peekOfCode": "def update_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = casior_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
         "detail": "src.routes.casior.casior_route",
         "documentation": {}
     },
@@ -1892,7 +1892,7 @@
         "kind": 2,
         "importPath": "src.routes.casior.casior_route",
         "description": "src.routes.casior.casior_route",
-        "peekOfCode": "def delete_casior(employe_id):\n    casior = Casior.query.get(employe_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    try:\n        casior.delete()\n        return base_response(200, True, \"Casior deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete casior\", str(e))",
+        "peekOfCode": "def delete_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    try:\n        casior.delete()\n        return base_response(200, True, \"Casior deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete casior\", str(e))",
         "detail": "src.routes.casior.casior_route",
         "documentation": {}
     },
