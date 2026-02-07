@@ -72,9 +72,9 @@ def get_all_casiors():
 # ------------------------
 # GET CASIOR BY ID
 # ------------------------
-@casior_bp.route("/<int:employe_id>", methods=["GET"])
-def get_casior(employe_id):
-    casior = Casior.query.get(employe_id)
+@casior_bp.route("/<int:casior_id>", methods=["GET"])
+def get_casior(casior_id):
+    casior = Casior.query.get(casior_id)
     if not casior:
         return base_response(404, False, "Casior not found", None)
     return base_response(200, True, "Casior retrieved successfully", casior_schema.dump(casior))
@@ -82,9 +82,9 @@ def get_casior(employe_id):
 # ------------------------
 # UPDATE CASIOR
 # ------------------------
-@casior_bp.route("/<int:employe_id>", methods=["PUT"])
-def update_casior(employe_id):
-    casior = Casior.query.get(employe_id)
+@casior_bp.route("/<int:casior_id>", methods=["PUT"])
+def update_casior(casior_id):
+    casior = Casior.query.get(casior_id)
     if not casior:
         return base_response(404, False, "Casior not found", None)
 
@@ -106,9 +106,9 @@ def update_casior(employe_id):
 # ------------------------
 # DELETE CASIOR
 # ------------------------
-@casior_bp.route("/<int:employe_id>", methods=["DELETE"])
-def delete_casior(employe_id):
-    casior = Casior.query.get(employe_id)
+@casior_bp.route("/<int:casior_id>", methods=["DELETE"])
+def delete_casior(casior_id):
+    casior = Casior.query.get(casior_id)
     if not casior:
         return base_response(404, False, "Casior not found", None)
 

@@ -4,14 +4,11 @@ from marshmallow import Schema, fields, ValidationError, validates_schema
 from src.utils.namespace import NameSpace
 
 
-class Suplier(db.Model):
-    __tablename__ = NameSpace.SUPLIER_TABLE
+class Stock(db.Model):
+    __tablename__ = NameSpace.STOCK_TABLE
     __table_args__ = {"schema": NameSpace.ITEM_SCHEMA}
 
-    suplier_id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
+    stock_id = db.Column(db.Integer, primary_key=True)
 
     candidate_id = db.Column(
         db.Integer,
@@ -19,14 +16,23 @@ class Suplier(db.Model):
         nullable=False
     )
 
-    company_name = db.Column(db.String)
-    contact_person_name = db.Column(db.String)
-    email = db.Column(db.String)
+    item_id = db.Column(
+        db.Integer,
+        db.ForeignKey("item.item.item_id"),
+        nullable=False
+    )
 
-    # PostgreSQL array field
-    phone = db.Column(db.ARRAY(db.String))
+    suplier_id = db.Column(
+        db.Integer,
+        db.ForeignKey("item.suplier.suplier_id"),
+        nullable=False
+    )
 
-    address = db.Column(db.String)
+    stoke_quantity = db.Column(db.Float)
+    current_quantity = db.Column(db.Float)
+    additional_notes = db.Column(db.Text)
+
+    received_date = db.Column(db.Date)
 
     status_id = db.Column(db.Integer, nullable=True)
 
@@ -50,31 +56,25 @@ class Suplier(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"<Suplier {self.suplier_id}>"
+        return f"<Stock {self.stock_id}>"
 
 
-class SuplierSchema(Schema):
-    suplier_id = fields.Int(dump_only=True)
+class StockSchema(Schema):
+    stock_id = fields.Int(dump_only=True)
 
     candidate_id = fields.Int(required=True)
+    item_id = fields.Int(required=True)
+    suplier_id = fields.Int(required=True)
 
-    company_name = fields.Str(allow_none=True)
-    contact_person_name = fields.Str(allow_none=True)
-    email = fields.Email(allow_none=True)
+    stoke_quantity = fields.Float(allow_none=True)
+   
+    additional_notes = fields.Str(allow_none=True)
 
-    phone = fields.List(fields.Str(), allow_none=True)
-
-    address = fields.Str(allow_none=True)
+    received_date = fields.Date(allow_none=True)
 
     status_id = fields.Int(allow_none=True)
 
     create_at = fields.DateTime(dump_only=True)
     ubdate_at = fields.DateTime(dump_only=True)
 
-    @validates_schema
-    def validate_fields(self, data, **kwargs):
-        if data.get("company_name") and len(data["company_name"]) < 2:
-            raise ValidationError(
-                "Company name must be at least 2 characters",
-                "company_name"
-            )
+  

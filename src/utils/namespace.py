@@ -15,8 +15,8 @@ class NameSpace:
    #casior 
     CASIOR_PREFIX = "/api/casior"
     CASIOR_BP = "casior_bp"
-    EMPLOYE_TABLE = "employe"
-    EMPLOYE_SCHEMA = "employe"
+    CASIOR_TABLE = "casior"
+    CASIOR_SCHEMA = "casior"
     
     
     # Item
@@ -25,6 +25,11 @@ class NameSpace:
     ITEM_TABLE = "item"
     ITEM_SCHEMA = "item"
     
+    #suplier
+    SUPLIER_TABLE = "suplier" 
+    
+    #stock
+    STOCK_TABLE = "stock"
     
     
     # Customer

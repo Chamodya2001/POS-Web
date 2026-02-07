@@ -8,9 +8,9 @@ class Customer(db.Model):
     __table_args__ = {"schema": NameSpace.CUSTOMER_SCHEMA}
 
     customer_id = db.Column(db.Integer, primary_key=True)
-    employe_id = db.Column(
+    casior_id = db.Column(
         db.Integer,
-        db.ForeignKey("casior.casior.employe_id"),
+        db.ForeignKey("casior.casior.casior_id"),
         nullable=False
     )
     candidate_id = db.Column(
@@ -54,7 +54,7 @@ class Customer(db.Model):
 class CustomerSchema(Schema):
     customer_id = fields.Int(dump_only=True)
 
-    employe_id = fields.Int(required=True)
+    casior_id = fields.Int(required=True)
     candidate_id = fields.Int(required=True)
 
     first_name = fields.Str(required=True)
