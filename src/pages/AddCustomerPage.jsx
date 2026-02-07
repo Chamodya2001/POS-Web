@@ -21,7 +21,7 @@ export default function AddCustomerPage() {
         nic: "",
         loan_balance: 0,
         casior_id: 1,
-        candidate_id: 17, // Using valid candidate_id from database
+        candidate_id: 4, // Using valid candidate_id from database
         status_id: 1
     });
 

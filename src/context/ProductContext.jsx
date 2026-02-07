@@ -15,7 +15,7 @@ const slugify = (text) =>
     .replace(/\s+/g, "-");
 
 export const ProductProvider = ({ children }) => {
-  const candidate_id = 17;
+  const candidate_id = 4;
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
