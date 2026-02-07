@@ -1,5 +1,4 @@
-from sqlite3 import Date
-from sqlalchemy import func,Date
+from sqlalchemy import func, Date
 from src.utils.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from ...utils.namespace import NameSpace
@@ -29,8 +28,8 @@ class Casior(db.Model):
     town = db.Column(db.String(128))
     
     shop_name = db.Column(db.String(128))
-    gender_id = db.Column(db.Integer, nullable=False)
-    language_id = db.Column(db.Integer, nullable=False)
+    gender_id = db.Column(db.Integer, nullable=True)
+    language_id = db.Column(db.Integer, nullable=True)
     
     
     
@@ -38,7 +37,7 @@ class Casior(db.Model):
     password = db.Column(db.String(256), nullable=False)
     create_at = db.Column(db.DateTime, default=func.now())
     update_at = db.Column(db.DateTime, onupdate=func.now())
-    status_id = db.Column(db.Integer, nullable=False)
+    status_id = db.Column(db.Integer, nullable=True)
 
     # Relationship
     candidate = db.relationship("Candidate", backref="casiors")
@@ -88,14 +87,15 @@ class CasiorSchema(Schema):
     province = fields.Str()
     town = fields.Str()
     
-    language_id = fields.Int(required=True)
-    gender_id = fields.Int(required=True)
-    status_id = fields.Int(required=True)
+    language_id = fields.Int(allow_none=True)
+    gender_id = fields.Int(allow_none=True)
+    status_id = fields.Int(allow_none=True)
    
     shop_name = fields.Str()
     email = fields.Str(required=True)
     password = fields.Str(required=True, load_only=True)
-    status_id = fields.Int(required=True)
-   
+    
+    create_at = fields.DateTime(dump_only=True)
+    update_at = fields.DateTime(dump_only=True)
 
     

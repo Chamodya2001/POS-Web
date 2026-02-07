@@ -1,5 +1,6 @@
-from flask import Blueprint, request
-from src.models.casior.casior_model import Casior,CasiorSchema
+from flask import Blueprint, request, jsonify
+from sqlalchemy import func
+from src.models.casior.casior_model import Casior, CasiorSchema
 from src.models.candidate.candidate_model import Candidate
 from src.helper.base_responce import base_response
 from src.utils.extensions import db
@@ -132,9 +133,17 @@ def login():
         return base_response(400, False, "Email and password are required", None)
 
     try:
-        casior = Casior.query.filter_by(email=email).first()
+        # Case-insensitive and trimmed email search
+        casior = Casior.query.filter(
+            func.lower(func.trim(Casior.email)) == email.strip().lower()
+        ).first()
+
         if not casior:
             return base_response(401, False, "Invalid email or password", None)
+
+        # Check if account is active (status_id 1 = Active)
+        if hasattr(casior, 'status_id') and casior.status_id == 0:
+            return base_response(403, False, "Your account is disabled. Please contact your administrator.", None)
 
         # Check hashed password
         is_valid = casior.check_password(password)
@@ -150,7 +159,7 @@ def login():
             return base_response(401, False, "Invalid email or password", None)
 
         dumped_data = casior_schema.dump(casior)
-        print(f"DEBUG: Casior login successful for {email}. Dumped data: {dumped_data}")
+        print(f"DEBUG: Casior login successful for {email}. Role: admin")
 
         return base_response(
             status_code=200,
@@ -163,4 +172,5 @@ def login():
         )
 
     except Exception as e:
+        print(f"ERROR in casior login: {str(e)}")
         return base_response(500, False, "Internal server error", str(e))

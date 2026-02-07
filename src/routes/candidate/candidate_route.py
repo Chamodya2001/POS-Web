@@ -235,6 +235,13 @@ def login():
             func.lower(func.trim(Candidate.email)) == email.strip().lower()
         ).first()
 
+        if not candidate:
+            return base_response(401, False, "Invalid email or password", None)
+
+        # Check if account is active (assuming status_id 1 is active)
+        if hasattr(candidate, 'status_id') and candidate.status_id == 0:
+            return base_response(403, False, "Your account is disabled. Please contact support.", None)
+
         # Check hashed password
         is_valid = candidate.check_password(password)
         
