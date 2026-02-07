@@ -29,6 +29,7 @@ class Stock(db.Model):
     )
 
     stoke_quantity = db.Column(db.Float)
+    stoke_price = db.Column(db.Float)
     current_quantity = db.Column(db.Float)
     additional_notes = db.Column(db.Text)
 
@@ -67,7 +68,9 @@ class StockSchema(Schema):
     suplier_id = fields.Int(required=True)
 
     stoke_quantity = fields.Float(allow_none=True)
-   
+    stoke_price =  fields.Float(allow_none=True)
+    current_quantity = fields.Float(allow_none=True)
+    
     additional_notes = fields.Str(allow_none=True)
 
     received_date = fields.Date(allow_none=True)

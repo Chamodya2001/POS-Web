@@ -1712,7 +1712,7 @@
         "kind": 6,
         "importPath": "src.models.item.stock_model",
         "description": "src.models.item.stock_model",
-        "peekOfCode": "class StockSchema(Schema):\n    stock_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    item_id = fields.Int(required=True)\n    suplier_id = fields.Int(required=True)\n    stoke_quantity = fields.Float(allow_none=True)\n    additional_notes = fields.Str(allow_none=True)\n    received_date = fields.Date(allow_none=True)\n    status_id = fields.Int(allow_none=True)\n    create_at = fields.DateTime(dump_only=True)",
+        "peekOfCode": "class StockSchema(Schema):\n    stock_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    item_id = fields.Int(required=True)\n    suplier_id = fields.Int(required=True)\n    stoke_quantity = fields.Float(allow_none=True)\n    stoke_price =  fields.Float(allow_none=True)\n    current_quantity = fields.Float(allow_none=True)\n    additional_notes = fields.Str(allow_none=True)\n    received_date = fields.Date(allow_none=True)",
         "detail": "src.models.item.stock_model",
         "documentation": {}
     },

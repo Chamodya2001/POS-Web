@@ -27,9 +27,13 @@ class NameSpace:
     
     #suplier
     SUPLIER_TABLE = "suplier" 
+    SUPLIER_PREFIX = "/api/suplier"
+    SUPLIER_BP = "suplier_bp"
     
     #stock
     STOCK_TABLE = "stock"
+    STOCK_PREFIX = "/api/stock"
+    STOCK_BP = "stock_bp"
     
     
     # Customer
