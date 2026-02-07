@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Upload, Save, X, Info, Banknote, Package, Tag, Barcode, Layers, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Upload, Save, X, Info, Banknote, Package, Tag, Barcode, Layers, Image as ImageIcon, Plus } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
@@ -8,8 +8,10 @@ import config from '../helper/config';
 
 
 
+import CategoryModal from '../components/inventory/CategoryModal';
+
 export default function AddProductPage({ onBack }) {
-    const { addCategory, categories } = useProducts();
+    const { categories } = useProducts();
 
     const fileInputRef = useRef(null);
 
@@ -32,8 +34,7 @@ export default function AddProductPage({ onBack }) {
         tags: ''
     });
 
-    const [newCategory, setNewCategory] = useState('');
-    const [showCategoryInput, setShowCategoryInput] = useState(false);
+    const [showCategoryModal, setShowCategoryModal] = useState(false);
 
     // Derived values
     const netPrice = parseFloat(formData.price || 0) - parseFloat(formData.discount || 0);
@@ -81,29 +82,6 @@ export default function AddProductPage({ onBack }) {
             alert(error.message || "Failed to save product");
         } finally {
             setLoading(false);
-        }
-    };
-
-
-    const handleAddCategory = async () => {
-        if (newCategory.trim()) {
-            try {
-                const catData = {
-                    category_name: newCategory,
-                    candidate_id: 17, // default
-                    discription: 'Created from product page',
-                    image_code: 'default.jpg',
-                    status_id: 1
-                };
-                const cat = await addCategory(catData);
-                if (cat) {
-                    setFormData(prev => ({ ...prev, category: cat.category_id.toString() }));
-                    setNewCategory('');
-                    setShowCategoryInput(false);
-                }
-            } catch (error) {
-                alert("Failed to add category: " + error.message);
-            }
         }
     };
 
@@ -398,39 +376,29 @@ export default function AddProductPage({ onBack }) {
 
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Category</label>
-                                {!showCategoryInput ? (
-                                    <div className="flex gap-2">
-                                        <select
-                                            name="category"
-                                            value={formData.category}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white"
-                                        >
-                                            <option value="">Select Category</option>
-                                            {categories.map(cat => (
-                                                <option key={cat.id} value={cat.id}>{cat.name}</option>
-                                            ))}
-                                        </select>
-                                        <button onClick={() => setShowCategoryInput(true)} className="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-xl">
-                                            <Tag className="w-5 h-5 text-slate-500" />
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <div className="flex gap-2">
-                                        <input
-                                            value={newCategory}
-                                            onChange={(e) => setNewCategory(e.target.value)}
-                                            placeholder="New Category Name"
-                                            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white"
-                                            autoFocus
-                                        />
-                                        <button onClick={handleAddCategory} className="px-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-bold">Add</button>
-                                        <button onClick={() => setShowCategoryInput(false)} className="p-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 rounded-xl"><X className="w-4 h-4" /></button>
-                                    </div>
-                                )}
+                                <div className="flex gap-2">
+                                    <select
+                                        name="category"
+                                        value={formData.category}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white"
+                                    >
+                                        <option value="">Select Category</option>
+                                        {categories.map(cat => (
+                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                        ))}
+                                    </select>
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowCategoryModal(true)}
+                                        className="px-4 py-2 bg-primary-50 dark:bg-primary-900/10 text-primary-600 hover:bg-primary-100 dark:hover:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-xl transition-all flex items-center gap-2 text-sm font-bold whitespace-nowrap"
+                                    >
+                                        <Plus className="w-4 h-4" /> New
+                                    </button>
+                                </div>
                             </div>
 
-                            <div>
+                            {/* <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Tags</label>
                                 <input
                                     name="tags"
@@ -439,11 +407,18 @@ export default function AddProductPage({ onBack }) {
                                     placeholder="Separate with commas"
                                     className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white"
                                 />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Reusable Category Modal */}
+            <CategoryModal
+                isOpen={showCategoryModal}
+                onClose={() => setShowCategoryModal(false)}
+                onCategoryCreated={(cat) => setFormData(prev => ({ ...prev, category: cat.id.toString() }))}
+            />
         </div>
     );
 }

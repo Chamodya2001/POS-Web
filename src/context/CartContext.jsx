@@ -63,6 +63,17 @@ export const CartProvider = ({ children }) => {
         });
     };
 
+    const updateItemDiscount = (productId, newDiscount) => {
+        setCart((prevCart) => {
+            return prevCart.map((item) => {
+                if (item.id === productId) {
+                    return { ...item, discount: Math.max(0, parseFloat(newDiscount) || 0) };
+                }
+                return item;
+            });
+        });
+    };
+
     const clearCart = () => {
         setCart([]);
         setDiscount(0);
@@ -71,11 +82,11 @@ export const CartProvider = ({ children }) => {
     const calculateTotal = () => {
         const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
         const discount = cart.reduce((discount, item) => discount + ((item.discount || 0) * item.quantity), 0);
-       // const tax = subtotal * taxRate;
+        // const tax = subtotal * taxRate;
         const total = subtotal - discount;
         return {
             subtotal,
-           // tax,
+            // tax,
             discount,
             total: Math.max(0, total)
         };
@@ -86,11 +97,12 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         updateQuantity,
+        updateItemDiscount,
         clearCart,
         calculateTotal,
         discount,
         setDiscount,
-       // taxRate
+        // taxRate
     };
 
     return (

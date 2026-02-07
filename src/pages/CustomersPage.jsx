@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Plus, Filter, Mail, Phone, MoreHorizontal, ShoppingBag, Star, Calendar, MapPin, Grid, List, Trash2 } from 'lucide-react';
 import { API_ROUTES } from '../config/apiConfig';
+import { useAuth } from '../context/AuthContext';
 
 
-const CustomerCard = ({ customer, onViewProfile, onDelete }) => (
+const CustomerCard = ({ customer, onViewProfile, onDelete, canDelete }) => (
     <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all group relative">
         <div className="absolute top-4 right-4 flex gap-2">
-            <button
-                onClick={() => onDelete(customer.id)}
-                className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-            >
-                <Trash2 className="w-4 h-4" />
-            </button>
+            {canDelete && (
+                <button
+                    onClick={() => onDelete(customer.id)}
+                    className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                >
+                    <Trash2 className="w-4 h-4" />
+                </button>
+            )}
             <button className="text-slate-300 hover:text-slate-600">
                 <MoreHorizontal className="w-5 h-5" />
             </button>
         </div>
 
         <div className="flex flex-col items-center text-center">
+            {/* ... rest of the card ... */}
             <div className="relative">
                 <div className="w-20 h-20 rounded-full p-1 bg-white border border-slate-100 shadow-sm mb-3">
                     <img src={customer.avatar} alt={customer.name} className="w-full h-full rounded-full object-cover" />
@@ -60,6 +64,8 @@ const CustomerCard = ({ customer, onViewProfile, onDelete }) => (
 );
 
 export default function CustomersPage({ onAddCustomer, onViewProfile }) {
+    const { user } = useAuth();
+    const canDelete = user?.role !== 'admin';
     const [viewMode, setViewMode] = useState('grid');
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -133,6 +139,7 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
     }, []);
 
     const handleDelete = (id) => {
+        if (!canDelete) return;
         if (window.confirm('Are you sure you want to delete this customer?')) {
             setCustomers(prev => prev.filter(c => c.id !== id));
             // Add API call here later
@@ -198,7 +205,7 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
             ) : viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {customers.map(customer => (
-                        <CustomerCard key={customer.id} customer={customer} onViewProfile={onViewProfile} onDelete={handleDelete} />
+                        <CustomerCard key={customer.id} customer={customer} onViewProfile={onViewProfile} onDelete={handleDelete} canDelete={canDelete} />
                     ))}
                     {customers.length === 0 && (
                         <div className="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
@@ -247,18 +254,21 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
                                             >
                                                 View
                                             </button>
-                                            <button
-                                                onClick={() => handleDelete(customer.id)}
-                                                className="text-slate-300 hover:text-red-500 transition-colors"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
+                                            {canDelete && (
+                                                <button
+                                                    onClick={() => handleDelete(customer.id)}
+                                                    className="text-slate-300 hover:text-red-500 transition-colors"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            )}
                                         </div>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
+                    {/* ... rest of the table ... */}
                     {customers.length === 0 && (
                         <div className="text-center py-20">
                             <p className="text-slate-500 font-medium">No customers found.</p>
