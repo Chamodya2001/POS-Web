@@ -32,6 +32,20 @@ const AppContent = () => {
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const { user } = useAuth();
+  const [lastUserRole, setLastUserRole] = React.useState(null);
+
+  React.useEffect(() => {
+    if (user && user.role !== lastUserRole) {
+      if (user.role === 'admin') {
+        setActiveTab('pos');
+      } else if (user.role === 'super_admin' && !lastUserRole) {
+        setActiveTab('dashboard');
+      }
+      setLastUserRole(user.role);
+    } else if (!user) {
+      setLastUserRole(null);
+    }
+  }, [user, lastUserRole]);
 
   // If we are in landing mode and not logged in, show landing page
   if (currentView === 'landing' && !user) {
