@@ -12,7 +12,7 @@ const CategoryModal = ({ isOpen, onClose, onCategoryCreated }) => {
         category_name: '',
         discription: '',
         image_code: '',
-        candidate_id: 17,
+        candidate_id: 4,
         status_id: 1
     });
 
@@ -46,7 +46,7 @@ const CategoryModal = ({ isOpen, onClose, onCategoryCreated }) => {
                     category_name: '',
                     discription: '',
                     image_code: '',
-                    candidate_id: 17,
+                    candidate_id: 4,
                     status_id: 1
                 });
                 onClose();

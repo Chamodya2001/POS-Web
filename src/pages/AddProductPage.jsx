@@ -56,7 +56,7 @@ export default function AddProductPage({ onBack }) {
             setLoading(true);
 
             const payload = {
-                candidate_id: 17, // later from auth
+                candidate_id: 4, // later from auth
                 category_id: parseInt(formData.category),
                 item_name: formData.name,
                 short_code: formData.sku,
