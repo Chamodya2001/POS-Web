@@ -14,7 +14,7 @@ export default function AddEmploymentPage() {
     const isDarkMode = theme === 'dark';
 
     const [formData, setFormData] = useState({
-        candidate_id: 16,
+        candidate_id: "17",
         shop_id: "SHOP_001",
         first_name: "",
         last_name: "",
@@ -61,7 +61,7 @@ export default function AddEmploymentPage() {
 
             // Reset the form
             setFormData({
-                candidate_id: "14",
+                candidate_id: "17",
                 shop_id: "SHOP_001",
                 first_name: "",
                 last_name: "",

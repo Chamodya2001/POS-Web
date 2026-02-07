@@ -48,7 +48,7 @@ const AppContent = () => {
     <Layout activeTab={activeTab} onTabChange={setActiveTab}>
       {activeTab === 'pos' && <POSPage />}
       {activeTab === 'dashboard' && <Dashboard />}
-      {activeTab === 'orders' && <OrdersPage />}
+      {activeTab === 'orders' && user?.role !== 'admin' && <OrdersPage />}
       {activeTab === 'customers' && (
         <CustomersPage
           onAddCustomer={() => setActiveTab('add-customer')}
@@ -65,8 +65,8 @@ const AppContent = () => {
         />
       )}
       {activeTab === 'settings' && <SettingsPage />}
-      {activeTab === 'employment' && <AddEmploymentPage />}
-      {activeTab === 'employee-report' && <EmployeeReportPage />}
+      {activeTab === 'employment' && user?.role !== 'admin' && <AddEmploymentPage />}
+      {activeTab === 'employee-report' && user?.role !== 'admin' && <EmployeeReportPage />}
       {activeTab === 'add-customer' && <AddCustomerPage />}
       {activeTab === 'customer-profile' && <CustomerProfilePage customerId={selectedCustomerId} onBack={() => setActiveTab('customers')} />}
 
@@ -120,12 +120,20 @@ const AppContent = () => {
         />
       )}
 
-      {['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'employee-report', 'add-customer', 'customer-profile', 'suppliers', 'add-supplier', 'stock', 'add-stock', 'categories', 'stock-history'].indexOf(activeTab) === -1 && (
-        <div className="flex flex-col items-center justify-center h-full text-slate-400">
-          <h2 className="text-2xl font-bold text-slate-800 mb-2">Coming Soon</h2>
-          <p className="text-sm">The {activeTab} module is under development.</p>
-        </div>
-      )}
+      {/* Restricted tabs for admin or undefined tabs */}
+      {(['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'employee-report', 'add-customer', 'customer-profile', 'suppliers', 'add-supplier', 'stock', 'add-stock', 'categories', 'stock-history'].indexOf(activeTab) === -1 ||
+        (['orders', 'employment', 'employee-report'].includes(activeTab) && user?.role === 'admin')) && (
+          <div className="flex flex-col items-center justify-center h-full text-slate-400">
+            <h2 className="text-2xl font-bold text-slate-800 mb-2">
+              {user?.role === 'admin' && ['orders', 'employment', 'employee-report'].includes(activeTab) ? 'Access Denied' : 'Coming Soon'}
+            </h2>
+            <p className="text-sm">
+              {user?.role === 'admin' && ['orders', 'employment', 'employee-report'].includes(activeTab)
+                ? 'You do not have permission to view this page.'
+                : `The ${activeTab} module is under development.`}
+            </p>
+          </div>
+        )}
     </Layout>
   );
 };
@@ -136,7 +144,7 @@ function App() {
       <AuthProvider>
         <CartProvider>
           <ProductProvider>
-              <AppContent />
+            <AppContent />
           </ProductProvider>
         </CartProvider>
       </AuthProvider>

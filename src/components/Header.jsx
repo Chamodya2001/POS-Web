@@ -1,9 +1,11 @@
 import React from 'react';
-import { Search, Bell, User, Calendar, Sun, Moon } from 'lucide-react'; // Added Sun, Moon
-import { useTheme } from '../context/ThemeContext'; // Added Hook
+import { Search, Bell, User, Calendar, Sun, Moon } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
-    const { theme, toggleTheme } = useTheme(); // Consumed Hook
+    const { theme, toggleTheme } = useTheme();
+    const { user } = useAuth();
     const currentDate = new Date().toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
@@ -46,12 +48,18 @@ const Header = () => {
 
                 <div className="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-slate-700">
                     <div className="text-right hidden sm:block">
-                        <p className="text-sm font-semibold text-slate-800 dark:text-white">Admin User</p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">Super Admin</p>
+                        <p className="text-sm font-semibold text-slate-800 dark:text-white">{user?.name || 'User'}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">{user?.role?.replace('_', ' ') || 'Role'}</p>
                     </div>
-                    <div className="w-10 h-10 bg-gradient-to-tr from-primary-500 to-purple-500 rounded-full flex items-center justify-center shadow-md text-white font-bold ring-2 ring-white dark:ring-slate-800">
-                        <User className="w-5 h-5" />
-                    </div>
+                    {user?.avatar ? (
+                        <div className="w-10 h-10 rounded-full overflow-hidden ring-2 ring-white dark:ring-slate-800 shadow-md">
+                            <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
+                        </div>
+                    ) : (
+                        <div className="w-10 h-10 bg-gradient-to-tr from-primary-500 to-purple-500 rounded-full flex items-center justify-center shadow-md text-white font-bold ring-2 ring-white dark:ring-slate-800">
+                            <User className="w-5 h-5" />
+                        </div>
+                    )}
                 </div>
             </div>
         </header>

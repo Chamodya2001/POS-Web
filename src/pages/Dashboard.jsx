@@ -10,6 +10,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
+import { useAuth } from '../context/AuthContext';
 import config from '../helper/config';
 
 // ----------------- Stats Card -----------------
@@ -74,6 +75,7 @@ const RecentOrderRow = ({ id, customer, itemsText, total, status, date }) => (
 // ----------------- Dashboard -----------------
 const Dashboard = () => {
   const { candidateAllData, loading, error } = useProducts();
+  const { user } = useAuth();
   const [items, setItems] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -85,9 +87,49 @@ const Dashboard = () => {
       setOrders(candidateAllData.data.orders || []);
     }
   }, [candidateAllData]);
-  if (loading) return <div>Loading candidate data...</div>;
-  if (error) return <div>Error loading candidate data</div>;
-  if (!candidateAllData?.data) return <div>No candidate data found</div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center space-y-4">
+          <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-slate-500 font-medium">Loading your dashboard data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center p-8 bg-red-50 rounded-2xl border border-red-100 max-w-md">
+          <h2 className="text-red-800 font-bold text-lg mb-2">Error Loading Data</h2>
+          <p className="text-red-600 text-sm mb-4">{error}</p>
+          <button onClick={() => window.location.reload()} className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-bold shadow-lg shadow-red-500/20">
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!candidateAllData?.data) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center p-8 bg-amber-50 rounded-2xl border border-amber-100 max-w-md">
+          <h2 className="text-amber-800 font-bold text-lg mb-2">No Session Data Found</h2>
+          <p className="text-amber-600 text-sm mb-6">
+            We couldn't find your candidate information. This usually happens if your session has expired or is invalid.
+          </p>
+          <button
+            onClick={() => { localStorage.removeItem('pos_user'); window.location.href = '/'; }}
+            className="px-6 py-2 bg-amber-600 text-white rounded-lg text-sm font-bold shadow-lg shadow-amber-500/20"
+          >
+            Logout and Login Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // ------------------ Helper to format order items ------------------
   const getOrderItemsText = (orderItems) => {
@@ -120,7 +162,7 @@ const Dashboard = () => {
           <div className="p-6 border-b border-slate-50">
             <SectionHeader
               title="Recent Orders"
-              action={<button className="text-primary-600 text-sm font-medium hover:text-primary-700">View All</button>}
+              action={user?.role !== 'admin' && <button className="text-primary-600 text-sm font-medium hover:text-primary-700">View All</button>}
             />
           </div>
           <div className="overflow-x-auto">

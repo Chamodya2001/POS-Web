@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 import clsx from 'clsx';
 
 import CategoryModal from '../components/inventory/CategoryModal';
@@ -13,6 +14,7 @@ import CategoryModal from '../components/inventory/CategoryModal';
 export default function CategoriesPage({ onViewItems }) {
     const { categories, deleteCategory, loading } = useProducts();
     const { theme } = useTheme();
+    const { user } = useAuth();
     const isDarkMode = theme === 'dark';
 
     const [viewMode, setViewMode] = useState('grid');
@@ -95,12 +97,14 @@ export default function CategoriesPage({ onViewItems }) {
                                 <div className="p-3 bg-primary-50 dark:bg-primary-900/10 text-primary-600 rounded-2xl border border-primary-100 dark:border-primary-800">
                                     <Tag className="w-5 h-5" />
                                 </div>
-                                <button
-                                    onClick={() => deleteCategory(category.id)}
-                                    className="p-2 text-slate-300 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all"
-                                >
-                                    <Trash2 className="w-4 h-4" />
-                                </button>
+                                {user?.role !== 'admin' && (
+                                    <button
+                                        onClick={() => deleteCategory(category.id)}
+                                        className="p-2 text-slate-300 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                )}
                             </div>
 
                             <h3 className="font-bold text-slate-800 dark:text-white text-lg group-hover:text-primary-600 transition-colors uppercase tracking-tight">{category.name}</h3>
@@ -182,12 +186,14 @@ export default function CategoriesPage({ onViewItems }) {
                                             <button className="p-2 text-slate-400 hover:text-primary-600 rounded-xl transition-all">
                                                 <Edit3 className="w-4 h-4" />
                                             </button>
-                                            <button
-                                                onClick={() => deleteCategory(category.id)}
-                                                className="p-2 text-slate-400 hover:text-red-600 rounded-xl transition-all"
-                                            >
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
+                                            {user?.role !== 'admin' && (
+                                                <button
+                                                    onClick={() => deleteCategory(category.id)}
+                                                    className="p-2 text-slate-400 hover:text-red-600 rounded-xl transition-all"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            )}
                                         </div>
                                     </td>
                                 </tr>
