@@ -25,6 +25,11 @@ class NameSpace:
     ITEM_TABLE = "item"
     ITEM_SCHEMA = "item"
     
+    #suplier
+    SUPLIER_TABLE = "suplier" 
+    
+    #stock
+    STOCK_TABLE = "stock"
     
     
     # Customer
