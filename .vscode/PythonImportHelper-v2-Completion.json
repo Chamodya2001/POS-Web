@@ -1540,6 +1540,15 @@
         "documentation": {}
     },
     {
+        "label": "login",
+        "kind": 2,
+        "importPath": "src.routes.candidate.candidate_route",
+        "description": "src.routes.candidate.candidate_route",
+        "peekOfCode": "def login():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    email = json_data.get(\"email\")\n    password = json_data.get(\"password\")\n    if not email or not password:\n        return base_response(400, False, \"Email and password are required\", None)\n    try:\n        candidate = Candidate.query.filter(",
+        "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
         "label": "candidate_bp",
         "kind": 5,
         "importPath": "src.routes.candidate.candidate_route",
@@ -1608,6 +1617,15 @@
         "importPath": "src.routes.casior.casior_route",
         "description": "src.routes.casior.casior_route",
         "peekOfCode": "def delete_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    try:\n        casior.delete()\n        return base_response(200, True, \"Casior deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete casior\", str(e))",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "login",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def login():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    email = json_data.get(\"email\")\n    password = json_data.get(\"password\")\n    if not email or not password:\n        return base_response(400, False, \"Email and password are required\", None)\n    try:\n        casior = Casior.query.filter_by(email=email).first()",
         "detail": "src.routes.casior.casior_route",
         "documentation": {}
     },
