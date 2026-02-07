@@ -7,10 +7,10 @@ from marshmallow import Schema, fields, validates_schema, ValidationError
 from sqlalchemy.dialects.postgresql import ARRAY
 
 class Casior(db.Model):
-    __tablename__ = NameSpace.CASIOR_TABLE
-    __table_args__ = {"schema": NameSpace.CASIOR_SCHEMA}
+    __tablename__ = NameSpace.EMPLOYE_TABLE
+    __table_args__ = {"schema": NameSpace.EMPLOYE_SCHEMA}
 
-    casior_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    employe_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     candidate_id = db.Column(
         db.Integer,
         db.ForeignKey("candidate.candidate.candidate_id"),
@@ -68,12 +68,12 @@ class Casior(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f"<Casior {self.casior_id} - {self.email}>"
+        return f"<Casior {self.employe_id} - {self.email}>"
 
 
 
 class CasiorSchema(Schema):
-    casior_id = fields.Int(dump_only=True)
+    employe_id = fields.Int(dump_only=True)
     candidate_id = fields.Int(required=True)
     shop_id = fields.Str(required=True)
     

@@ -18,7 +18,7 @@ class OrderProcessModel(db.Model):
     order_process_id = db.Column(db.Integer, primary_key=True)
 
     candidate_id = db.Column(db.Integer, nullable=False)
-    casior_id = db.Column(db.Integer, nullable=False)
+    employe_id = db.Column(db.Integer, nullable=False)
     customer_id = db.Column(db.Integer, nullable=False)
     payment_method_id = db.Column(db.Integer, nullable=False)
 
@@ -34,7 +34,7 @@ class OrderProcessModel(db.Model):
     def __init__(self, data):
         self.order_process_id = data.get("order_process_id")
         self.candidate_id = data.get("candidate_id")
-        self.casior_id = data.get("casior_id")
+        self.employe_id = data.get("employe_id")
         self.customer_id = data.get("customer_id")
         self.payment_method_id = data.get("payment_method_id")
         self.total_amount = data.get("total_amount")
@@ -93,7 +93,7 @@ class OrderProcessSchema(Schema):
     order_process_id = fields.Int(dump_only=True)
 
     candidate_id = fields.Int(required=True)
-    casior_id = fields.Int(required=True)
+    employe_id = fields.Int(required=True)
     customer_id = fields.Int(required=True)
     payment_method_id = fields.Int(required=True)
 

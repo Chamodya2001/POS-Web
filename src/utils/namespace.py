@@ -15,8 +15,8 @@ class NameSpace:
    #casior 
     CASIOR_PREFIX = "/api/casior"
     CASIOR_BP = "casior_bp"
-    CASIOR_TABLE = "casior"
-    CASIOR_SCHEMA = "casior"
+    EMPLOYE_TABLE = "employe"
+    EMPLOYE_SCHEMA = "employe"
     
     
     # Item
