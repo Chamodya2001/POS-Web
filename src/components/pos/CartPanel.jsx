@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Trash2, Plus, Minus, CreditCard, Banknote, Landmark, Printer, CheckCircle, User, Search, X, Check, ChevronRight } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { API_ROUTES } from '../../config/apiConfig';
+import { Customer_Service } from '../../pages/service/Customer_Service';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
+import { OrderService } from './service/order_service';
 
 const CustomerSelector = ({ selectedCustomer, onSelect, customers }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +13,8 @@ const CustomerSelector = ({ selectedCustomer, onSelect, customers }) => {
 
     const filteredCustomers = customers.filter(c =>
         c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.phone?.includes(searchQuery)
+        c.phone?.includes(searchQuery) ||
+        c.nic?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -95,6 +98,7 @@ const CustomerSelector = ({ selectedCustomer, onSelect, customers }) => {
                                                 <div>
                                                     <p className="text-sm font-semibold text-slate-800">{customer.name}</p>
                                                     <p className="text-[11px] text-slate-500">{customer.phone}</p>
+                                                    <p className="text-[10px] text-slate-400">{customer.nic}</p>
                                                 </div>
                                             </div>
                                             <div className="text-right">
@@ -128,31 +132,34 @@ const CartPanel = () => {
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const response = await fetch(API_ROUTES.CUSTOMERS.GET);
-                const data = await response.json();
-                if (data.success && data.data.length > 0) {
-                    const mappedData = data.data.map(c => ({
+                // const response = await fetch(API_ROUTES.CUSTOMERS.GET);
+               const result = await Customer_Service.getCustomerList();
+    
+                if (result?.success && Array.isArray(result.data)) {
+                    const mappedData = result.data.map(c => ({
                         id: c.customer_id,
-                        name: `${c.first_name} ${c.last_name || ''}`,
-                        phone: c.phone_number,
-                        loan: parseFloat(c.loan_balance || 0),
-                        avatar: `https://ui-avatars.com/api/?name=${c.first_name}+${c.last_name}&background=random`
+                        name: `${c.first_name ?? ''} ${c.last_name ?? ''}`.trim(),
+                        phone: c.phone_number ?? '',
+                        nic: c.nic ?? '',
+                        loan: Number(c.loan_balance) || 0, 
+                        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(`${c.first_name ?? ''} ${c.last_name ?? ''}`)}&background=random`
                     }));
+
                     setCustomers(mappedData);
                 } else {
-                    setCustomers([
-                        { id: 1, name: 'Alex Morgan', phone: '0771234567', loan: 1500.00, avatar: 'https://ui-avatars.com/api/?name=Alex+Morgan&background=random' },
-                        { id: 2, name: 'Sarah Wilson', phone: '0779876543', loan: 0.00, avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=random' },
-                        { id: 3, name: 'James Doe', phone: '0774567890', loan: 3400.00, avatar: 'https://ui-avatars.com/api/?name=James+Doe&background=random' }
-                    ]);
+                    // setCustomers([
+                    //     { id: 1, name: 'Alex Morgan', phone: '0771234567', loan: 1500.00, avatar: 'https://ui-avatars.com/api/?name=Alex+Morgan&background=random' },
+                    //     { id: 2, name: 'Sarah Wilson', phone: '0779876543', loan: 0.00, avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=random' },
+                    //     { id: 3, name: 'James Doe', phone: '0774567890', loan: 3400.00, avatar: 'https://ui-avatars.com/api/?name=James+Doe&background=random' }
+                    // ]);
                 }
             } catch (err) {
                 console.error("Failed to fetch customers", err);
-                setCustomers([
-                    { id: 1, name: 'Alex Morgan', phone: '0771234567', loan: 1500.00, avatar: 'https://ui-avatars.com/api/?name=Alex+Morgan&background=random' },
-                    { id: 2, name: 'Sarah Wilson', phone: '0779876543', loan: 0.00, avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=random' },
-                    { id: 3, name: 'James Doe', phone: '0774567890', loan: 3400.00, avatar: 'https://ui-avatars.com/api/?name=James+Doe&background=random' }
-                ]);
+                // setCustomers([
+                //     { id: 1, name: 'Alex Morgan', phone: '0771234567', loan: 1500.00, avatar: 'https://ui-avatars.com/api/?name=Alex+Morgan&background=random' },
+                //     { id: 2, name: 'Sarah Wilson', phone: '0779876543', loan: 0.00, avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=random' },
+                //     { id: 3, name: 'James Doe', phone: '0774567890', loan: 3400.00, avatar: 'https://ui-avatars.com/api/?name=James+Doe&background=random' }
+                // ]);
             }
         };
         fetchCustomers();
@@ -317,15 +324,52 @@ const CartPanel = () => {
 };
 
 const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
-    const [paymentMethod, setPaymentMethod] = useState('card');
+    const [paymentMethod, setPaymentMethod] = useState(2); // '1' for Card, '2' for Cash, '3' for Loan
     const [isProcessing, setIsProcessing] = useState(false);
     const [cashPaymentType, setCashPaymentType] = useState('full'); // 'full' or 'partial'
     const [amountPaid, setAmountPaid] = useState(total);
+    const { cart } = useCart();
 
     useEffect(() => {
         setAmountPaid(total);
         setCashPaymentType('full');
     }, [total, paymentMethod]);
+
+    const handleOrderSubmit = async (paymentMethodId, amountToPay, remainingLoan) => {
+        try {
+            const pmId = Number(paymentMethodId);
+            const orderData = {
+                candidate_id: Number(17),
+                casior_id: Number(20),
+                customer_id: Number(customer?.id || 0),
+                payment_method_id: pmId,
+                total_amount: Number(total),
+                loan_balance: Number((pmId === 3 || (pmId === 2 && cashPaymentType === 'partial')) ? remainingLoan : 0),
+                status_id: Number(1),
+                items: cart.map(item => ({
+                    item_id: Number(item.id),
+                    item_name: item.name,
+                    price: Number(item.price),
+                    quantity: Number(item.quantity),
+                    discount: Number(item.discount || 0)
+                }))
+            };
+
+            console.log('Sending order data (numbers coerced):', orderData);
+
+            const result = await OrderService.saveOrder(orderData);
+
+            if (result?.success) {
+                console.log('Order created successfully:', result.data);
+            } else {
+                console.error('Failed to create order:', result?.message || 'Unknown error');
+                throw new Error(result?.message || 'Failed to create order');
+            }
+        } catch (error) {
+            console.error('Error creating order:', error);
+            throw error;
+        }
+    };
 
     if (!isOpen) return null;
 
@@ -333,23 +377,35 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
 
     const handlePayment = () => {
         setIsProcessing(true);
-        setTimeout(() => {
-            setIsProcessing(false);
+        const paymentId = Number(paymentMethod);
+        const remainingLoan = paymentId === 3 || (paymentId === 2 && cashPaymentType === 'partial')
+            ? remainingToLoan
+            : 0;
 
-            if (paymentMethod === 'card') {
-                alert(`Card payment of RS ${total.toFixed(2)} successful!`);
-            } else if (paymentMethod === 'cash') {
-                if (cashPaymentType === 'partial') {
-                    alert(`Partial Cash payment of RS ${(parseFloat(amountPaid) || 0).toFixed(2)} successful! RS ${remainingToLoan.toFixed(2)} added to ${customer?.name}'s loan.`);
-                } else {
-                    alert(`Full Cash payment of RS ${total.toFixed(2)} successful!`);
-                }
-            } else if (paymentMethod === 'loan') {
-                alert(`RS ${total.toFixed(2)} marked as on loan for ${customer?.name}!`);
-            }
+        handleOrderSubmit(paymentId, parseFloat(amountPaid) || 0, remainingLoan)
+            .then(() => {
+                setTimeout(() => {
+                    setIsProcessing(false);
 
-            onComplete();
-        }, 1500);
+                    if (paymentId === 1) {
+                        alert(`Card payment of RS ${total.toFixed(2)} successful!`);
+                    } else if (paymentId === 2) {
+                        if (cashPaymentType === 'partial') {
+                            alert(`Partial Cash payment of RS ${(parseFloat(amountPaid) || 0).toFixed(2)} successful! RS ${remainingLoan.toFixed(2)} added to ${customer?.name}'s loan.`);
+                        } else {
+                            alert(`Full Cash payment of RS ${total.toFixed(2)} successful!`);
+                        }
+                    } else if (paymentId === 3) {
+                        alert(`RS ${total.toFixed(2)} marked as on loan for ${customer?.name}!`);
+                    }
+
+                    onComplete();
+                }, 1500);
+            })
+            .catch((error) => {
+                setIsProcessing(false);
+                alert(`Payment failed: ${error.message || 'Unknown error occurred'}`);
+            });
     };
 
     return (
@@ -373,30 +429,30 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
 
                     <div className="grid grid-cols-3 gap-3">
                         {[
-                            { id: 'card', label: 'Card', icon: CreditCard },
-                            { id: 'cash', label: 'Cash', icon: Banknote },
-                            { id: 'loan', label: 'Add to Loan', icon: Landmark, disabled: !customer },
-                        ].map((method) => (
-                            <button
-                                key={method.id}
-                                disabled={method.disabled}
-                                onClick={() => setPaymentMethod(method.id)}
-                                className={clsx(
-                                    "flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-200",
-                                    method.disabled ? "opacity-30 cursor-not-allowed bg-slate-50 border-slate-100" :
-                                        paymentMethod === method.id
-                                            ? "bg-primary-600 text-white border-primary-600 shadow-lg scale-[1.02]"
-                                            : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                                )}
-                            >
-                                <method.icon className="w-6 h-6 mb-2" />
-                                <span className="text-[10px] font-bold uppercase">{method.label}</span>
-                            </button>
-                        ))}
+                                { id: 1, label: 'Card', icon: CreditCard },
+                                { id: 2, label: 'Cash', icon: Banknote },
+                                { id: 3, label: 'Add to Loan', icon: Landmark, disabled: !customer },
+                            ].map((method) => (
+                                <button
+                                    key={method.id}
+                                    disabled={method.disabled}
+                                    onClick={() => setPaymentMethod(method.id)}
+                                    className={clsx(
+                                        "flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-200",
+                                        method.disabled ? "opacity-30 cursor-not-allowed bg-slate-50 border-slate-100" :
+                                            paymentMethod === method.id
+                                                ? "bg-primary-600 text-white border-primary-600 shadow-lg scale-[1.02]"
+                                                : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                                    )}
+                                >
+                                    <method.icon className="w-6 h-6 mb-2" />
+                                    <span className="text-[10px] font-bold uppercase">{method.label}</span>
+                                </button>
+                            ))}
                     </div>
 
                     {/* Cash Payment Details - Only if Cash selected and Customer exists */}
-                    {paymentMethod === 'cash' && customer && (
+                    {paymentMethod === 2 && customer && (
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -458,7 +514,7 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
                 <div className="p-6 border-t border-slate-100 bg-slate-50/50">
                     <button
                         onClick={handlePayment}
-                        disabled={isProcessing || (paymentMethod === 'cash' && cashPaymentType === 'partial' && (!amountPaid || amountPaid <= 0))}
+                        disabled={isProcessing || (paymentMethod === 2 && cashPaymentType === 'partial' && (!amountPaid || amountPaid <= 0))}
                         className="w-full py-4 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white rounded-xl font-bold text-lg shadow-lg shadow-primary-500/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                     >
                         {isProcessing ? (

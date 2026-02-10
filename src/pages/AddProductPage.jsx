@@ -3,7 +3,7 @@ import { ArrowLeft, Upload, Save, X, Info, Banknote, Package, Tag, Barcode, Laye
 import { useProducts } from '../context/ProductContext';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
-import { AddProductPage_service } from "../pages/service/AddProductPage_service";
+import { Product_Service } from "./service/Product_Service";
 import config from '../helper/config';
 
 
@@ -70,9 +70,8 @@ export default function AddProductPage({ onBack }) {
                 status_id: formData.status === "active" ? 1 : 2
             };
 
-            const response = await AddProductPage_service.addProduct(payload);
+            const response = await Product_Service.addProduct(payload);
 
-            console.log("API response:", response);
 
             alert("Product saved successfully");
             onBack();
@@ -102,7 +101,7 @@ export default function AddProductPage({ onBack }) {
             const formData = new FormData();
             formData.append('image', file); // key MUST be "image"
 
-            const res = await AddProductPage_service.uploadItemImage(formData);
+            const res = await Product_Service.uploadItemImage(formData);
             console.log("kcd", res)
             setFormData(prev => ({ ...prev, image_code: res, image: `${config.pos_api_url}/static/images/products/${res}` }));
         } catch (err) {
