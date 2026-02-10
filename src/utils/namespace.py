@@ -48,6 +48,9 @@ class NameSpace:
     ORDER_PROCESS_TABLE = "order_process"
     ORDER_PROCESS_BP = "order_process_bp"
     ORDER_PROCESS_PREFIX = "/api/order-process"
+    LOAN_TABLE = "loan"
+    LOAN_BP = "loan_bp"
+    LOAN_PREFIX = "/api/loan"
     
    #candidate_full_bp
     ORDER_PREFIX = "/api/order"

@@ -27,6 +27,8 @@ class OrderProcessModel(db.Model):
 
     created_at = db.Column(db.DateTime, default=func.now())
     ubdated_at = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
+    
+    loan_id = db.Column(db.Integer, nullable=True)
 
     # ---------------------------
     # Constructor
@@ -102,3 +104,5 @@ class OrderProcessSchema(Schema):
 
     created_at = fields.DateTime(dump_only=True)
     ubdated_at = fields.DateTime(dump_only=True)
+    
+    loan_id = fields.Int(required=False, allow_none=True)

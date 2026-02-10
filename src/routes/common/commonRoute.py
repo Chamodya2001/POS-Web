@@ -6,6 +6,9 @@ from src.models.customer.customer_model import Customer, CustomerSchema
 from src.models.item.item_model import Item, ItemSchema
 from src.models.order.orderModel import OrderModel, OrderSchema
 from src.models.order.OrderProcessModel import OrderProcessModel, OrderProcessSchema
+from src.models.order.loan_model import Loan, LoanSchema
+from src.models.item.stock_model import Stock, StockSchema
+from src.models.item.supplier_model import Suplier, SuplierSchema
 from src.helper.base_responce import base_response
 from ...utils.namespace import NameSpace
 
@@ -19,6 +22,9 @@ customer_schema = CustomerSchema(many=True)       # list
 item_schema = ItemSchema(many=True)               # list
 order_schema = OrderSchema(many=True)             # list of orders
 order_process_schema_single = OrderProcessSchema()  # single order process object
+loan_schema = LoanSchema(many=True)               # list of loans
+stock_schema = StockSchema(many=True)             # list of stocks
+supplier_schema = SuplierSchema(many=True)     # list of suppliers
 
 
 @candidate_full_bp.route("/full-data/<int:candidate_id>", methods=["GET"])
@@ -38,6 +44,9 @@ def get_candidate_full_data(candidate_id):
         categories = Category.query.filter_by(candidate_id=candidate_id).all()
         customers = Customer.query.filter_by(candidate_id=candidate_id).all()
         items = Item.query.filter_by(candidate_id=candidate_id).all()
+        stocks = Stock.query.filter_by(candidate_id=candidate_id).all()
+        suppliers = Suplier.query.filter_by(candidate_id=candidate_id).all()
+        loan = Loan.query.filter_by(candidate_id=candidate_id).all()
 
         # -------------------------
         # Fetch order processes and orders
@@ -68,7 +77,10 @@ def get_candidate_full_data(candidate_id):
                 "categories": category_schema.dump(categories),
                 "customers": customer_schema.dump(customers),
                 "items": item_schema.dump(items),
-                "orders": orders_data
+                "orders": orders_data,
+                "stocks": stock_schema.dump(stocks),
+                "suppliers": supplier_schema.dump(suppliers),
+                "loans": loan_schema.dump(loan)
             }
         )
 

@@ -25,24 +25,36 @@ def create_stock():
     if errors:
         return base_response(422, False, "Validation failed", errors)
 
-    # FK validations
-    if not Candidate.query.get(json_data["candidate_id"]):
+    candidate = Candidate.query.get(json_data["candidate_id"])
+    if not candidate:
         return base_response(404, False, "Candidate not found", None)
 
-    if not Item.query.get(json_data["item_id"]):
+    item = Item.query.get(json_data["item_id"])
+    if not item:
         return base_response(404, False, "Item not found", None)
 
     if not Suplier.query.get(json_data["suplier_id"]):
         return base_response(404, False, "Supplier not found", None)
 
     try:
+        # 1️⃣ create stock
         stock = Stock(**json_data)
-        stock.save()
+        db.session.add(stock)
+
+        # 2️⃣ update item stock price
+        if "stoke_price" in json_data:
+            item.stoke_price = json_data["stoke_price"]
+
+        # 3️⃣ commit once
+        db.session.commit()
+
         return base_response(
-            201, True,
-            "Stock created successfully",
+            201,
+            True,
+            "Stock created and item price updated successfully",
             stock_schema.dump(stock)
         )
+
     except Exception as e:
         db.session.rollback()
         return base_response(500, False, "Failed to create stock", str(e))
