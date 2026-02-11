@@ -326,52 +326,17 @@ const CartPanel = () => {
 };
 
 const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
+    const { user } = useAuth();
+    const { cart } = useCart();
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [isProcessing, setIsProcessing] = useState(false);
     const [cashPaymentType, setCashPaymentType] = useState('full'); // 'full' or 'partial'
     const [amountPaid, setAmountPaid] = useState(total);
-    const { cart } = useCart();
 
     useEffect(() => {
         setAmountPaid(total);
         setCashPaymentType('full');
     }, [total, paymentMethod]);
-
-    const handleOrderSubmit = async (paymentMethodId, amountToPay, remainingLoan) => {
-        try {
-            const pmId = Number(paymentMethodId);
-            const orderData = {
-                candidate_id: Number(17),
-                casior_id: Number(20),
-                customer_id: Number(customer?.id || 0),
-                payment_method_id: pmId,
-                total_amount: Number(total),
-                loan_balance: Number((pmId === 3 || (pmId === 2 && cashPaymentType === 'partial')) ? remainingLoan : 0),
-                status_id: Number(1),
-                items: cart.map(item => ({
-                    item_id: Number(item.id),
-                    item_name: item.name,
-                    price: Number(item.price),
-                    quantity: Number(item.quantity),
-                    discount: Number(item.discount || 0)
-                }))
-            };
-
-            console.log('Sending order data (numbers coerced):', orderData);
-
-            const result = await OrderService.saveOrder(orderData);
-
-            if (result?.success) {
-                console.log('Order created successfully:', result.data);
-            } else {
-                console.error('Failed to create order:', result?.message || 'Unknown error');
-                throw new Error(result?.message || 'Failed to create order');
-            }
-        } catch (error) {
-            console.error('Error creating order:', error);
-            throw error;
-        }
-    };
 
     if (!isOpen) return null;
 
@@ -384,29 +349,72 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
             return;
         }
 
-        if (!user || !user.candidate_id) {
+        if (!user) {
             alert('✗ User session not found. Please log in again.');
             return;
         }
 
+        // Get cashier ID - could be from different fields depending on login type
+        const casiorId = user.casior_id || 20;
+        
+        if (!casiorId) {
+            alert('✗ Cashier information not found. Please log in again.');
+            return;
+        }
+
         setIsProcessing(true);
-        setTimeout(() => {
-            setIsProcessing(false);
 
-            if (paymentMethod === 'card') {
-                alert(`Card payment of RS ${total.toFixed(2)} successful!`);
-            } else if (paymentMethod === 'cash') {
-                if (cashPaymentType === 'partial') {
-                    alert(`Partial Cash payment of RS ${(parseFloat(amountPaid) || 0).toFixed(2)} successful! RS ${remainingToLoan.toFixed(2)} added to ${customer?.name}'s loan.`);
-                } else {
-                    alert(`Full Cash payment of RS ${total.toFixed(2)} successful!`);
+        try {
+            // Map cart items to backend structure with proper data types
+            const orderItems = cart.map(item => ({
+                item_id: parseInt(item.id, 10), // Convert to integer
+                item_name: item.name,
+                price: parseFloat(item.price) || 0, // Convert to float
+                quantity: parseInt(item.quantity, 10), // Convert to integer
+                discount: parseFloat(item.discount) || 0 // Convert to float
+            }));
+
+            // Construct order payload matching backend expectations
+            const orderPayload = {
+                candidate_id: 17, // Integer - use candidate_id if available, else user id
+                casior_id: 20, // Integer - cashier ID from logged-in user
+                customer_id: customer?.id ? parseInt(customer.id, 10) : null, // Integer or null
+                payment_method: paymentMethod, // String: "card", "cash", or "loan"
+                total_amount: parseFloat(Math.round(total * 100) / 100), // Float with 2 decimals
+                status_id: 1, // Integer
+                items: orderItems
+            };
+
+            console.log('Sending order payload:', orderPayload);
+
+            const response = await OrderService.saveOrder(orderPayload);
+            
+            if (response?.success) {
+                setIsProcessing(false);
+                
+                // Show success message based on payment type
+                if (paymentMethod === 'card') {
+                    alert(`✓ Card payment of RS ${total.toFixed(2)} successful!`);
+                } else if (paymentMethod === 'cash') {
+                    if (cashPaymentType === 'partial') {
+                        alert(`✓ Partial Cash payment of RS ${(parseFloat(amountPaid) || 0).toFixed(2)} successful!\nRS ${remainingToLoan.toFixed(2)} added to ${customer?.name}'s loan.`);
+                    } else {
+                        alert(`✓ Full Cash payment of RS ${total.toFixed(2)} successful!`);
+                    }
+                } else if (paymentMethod === 'loan') {
+                    alert(`✓ RS ${total.toFixed(2)} marked as on loan for ${customer?.name}!`);
                 }
-            } else if (paymentMethod === 'loan') {
-                alert(`RS ${total.toFixed(2)} marked as on loan for ${customer?.name}!`);
+                
+                onComplete();
+            } else {
+                setIsProcessing(false);
+                alert(`✗ Payment failed: ${response?.message || 'Unknown error'}`);
             }
-
-            onComplete();
-        }, 1500);
+        } catch (error) {
+            setIsProcessing(false);
+            console.error('Payment processing error:', error);
+            alert(`✗ Error processing payment: ${error.message}`);
+        }
     };
 
     return (
@@ -430,14 +438,14 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
 
                     <div className="grid grid-cols-3 gap-3">
                         {[
-                                { id: 1, label: 'Card', icon: CreditCard },
-                                { id: 2, label: 'Cash', icon: Banknote },
-                                { id: 3, label: 'Add to Loan', icon: Landmark, disabled: !customer },
-                            ].map((method) => (
-                                <button
-                                    key={method.id}
-                                    disabled={method.disabled}
-                                    onClick={() => setPaymentMethod(method.id)}
+                            { id: 'card', label: 'Card', icon: CreditCard },
+                            { id: 'cash', label: 'Cash', icon: Banknote },
+                            { id: 'loan', label: 'Add to Loan', icon: Landmark, disabled: !customer },
+                        ].map((method) => (
+                            <button
+                                key={method.id}
+                                disabled={method.disabled}
+                                onClick={() => setPaymentMethod(method.id)}
                                     className={clsx(
                                         "flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-200",
                                         method.disabled ? "opacity-30 cursor-not-allowed bg-slate-50 border-slate-100" :
