@@ -461,7 +461,7 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
                     </div>
 
                     {/* Cash Payment Details - Only if Cash selected and Customer exists */}
-                    {paymentMethod === 2 && customer && (
+                    {paymentMethod === 'card' && customer && (
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
