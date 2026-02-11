@@ -1,7 +1,7 @@
 import config from "../../helper/config";
 import APIHandler from "../../handlers/APIHandler";
 
-export const AddProductPage_service = {
+export const Product_Service = {
   addProduct,
   uploadItemImage,
 };

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Trash2, Plus, Minus, CreditCard, Banknote, Landmark, Printer, CheckCircle, User, Search, X, Check, ChevronRight } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import { API_ROUTES } from '../../config/apiConfig';
+import { Customer_Service } from '../../pages/service/Customer_Service';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
+import { OrderService } from './service/order_service';
 
 const CustomerSelector = ({ selectedCustomer, onSelect, customers }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +14,8 @@ const CustomerSelector = ({ selectedCustomer, onSelect, customers }) => {
 
     const filteredCustomers = customers.filter(c =>
         c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.phone?.includes(searchQuery)
+        c.phone?.includes(searchQuery) ||
+        c.nic?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -95,6 +99,7 @@ const CustomerSelector = ({ selectedCustomer, onSelect, customers }) => {
                                                 <div>
                                                     <p className="text-sm font-semibold text-slate-800">{customer.name}</p>
                                                     <p className="text-[11px] text-slate-500">{customer.phone}</p>
+                                                    <p className="text-[10px] text-slate-400">{customer.nic}</p>
                                                 </div>
                                             </div>
                                             <div className="text-right">
@@ -128,31 +133,34 @@ const CartPanel = () => {
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const response = await fetch(API_ROUTES.CUSTOMERS.GET);
-                const data = await response.json();
-                if (data.success && data.data.length > 0) {
-                    const mappedData = data.data.map(c => ({
+                // const response = await fetch(API_ROUTES.CUSTOMERS.GET);
+               const result = await Customer_Service.getCustomerList();
+    
+                if (result?.success && Array.isArray(result.data)) {
+                    const mappedData = result.data.map(c => ({
                         id: c.customer_id,
-                        name: `${c.first_name} ${c.last_name || ''}`,
-                        phone: c.phone_number,
-                        loan: parseFloat(c.loan_balance || 0),
-                        avatar: `https://ui-avatars.com/api/?name=${c.first_name}+${c.last_name}&background=random`
+                        name: `${c.first_name ?? ''} ${c.last_name ?? ''}`.trim(),
+                        phone: c.phone_number ?? '',
+                        nic: c.nic ?? '',
+                        loan: Number(c.loan_balance) || 0, 
+                        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(`${c.first_name ?? ''} ${c.last_name ?? ''}`)}&background=random`
                     }));
+
                     setCustomers(mappedData);
                 } else {
-                    setCustomers([
-                        { id: 1, name: 'Alex Morgan', phone: '0771234567', loan: 1500.00, avatar: 'https://ui-avatars.com/api/?name=Alex+Morgan&background=random' },
-                        { id: 2, name: 'Sarah Wilson', phone: '0779876543', loan: 0.00, avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=random' },
-                        { id: 3, name: 'James Doe', phone: '0774567890', loan: 3400.00, avatar: 'https://ui-avatars.com/api/?name=James+Doe&background=random' }
-                    ]);
+                    // setCustomers([
+                    //     { id: 1, name: 'Alex Morgan', phone: '0771234567', loan: 1500.00, avatar: 'https://ui-avatars.com/api/?name=Alex+Morgan&background=random' },
+                    //     { id: 2, name: 'Sarah Wilson', phone: '0779876543', loan: 0.00, avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=random' },
+                    //     { id: 3, name: 'James Doe', phone: '0774567890', loan: 3400.00, avatar: 'https://ui-avatars.com/api/?name=James+Doe&background=random' }
+                    // ]);
                 }
             } catch (err) {
                 console.error("Failed to fetch customers", err);
-                setCustomers([
-                    { id: 1, name: 'Alex Morgan', phone: '0771234567', loan: 1500.00, avatar: 'https://ui-avatars.com/api/?name=Alex+Morgan&background=random' },
-                    { id: 2, name: 'Sarah Wilson', phone: '0779876543', loan: 0.00, avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=random' },
-                    { id: 3, name: 'James Doe', phone: '0774567890', loan: 3400.00, avatar: 'https://ui-avatars.com/api/?name=James+Doe&background=random' }
-                ]);
+                // setCustomers([
+                //     { id: 1, name: 'Alex Morgan', phone: '0771234567', loan: 1500.00, avatar: 'https://ui-avatars.com/api/?name=Alex+Morgan&background=random' },
+                //     { id: 2, name: 'Sarah Wilson', phone: '0779876543', loan: 0.00, avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=random' },
+                //     { id: 3, name: 'James Doe', phone: '0774567890', loan: 3400.00, avatar: 'https://ui-avatars.com/api/?name=James+Doe&background=random' }
+                // ]);
             }
         };
         fetchCustomers();
@@ -306,6 +314,7 @@ const CartPanel = () => {
                 onClose={() => setIsCheckoutOpen(false)}
                 total={finalTotal}
                 customer={selectedCustomer}
+                cart={cart}
                 onComplete={() => {
                     setIsCheckoutOpen(false);
                     clearCart();
@@ -316,7 +325,8 @@ const CartPanel = () => {
     );
 };
 
-const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
+const CheckoutModal = ({ isOpen, onClose, total, customer, cart, onComplete }) => {
+    const { user } = useAuth();
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [isProcessing, setIsProcessing] = useState(false);
     const [cashPaymentType, setCashPaymentType] = useState('full'); // 'full' or 'partial'
@@ -331,25 +341,71 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
 
     const remainingToLoan = Math.max(0, total - (parseFloat(amountPaid) || 0));
 
-    const handlePayment = () => {
+    const handlePayment = async () => {
+        // Validate required data
+        if (!cart || cart.length === 0) {
+            alert('✗ Cart is empty. Please add items to proceed.');
+            return;
+        }
+
+        if (!user || !user.candidate_id) {
+            alert('✗ User session not found. Please log in again.');
+            return;
+        }
+
         setIsProcessing(true);
-        setTimeout(() => {
-            setIsProcessing(false);
 
-            if (paymentMethod === 'card') {
-                alert(`Card payment of RS ${total.toFixed(2)} successful!`);
-            } else if (paymentMethod === 'cash') {
-                if (cashPaymentType === 'partial') {
-                    alert(`Partial Cash payment of RS ${(parseFloat(amountPaid) || 0).toFixed(2)} successful! RS ${remainingToLoan.toFixed(2)} added to ${customer?.name}'s loan.`);
-                } else {
-                    alert(`Full Cash payment of RS ${total.toFixed(2)} successful!`);
+        // Map cart items to backend structure with proper data types
+        const orderItems = cart.map(item => ({
+            item_id: parseInt(item.id, 10), // Convert to integer
+            item_name: item.name,
+            price: parseFloat(item.price) || 0, // Convert to float
+            quantity: parseInt(item.quantity, 10), // Convert to integer
+            discount: parseFloat(item.discount) || 0 // Convert to float
+        }));
+
+        // Construct order payload matching backend expectations
+        const orderPayload = {
+            candidate_id: parseInt(user.candidate_id, 10), // Integer
+            casior_id: 20, // Integer - Note: backend field name has typo "casior"
+            customer_id: customer?.id ? parseInt(customer.id, 10) : null, // Integer or null
+            payment_method: paymentMethod, // String
+            total_amount: parseFloat(Math.round(total * 100) / 100), // Float with 2 decimals
+            status_id: 1, // Integer
+            items: orderItems
+        };
+
+        console.log('Sending order payload:', orderPayload);
+
+        try {
+            const response = await OrderService.saveOrder(orderPayload);
+            
+            if (response?.success) {
+                setIsProcessing(false);
+                
+                // Show success message based on payment type
+                if (paymentMethod === 'card') {
+                    alert(`✓ Card payment of RS ${total.toFixed(2)} successful!`);
+                } else if (paymentMethod === 'cash') {
+                    if (cashPaymentType === 'partial') {
+                        alert(`✓ Partial Cash payment of RS ${(parseFloat(amountPaid) || 0).toFixed(2)} successful!\nRS ${remainingToLoan.toFixed(2)} added to ${customer?.name}'s loan.`);
+                    } else {
+                        alert(`✓ Full Cash payment of RS ${total.toFixed(2)} successful!`);
+                    }
+                } else if (paymentMethod === 'loan') {
+                    alert(`✓ RS ${total.toFixed(2)} marked as on loan for ${customer?.name}!`);
                 }
-            } else if (paymentMethod === 'loan') {
-                alert(`RS ${total.toFixed(2)} marked as on loan for ${customer?.name}!`);
+                
+                onComplete();
+            } else {
+                setIsProcessing(false);
+                alert(`✗ Payment failed: ${response?.message || 'Unknown error'}`);
             }
-
-            onComplete();
-        }, 1500);
+        } catch (error) {
+            setIsProcessing(false);
+            console.error('Payment processing error:', error);
+            alert(`✗ Error processing payment: ${error.message}`);
+        }
     };
 
     return (

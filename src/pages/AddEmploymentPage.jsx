@@ -8,7 +8,7 @@ import {
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import clsx from 'clsx';
-import { AddEmploymentPage_service } from './service/AddEmploymentPage_service';
+import { Employment_Service } from './service/Employment_Service';
 import Swal from "sweetalert2";
 
 export default function AddEmploymentPage() {
@@ -77,7 +77,7 @@ export default function AddEmploymentPage() {
 
         try {
             console.log("Submitting Employee Data:", formData);
-            await AddEmploymentPage_service.addEmploye(formData);
+            await Employment_Service.addEmploye(formData);
 
             Swal.fire({
                 title: 'Success!',
