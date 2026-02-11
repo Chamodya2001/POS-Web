@@ -30,7 +30,7 @@ def add_order_process():
         req_data = request.get_json(force=True)
         items = req_data.pop("items", [])
 
-        payment_method_id = req_data.get("payment_method_id")
+        payment_method = req_data.get("payment_method")
         customer_id = req_data.get("customer_id")
         candidate_id = req_data.get("candidate_id")
         total_amount = req_data.get("total_amount", 0)
@@ -56,7 +56,7 @@ def add_order_process():
             db.session.add(order_item)
 
         # 3️⃣ Handle loan if payment method = 3
-        if payment_method_id == 3 and total_amount > 0:
+        if payment_method == 'loan' and total_amount > 0:
             customer = Customer.query.get(customer_id)
             if not customer:
                 db.session.rollback()

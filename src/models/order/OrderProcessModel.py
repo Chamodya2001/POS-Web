@@ -20,7 +20,7 @@ class OrderProcessModel(db.Model):
     candidate_id = db.Column(db.Integer, nullable=False)
     casior_id = db.Column(db.Integer, nullable=False)
     customer_id = db.Column(db.Integer, nullable=False)
-    payment_method_id = db.Column(db.Integer, nullable=False)
+    payment_method = db.Column(db.String(128))
 
     total_amount = db.Column(db.Float, nullable=True)
     status_id = db.Column(db.Integer, nullable=True)
@@ -38,7 +38,7 @@ class OrderProcessModel(db.Model):
         self.candidate_id = data.get("candidate_id")
         self.casior_id = data.get("casior_id")
         self.customer_id = data.get("customer_id")
-        self.payment_method_id = data.get("payment_method_id")
+        self.payment_method = data.get("payment_method")
         self.total_amount = data.get("total_amount")
         self.status_id = data.get("status_id")
         self.created_at = data.get("created_at")
@@ -97,7 +97,7 @@ class OrderProcessSchema(Schema):
     candidate_id = fields.Int(required=True)
     casior_id = fields.Int(required=True)
     customer_id = fields.Int(required=True)
-    payment_method_id = fields.Int(required=True)
+    payment_method = fields.Str(required=True)
 
     total_amount = fields.Float(required=False, allow_none=True)
     status_id = fields.Int(required=False, allow_none=True)

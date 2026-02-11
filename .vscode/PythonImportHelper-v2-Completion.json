@@ -1984,7 +1984,7 @@
         "kind": 6,
         "importPath": "src.models.order.OrderProcessModel",
         "description": "src.models.order.OrderProcessModel",
-        "peekOfCode": "class OrderProcessSchema(Schema):\n    order_process_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    casior_id = fields.Int(required=True)\n    customer_id = fields.Int(required=True)\n    payment_method_id = fields.Int(required=True)\n    total_amount = fields.Float(required=False, allow_none=True)\n    status_id = fields.Int(required=False, allow_none=True)\n    created_at = fields.DateTime(dump_only=True)\n    ubdated_at = fields.DateTime(dump_only=True)",
+        "peekOfCode": "class OrderProcessSchema(Schema):\n    order_process_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    casior_id = fields.Int(required=True)\n    customer_id = fields.Int(required=True)\n    payment_method = fields.Str(required=True)\n    total_amount = fields.Float(required=False, allow_none=True)\n    status_id = fields.Int(required=False, allow_none=True)\n    created_at = fields.DateTime(dump_only=True)\n    ubdated_at = fields.DateTime(dump_only=True)",
         "detail": "src.models.order.OrderProcessModel",
         "documentation": {}
     },
@@ -2713,7 +2713,7 @@
         "kind": 2,
         "importPath": "src.routes.order.order_process_routes",
         "description": "src.routes.order.order_process_routes",
-        "peekOfCode": "def add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method_id = req_data.get(\"payment_method_id\")\n        customer_id = req_data.get(\"customer_id\")\n        candidate_id = req_data.get(\"candidate_id\")\n        total_amount = req_data.get(\"total_amount\", 0)\n        # 1️⃣ Save order_process (HEADER)\n        order_process = OrderProcessModel(req_data)",
+        "peekOfCode": "def add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method = req_data.get(\"payment_method\")\n        customer_id = req_data.get(\"customer_id\")\n        candidate_id = req_data.get(\"candidate_id\")\n        total_amount = req_data.get(\"total_amount\", 0)\n        # 1️⃣ Save order_process (HEADER)\n        order_process = OrderProcessModel(req_data)",
         "detail": "src.routes.order.order_process_routes",
         "documentation": {}
     },
@@ -2776,7 +2776,7 @@
         "kind": 5,
         "importPath": "src.routes.order.order_process_routes",
         "description": "src.routes.order.order_process_routes",
-        "peekOfCode": "order_process_list_schema = OrderProcessSchema(many=True)\norder_item_schema = OrderSchema()\nloan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method_id = req_data.get(\"payment_method_id\")",
+        "peekOfCode": "order_process_list_schema = OrderProcessSchema(many=True)\norder_item_schema = OrderSchema()\nloan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method = req_data.get(\"payment_method\")",
         "detail": "src.routes.order.order_process_routes",
         "documentation": {}
     },
@@ -2785,7 +2785,7 @@
         "kind": 5,
         "importPath": "src.routes.order.order_process_routes",
         "description": "src.routes.order.order_process_routes",
-        "peekOfCode": "order_item_schema = OrderSchema()\nloan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method_id = req_data.get(\"payment_method_id\")\n        customer_id = req_data.get(\"customer_id\")",
+        "peekOfCode": "order_item_schema = OrderSchema()\nloan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method = req_data.get(\"payment_method\")\n        customer_id = req_data.get(\"customer_id\")",
         "detail": "src.routes.order.order_process_routes",
         "documentation": {}
     },
@@ -2794,7 +2794,7 @@
         "kind": 5,
         "importPath": "src.routes.order.order_process_routes",
         "description": "src.routes.order.order_process_routes",
-        "peekOfCode": "loan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method_id = req_data.get(\"payment_method_id\")\n        customer_id = req_data.get(\"customer_id\")\n        candidate_id = req_data.get(\"candidate_id\")",
+        "peekOfCode": "loan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method = req_data.get(\"payment_method\")\n        customer_id = req_data.get(\"customer_id\")\n        candidate_id = req_data.get(\"candidate_id\")",
         "detail": "src.routes.order.order_process_routes",
         "documentation": {}
     },
