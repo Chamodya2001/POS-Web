@@ -4,7 +4,6 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { API_ROUTES } from '../../config/apiConfig';
 import { Customer_Service } from '../../pages/service/Customer_Service';
-import { Customer_Service } from '../../pages/service/Customer_Service';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { OrderService } from './service/order_service';
