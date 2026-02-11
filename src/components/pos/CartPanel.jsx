@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { API_ROUTES } from '../../config/apiConfig';
 import { Customer_Service } from '../../pages/service/Customer_Service';
+import { Customer_Service } from '../../pages/service/Customer_Service';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { OrderService } from './service/order_service';
@@ -325,17 +326,53 @@ const CartPanel = () => {
     );
 };
 
-const CheckoutModal = ({ isOpen, onClose, total, customer, cart, onComplete }) => {
-    const { user } = useAuth();
+const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [isProcessing, setIsProcessing] = useState(false);
     const [cashPaymentType, setCashPaymentType] = useState('full'); // 'full' or 'partial'
     const [amountPaid, setAmountPaid] = useState(total);
+    const { cart } = useCart();
 
     useEffect(() => {
         setAmountPaid(total);
         setCashPaymentType('full');
     }, [total, paymentMethod]);
+
+    const handleOrderSubmit = async (paymentMethodId, amountToPay, remainingLoan) => {
+        try {
+            const pmId = Number(paymentMethodId);
+            const orderData = {
+                candidate_id: Number(17),
+                casior_id: Number(20),
+                customer_id: Number(customer?.id || 0),
+                payment_method_id: pmId,
+                total_amount: Number(total),
+                loan_balance: Number((pmId === 3 || (pmId === 2 && cashPaymentType === 'partial')) ? remainingLoan : 0),
+                status_id: Number(1),
+                items: cart.map(item => ({
+                    item_id: Number(item.id),
+                    item_name: item.name,
+                    price: Number(item.price),
+                    quantity: Number(item.quantity),
+                    discount: Number(item.discount || 0)
+                }))
+            };
+
+            console.log('Sending order data (numbers coerced):', orderData);
+
+            const result = await OrderService.saveOrder(orderData);
+
+            if (result?.success) {
+                console.log('Order created successfully:', result.data);
+            } else {
+                console.error('Failed to create order:', result?.message || 'Unknown error');
+                throw new Error(result?.message || 'Failed to create order');
+            }
+        } catch (error) {
+            console.error('Error creating order:', error);
+            throw error;
+        }
+    };
 
     if (!isOpen) return null;
 
@@ -354,58 +391,23 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, cart, onComplete }) =
         }
 
         setIsProcessing(true);
-
-        // Map cart items to backend structure with proper data types
-        const orderItems = cart.map(item => ({
-            item_id: parseInt(item.id, 10), // Convert to integer
-            item_name: item.name,
-            price: parseFloat(item.price) || 0, // Convert to float
-            quantity: parseInt(item.quantity, 10), // Convert to integer
-            discount: parseFloat(item.discount) || 0 // Convert to float
-        }));
-
-        // Construct order payload matching backend expectations
-        const orderPayload = {
-            candidate_id: parseInt(user.candidate_id, 10), // Integer
-            casior_id: 20, // Integer - Note: backend field name has typo "casior"
-            customer_id: customer?.id ? parseInt(customer.id, 10) : null, // Integer or null
-            payment_method: paymentMethod, // String
-            total_amount: parseFloat(Math.round(total * 100) / 100), // Float with 2 decimals
-            status_id: 1, // Integer
-            items: orderItems
-        };
-
-        console.log('Sending order payload:', orderPayload);
-
-        try {
-            const response = await OrderService.saveOrder(orderPayload);
-            
-            if (response?.success) {
-                setIsProcessing(false);
-                
-                // Show success message based on payment type
-                if (paymentMethod === 'card') {
-                    alert(`✓ Card payment of RS ${total.toFixed(2)} successful!`);
-                } else if (paymentMethod === 'cash') {
-                    if (cashPaymentType === 'partial') {
-                        alert(`✓ Partial Cash payment of RS ${(parseFloat(amountPaid) || 0).toFixed(2)} successful!\nRS ${remainingToLoan.toFixed(2)} added to ${customer?.name}'s loan.`);
-                    } else {
-                        alert(`✓ Full Cash payment of RS ${total.toFixed(2)} successful!`);
-                    }
-                } else if (paymentMethod === 'loan') {
-                    alert(`✓ RS ${total.toFixed(2)} marked as on loan for ${customer?.name}!`);
-                }
-                
-                onComplete();
-            } else {
-                setIsProcessing(false);
-                alert(`✗ Payment failed: ${response?.message || 'Unknown error'}`);
-            }
-        } catch (error) {
+        setTimeout(() => {
             setIsProcessing(false);
-            console.error('Payment processing error:', error);
-            alert(`✗ Error processing payment: ${error.message}`);
-        }
+
+            if (paymentMethod === 'card') {
+                alert(`Card payment of RS ${total.toFixed(2)} successful!`);
+            } else if (paymentMethod === 'cash') {
+                if (cashPaymentType === 'partial') {
+                    alert(`Partial Cash payment of RS ${(parseFloat(amountPaid) || 0).toFixed(2)} successful! RS ${remainingToLoan.toFixed(2)} added to ${customer?.name}'s loan.`);
+                } else {
+                    alert(`Full Cash payment of RS ${total.toFixed(2)} successful!`);
+                }
+            } else if (paymentMethod === 'loan') {
+                alert(`RS ${total.toFixed(2)} marked as on loan for ${customer?.name}!`);
+            }
+
+            onComplete();
+        }, 1500);
     };
 
     return (
@@ -429,30 +431,30 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, cart, onComplete }) =
 
                     <div className="grid grid-cols-3 gap-3">
                         {[
-                            { id: 'card', label: 'Card', icon: CreditCard },
-                            { id: 'cash', label: 'Cash', icon: Banknote },
-                            { id: 'loan', label: 'Add to Loan', icon: Landmark, disabled: !customer },
-                        ].map((method) => (
-                            <button
-                                key={method.id}
-                                disabled={method.disabled}
-                                onClick={() => setPaymentMethod(method.id)}
-                                className={clsx(
-                                    "flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-200",
-                                    method.disabled ? "opacity-30 cursor-not-allowed bg-slate-50 border-slate-100" :
-                                        paymentMethod === method.id
-                                            ? "bg-primary-600 text-white border-primary-600 shadow-lg scale-[1.02]"
-                                            : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                                )}
-                            >
-                                <method.icon className="w-6 h-6 mb-2" />
-                                <span className="text-[10px] font-bold uppercase">{method.label}</span>
-                            </button>
-                        ))}
+                                { id: 1, label: 'Card', icon: CreditCard },
+                                { id: 2, label: 'Cash', icon: Banknote },
+                                { id: 3, label: 'Add to Loan', icon: Landmark, disabled: !customer },
+                            ].map((method) => (
+                                <button
+                                    key={method.id}
+                                    disabled={method.disabled}
+                                    onClick={() => setPaymentMethod(method.id)}
+                                    className={clsx(
+                                        "flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-200",
+                                        method.disabled ? "opacity-30 cursor-not-allowed bg-slate-50 border-slate-100" :
+                                            paymentMethod === method.id
+                                                ? "bg-primary-600 text-white border-primary-600 shadow-lg scale-[1.02]"
+                                                : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                                    )}
+                                >
+                                    <method.icon className="w-6 h-6 mb-2" />
+                                    <span className="text-[10px] font-bold uppercase">{method.label}</span>
+                                </button>
+                            ))}
                     </div>
 
                     {/* Cash Payment Details - Only if Cash selected and Customer exists */}
-                    {paymentMethod === 'cash' && customer && (
+                    {paymentMethod === 2 && customer && (
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -514,7 +516,7 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, cart, onComplete }) =
                 <div className="p-6 border-t border-slate-100 bg-slate-50/50">
                     <button
                         onClick={handlePayment}
-                        disabled={isProcessing || (paymentMethod === 'cash' && cashPaymentType === 'partial' && (!amountPaid || amountPaid <= 0))}
+                        disabled={isProcessing || (paymentMethod === 2 && cashPaymentType === 'partial' && (!amountPaid || amountPaid <= 0))}
                         className="w-full py-4 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white rounded-xl font-bold text-lg shadow-lg shadow-primary-500/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                     >
                         {isProcessing ? (
