@@ -25,6 +25,15 @@ class NameSpace:
     ITEM_TABLE = "item"
     ITEM_SCHEMA = "item"
     
+    #suplier
+    SUPLIER_TABLE = "suplier" 
+    SUPLIER_PREFIX = "/api/suplier"
+    SUPLIER_BP = "suplier_bp"
+    
+    #stock
+    STOCK_TABLE = "stock"
+    STOCK_PREFIX = "/api/stock"
+    STOCK_BP = "stock_bp"
     
     
     # Customer
@@ -39,6 +48,9 @@ class NameSpace:
     ORDER_PROCESS_TABLE = "order_process"
     ORDER_PROCESS_BP = "order_process_bp"
     ORDER_PROCESS_PREFIX = "/api/order-process"
+    LOAN_TABLE = "loan"
+    LOAN_BP = "loan_bp"
+    LOAN_PREFIX = "/api/loan"
     
    #candidate_full_bp
     ORDER_PREFIX = "/api/order"

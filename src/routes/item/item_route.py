@@ -61,7 +61,6 @@ def create_item():
     try:
         existing_item = Item.query.filter(
             Item.item_name.ilike(json_data["item_name"].strip()),
-            Item.short_code == json_data["short_code"],
             Item.bar_code == json_data["bar_code"]
         ).first()
         if existing_item:

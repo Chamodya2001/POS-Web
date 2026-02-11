@@ -27,9 +27,12 @@ def app():
     from src.routes.category.category_route import category_bp
     from src.routes.casior.casior_route import casior_bp
     from src.routes.item.item_route import item_bp
+    from src.routes.item.stock_route import stock_bp
+    from src.routes.item.suplier_route import suplier_bp
     from src.routes.customer.customer_route import customer_bp
     from src.routes.common.commonRoute import candidate_full_bp
     from src.routes.order.order_routes import order_bp
+    from src.routes.order.loan_route import loan_bp
     from src.routes.order.order_process_routes import order_process_bp
    
     app.register_blueprint(candidate_bp, url_prefix= NameSpace.CANDIDATE_PREFIX)
@@ -40,6 +43,9 @@ def app():
     app.register_blueprint(candidate_full_bp,url_prefix = NameSpace.CANDIDATE_FULL_PREFIX)
     app.register_blueprint(order_bp,url_prefix = NameSpace.ORDER_PREFIX)
     app.register_blueprint(order_process_bp,url_prefix = NameSpace.ORDER_PROCESS_PREFIX)
+    app.register_blueprint(loan_bp,url_prefix = NameSpace.LOAN_PREFIX)
+    app.register_blueprint(stock_bp,url_prefix = NameSpace.STOCK_PREFIX)
+    app.register_blueprint(suplier_bp,url_prefix = NameSpace.SUPLIER_PREFIX)
     
     return app
 EnvironmentError

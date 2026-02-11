@@ -185,6 +185,54 @@
         "documentation": {}
     },
     {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "json",
         "importPath": "flask",
         "description": "flask",
@@ -337,6 +385,54 @@
         "documentation": {}
     },
     {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "importPath": "src.utils.extensions",
+        "description": "src.utils.extensions",
+        "isExtraImport": true,
+        "detail": "src.utils.extensions",
+        "documentation": {}
+    },
+    {
         "label": "ARRAY",
         "importPath": "sqlalchemy.dialects.postgresql",
         "description": "sqlalchemy.dialects.postgresql",
@@ -513,6 +609,30 @@
         "documentation": {}
     },
     {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
+        "label": "func",
+        "importPath": "sqlalchemy",
+        "description": "sqlalchemy",
+        "isExtraImport": true,
+        "detail": "sqlalchemy",
+        "documentation": {}
+    },
+    {
         "label": "generate_password_hash",
         "importPath": "werkzeug.security",
         "description": "werkzeug.security",
@@ -769,6 +889,102 @@
         "documentation": {}
     },
     {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationError",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "validates_schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "Schema",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
+        "label": "fields",
+        "importPath": "marshmallow",
+        "description": "marshmallow",
+        "isExtraImport": true,
+        "detail": "marshmallow",
+        "documentation": {}
+    },
+    {
         "label": "Schema",
         "importPath": "marshmallow",
         "description": "marshmallow",
@@ -822,6 +1038,38 @@
         "description": "utils.extensions",
         "isExtraImport": true,
         "detail": "utils.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "NameSpace",
+        "importPath": "src.utils.namespace",
+        "description": "src.utils.namespace",
+        "isExtraImport": true,
+        "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "NameSpace",
+        "importPath": "src.utils.namespace",
+        "description": "src.utils.namespace",
+        "isExtraImport": true,
+        "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "NameSpace",
+        "importPath": "src.utils.namespace",
+        "description": "src.utils.namespace",
+        "isExtraImport": true,
+        "detail": "src.utils.namespace",
+        "documentation": {}
+    },
+    {
+        "label": "NameSpace",
+        "importPath": "src.utils.namespace",
+        "description": "src.utils.namespace",
+        "isExtraImport": true,
+        "detail": "src.utils.namespace",
         "documentation": {}
     },
     {
@@ -913,19 +1161,43 @@
         "documentation": {}
     },
     {
-        "label": "NameSpace",
-        "importPath": "src.utils.namespace",
-        "description": "src.utils.namespace",
+        "label": "Candidate",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
         "isExtraImport": true,
-        "detail": "src.utils.namespace",
+        "detail": "src.models.candidate.candidate_model",
         "documentation": {}
     },
     {
-        "label": "NameSpace",
-        "importPath": "src.utils.namespace",
-        "description": "src.utils.namespace",
+        "label": "Candidate",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
         "isExtraImport": true,
-        "detail": "src.utils.namespace",
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
+        "label": "Candidate",
+        "importPath": "src.models.candidate.candidate_model",
+        "description": "src.models.candidate.candidate_model",
+        "isExtraImport": true,
+        "detail": "src.models.candidate.candidate_model",
+        "documentation": {}
+    },
+    {
+        "label": "Casior",
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "isExtraImport": true,
+        "detail": "src.models.casior.casior_model",
+        "documentation": {}
+    },
+    {
+        "label": "CasiorSchema",
+        "importPath": "src.models.casior.casior_model",
+        "description": "src.models.casior.casior_model",
+        "isExtraImport": true,
+        "detail": "src.models.casior.casior_model",
         "documentation": {}
     },
     {
@@ -945,19 +1217,27 @@
         "documentation": {}
     },
     {
-        "label": "Casior",
-        "importPath": "src.models.casior.casior_model",
-        "description": "src.models.casior.casior_model",
+        "label": "base_response",
+        "importPath": "src.helper.base_responce",
+        "description": "src.helper.base_responce",
         "isExtraImport": true,
-        "detail": "src.models.casior.casior_model",
+        "detail": "src.helper.base_responce",
         "documentation": {}
     },
     {
-        "label": "CasiorSchema",
-        "importPath": "src.models.casior.casior_model",
-        "description": "src.models.casior.casior_model",
+        "label": "base_response",
+        "importPath": "src.helper.base_responce",
+        "description": "src.helper.base_responce",
         "isExtraImport": true,
-        "detail": "src.models.casior.casior_model",
+        "detail": "src.helper.base_responce",
+        "documentation": {}
+    },
+    {
+        "label": "base_response",
+        "importPath": "src.helper.base_responce",
+        "description": "src.helper.base_responce",
+        "isExtraImport": true,
+        "detail": "src.helper.base_responce",
         "documentation": {}
     },
     {
@@ -1065,6 +1345,30 @@
         "documentation": {}
     },
     {
+        "label": "Customer",
+        "importPath": "src.models.customer.customer_model",
+        "description": "src.models.customer.customer_model",
+        "isExtraImport": true,
+        "detail": "src.models.customer.customer_model",
+        "documentation": {}
+    },
+    {
+        "label": "Customer",
+        "importPath": "src.models.customer.customer_model",
+        "description": "src.models.customer.customer_model",
+        "isExtraImport": true,
+        "detail": "src.models.customer.customer_model",
+        "documentation": {}
+    },
+    {
+        "label": "CustomerSchema",
+        "importPath": "src.models.customer.customer_model",
+        "description": "src.models.customer.customer_model",
+        "isExtraImport": true,
+        "detail": "src.models.customer.customer_model",
+        "documentation": {}
+    },
+    {
         "label": "Item",
         "importPath": "src.models.item.item_model",
         "description": "src.models.item.item_model",
@@ -1090,6 +1394,14 @@
     },
     {
         "label": "ItemSchema",
+        "importPath": "src.models.item.item_model",
+        "description": "src.models.item.item_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "Item",
         "importPath": "src.models.item.item_model",
         "description": "src.models.item.item_model",
         "isExtraImport": true,
@@ -1158,6 +1470,134 @@
         "description": "src.models.order.OrderProcessModel",
         "isExtraImport": true,
         "detail": "src.models.order.OrderProcessModel",
+        "documentation": {}
+    },
+    {
+        "label": "Loan",
+        "importPath": "src.models.order.loan_model",
+        "description": "src.models.order.loan_model",
+        "isExtraImport": true,
+        "detail": "src.models.order.loan_model",
+        "documentation": {}
+    },
+    {
+        "label": "LoanSchema",
+        "importPath": "src.models.order.loan_model",
+        "description": "src.models.order.loan_model",
+        "isExtraImport": true,
+        "detail": "src.models.order.loan_model",
+        "documentation": {}
+    },
+    {
+        "label": "Loan",
+        "importPath": "src.models.order.loan_model",
+        "description": "src.models.order.loan_model",
+        "isExtraImport": true,
+        "detail": "src.models.order.loan_model",
+        "documentation": {}
+    },
+    {
+        "label": "Loan",
+        "importPath": "src.models.order.loan_model",
+        "description": "src.models.order.loan_model",
+        "isExtraImport": true,
+        "detail": "src.models.order.loan_model",
+        "documentation": {}
+    },
+    {
+        "label": "LoanSchema",
+        "importPath": "src.models.order.loan_model",
+        "description": "src.models.order.loan_model",
+        "isExtraImport": true,
+        "detail": "src.models.order.loan_model",
+        "documentation": {}
+    },
+    {
+        "label": "Loan",
+        "importPath": "src.models.order.loan_model",
+        "description": "src.models.order.loan_model",
+        "isExtraImport": true,
+        "detail": "src.models.order.loan_model",
+        "documentation": {}
+    },
+    {
+        "label": "LoanSchema",
+        "importPath": "src.models.order.loan_model",
+        "description": "src.models.order.loan_model",
+        "isExtraImport": true,
+        "detail": "src.models.order.loan_model",
+        "documentation": {}
+    },
+    {
+        "label": "Stock",
+        "importPath": "src.models.item.stock_model",
+        "description": "src.models.item.stock_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.stock_model",
+        "documentation": {}
+    },
+    {
+        "label": "StockSchema",
+        "importPath": "src.models.item.stock_model",
+        "description": "src.models.item.stock_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.stock_model",
+        "documentation": {}
+    },
+    {
+        "label": "Stock",
+        "importPath": "src.models.item.stock_model",
+        "description": "src.models.item.stock_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.stock_model",
+        "documentation": {}
+    },
+    {
+        "label": "StockSchema",
+        "importPath": "src.models.item.stock_model",
+        "description": "src.models.item.stock_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.stock_model",
+        "documentation": {}
+    },
+    {
+        "label": "Suplier",
+        "importPath": "src.models.item.supplier_model",
+        "description": "src.models.item.supplier_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.supplier_model",
+        "documentation": {}
+    },
+    {
+        "label": "SuplierSchema",
+        "importPath": "src.models.item.supplier_model",
+        "description": "src.models.item.supplier_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.supplier_model",
+        "documentation": {}
+    },
+    {
+        "label": "Suplier",
+        "importPath": "src.models.item.supplier_model",
+        "description": "src.models.item.supplier_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.supplier_model",
+        "documentation": {}
+    },
+    {
+        "label": "Suplier",
+        "importPath": "src.models.item.supplier_model",
+        "description": "src.models.item.supplier_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.supplier_model",
+        "documentation": {}
+    },
+    {
+        "label": "SuplierSchema",
+        "importPath": "src.models.item.supplier_model",
+        "description": "src.models.item.supplier_model",
+        "isExtraImport": true,
+        "detail": "src.models.item.supplier_model",
         "documentation": {}
     },
     {
@@ -1445,7 +1885,7 @@
         "kind": 6,
         "importPath": "src.models.item.item_model",
         "description": "src.models.item.item_model",
-        "peekOfCode": "class Item(db.Model):\n    __tablename__ = NameSpace.ITEM_TABLE\n    __table_args__ = {\"schema\": NameSpace.ITEM_SCHEMA}\n    item_id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    candidate_id = db.Column(db.Integer, db.ForeignKey(\"candidate.candidate.candidate_id\"), nullable=False)\n    category_id = db.Column(db.Integer, db.ForeignKey(\"category.category.category_id\"), nullable=False)\n    item_name = db.Column(db.String(256), nullable=False)\n    short_code = db.Column(db.String(256))\n    bar_code = db.Column(db.String(512))\n    sale_price = db.Column(db.Float, nullable=False)",
+        "peekOfCode": "class Item(db.Model):\n    __tablename__ = NameSpace.ITEM_TABLE\n    __table_args__ = {\"schema\": NameSpace.ITEM_SCHEMA}\n    item_id = db.Column(db.Integer, primary_key=True, autoincrement=True)\n    candidate_id = db.Column(db.Integer, db.ForeignKey(\"candidate.candidate.candidate_id\"), nullable=False)\n    category_id = db.Column(db.Integer, db.ForeignKey(\"category.category.category_id\"), nullable=False)\n    item_name = db.Column(db.String(256), nullable=False)\n    description = db.Column(db.Text)\n    bar_code = db.Column(db.String(512))\n    sale_price = db.Column(db.Float, nullable=False)",
         "detail": "src.models.item.item_model",
         "documentation": {}
     },
@@ -1454,8 +1894,62 @@
         "kind": 6,
         "importPath": "src.models.item.item_model",
         "description": "src.models.item.item_model",
-        "peekOfCode": "class ItemSchema(Schema):\n    item_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    category_id = fields.Int(required=True)\n    item_name = fields.Str(required=True)\n    short_code = fields.Str()\n    bar_code = fields.Str()\n    sale_price = fields.Float(required=True)\n    stoke_price = fields.Float(required=True)\n    measurement_id = fields.Int()",
+        "peekOfCode": "class ItemSchema(Schema):\n    item_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    category_id = fields.Int(required=True)\n    item_name = fields.Str(required=True)\n    description = fields.Str()\n    bar_code = fields.Str()\n    sale_price = fields.Float(required=True)\n    stoke_price = fields.Float(required=True)\n    measurement_id = fields.Int()",
         "detail": "src.models.item.item_model",
+        "documentation": {}
+    },
+    {
+        "label": "Stock",
+        "kind": 6,
+        "importPath": "src.models.item.stock_model",
+        "description": "src.models.item.stock_model",
+        "peekOfCode": "class Stock(db.Model):\n    __tablename__ = NameSpace.STOCK_TABLE\n    __table_args__ = {\"schema\": NameSpace.ITEM_SCHEMA}\n    stock_id = db.Column(db.Integer, primary_key=True)\n    candidate_id = db.Column(\n        db.Integer,\n        db.ForeignKey(\"candidate.candidate.candidate_id\"),\n        nullable=False\n    )\n    item_id = db.Column(",
+        "detail": "src.models.item.stock_model",
+        "documentation": {}
+    },
+    {
+        "label": "StockSchema",
+        "kind": 6,
+        "importPath": "src.models.item.stock_model",
+        "description": "src.models.item.stock_model",
+        "peekOfCode": "class StockSchema(Schema):\n    stock_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    item_id = fields.Int(required=True)\n    suplier_id = fields.Int(required=True)\n    stoke_quantity = fields.Float(allow_none=True)\n    stoke_price =  fields.Float(allow_none=True)\n    current_quantity = fields.Float(allow_none=True)\n    additional_notes = fields.Str(allow_none=True)\n    received_date = fields.Date(allow_none=True)",
+        "detail": "src.models.item.stock_model",
+        "documentation": {}
+    },
+    {
+        "label": "Suplier",
+        "kind": 6,
+        "importPath": "src.models.item.supplier_model",
+        "description": "src.models.item.supplier_model",
+        "peekOfCode": "class Suplier(db.Model):\n    __tablename__ = NameSpace.SUPLIER_TABLE\n    __table_args__ = {\"schema\": NameSpace.ITEM_SCHEMA}\n    suplier_id = db.Column(\n        db.Integer,\n        primary_key=True\n    )\n    candidate_id = db.Column(\n        db.Integer,\n        db.ForeignKey(\"candidate.candidate.candidate_id\"),",
+        "detail": "src.models.item.supplier_model",
+        "documentation": {}
+    },
+    {
+        "label": "SuplierSchema",
+        "kind": 6,
+        "importPath": "src.models.item.supplier_model",
+        "description": "src.models.item.supplier_model",
+        "peekOfCode": "class SuplierSchema(Schema):\n    suplier_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    company_name = fields.Str(allow_none=True)\n    contact_person_name = fields.Str(allow_none=True)\n    email = fields.Email(allow_none=True)\n    phone = fields.List(fields.Str(), allow_none=True)\n    address = fields.Str(allow_none=True)\n    status_id = fields.Int(allow_none=True)\n    create_at = fields.DateTime(dump_only=True)",
+        "detail": "src.models.item.supplier_model",
+        "documentation": {}
+    },
+    {
+        "label": "Loan",
+        "kind": 6,
+        "importPath": "src.models.order.loan_model",
+        "description": "src.models.order.loan_model",
+        "peekOfCode": "class Loan(db.Model):\n    __tablename__ = NameSpace.LOAN_TABLE\n    __table_args__ = {\"schema\": NameSpace.ORDER_SCHEMA}\n    loan_id = db.Column(\n        db.Integer,\n        primary_key=True\n    )\n    candidate_id = db.Column(\n        db.Integer,\n        db.ForeignKey(\"candidate.candidate.candidate_id\"),",
+        "detail": "src.models.order.loan_model",
+        "documentation": {}
+    },
+    {
+        "label": "LoanSchema",
+        "kind": 6,
+        "importPath": "src.models.order.loan_model",
+        "description": "src.models.order.loan_model",
+        "peekOfCode": "class LoanSchema(Schema):\n    loan_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    customer_id = fields.Int(required=True)\n    loan_balance = fields.Float(allow_none=True)\n    status_id = fields.Int(allow_none=True)\n    created_at = fields.DateTime(dump_only=True)\n    ubdated_at = fields.DateTime(dump_only=True)\n    @validates_schema\n    def validate_loan(self, data, **kwargs):",
+        "detail": "src.models.order.loan_model",
         "documentation": {}
     },
     {
@@ -1490,7 +1984,7 @@
         "kind": 6,
         "importPath": "src.models.order.OrderProcessModel",
         "description": "src.models.order.OrderProcessModel",
-        "peekOfCode": "class OrderProcessSchema(Schema):\n    order_process_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    casior_id = fields.Int(required=True)\n    customer_id = fields.Int(required=True)\n    payment_method_id = fields.Int(required=True)\n    total_amount = fields.Float(required=False, allow_none=True)\n    status_id = fields.Int(required=False, allow_none=True)\n    created_at = fields.DateTime(dump_only=True)\n    ubdated_at = fields.DateTime(dump_only=True)",
+        "peekOfCode": "class OrderProcessSchema(Schema):\n    order_process_id = fields.Int(dump_only=True)\n    candidate_id = fields.Int(required=True)\n    casior_id = fields.Int(required=True)\n    customer_id = fields.Int(required=True)\n    payment_method = fields.Str(required=True)\n    total_amount = fields.Float(required=False, allow_none=True)\n    status_id = fields.Int(required=False, allow_none=True)\n    created_at = fields.DateTime(dump_only=True)\n    ubdated_at = fields.DateTime(dump_only=True)",
         "detail": "src.models.order.OrderProcessModel",
         "documentation": {}
     },
@@ -1536,6 +2030,15 @@
         "importPath": "src.routes.candidate.candidate_route",
         "description": "src.routes.candidate.candidate_route",
         "peekOfCode": "def delete_candidate(candidate_id):\n    candidate = Candidate.query.get(candidate_id)\n    if not candidate:\n        return base_response(\n            status_code=404,\n            success=False,\n            message=\"Candidate not found\",\n            data=None\n        )\n    try:",
+        "detail": "src.routes.candidate.candidate_route",
+        "documentation": {}
+    },
+    {
+        "label": "login",
+        "kind": 2,
+        "importPath": "src.routes.candidate.candidate_route",
+        "description": "src.routes.candidate.candidate_route",
+        "peekOfCode": "def login():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    email = json_data.get(\"email\")\n    password = json_data.get(\"password\")\n    if not email or not password:\n        return base_response(400, False, \"Email and password are required\", None)\n    try:\n        candidate = Candidate.query.filter(",
         "detail": "src.routes.candidate.candidate_route",
         "documentation": {}
     },
@@ -1608,6 +2111,15 @@
         "importPath": "src.routes.casior.casior_route",
         "description": "src.routes.casior.casior_route",
         "peekOfCode": "def delete_casior(casior_id):\n    casior = Casior.query.get(casior_id)\n    if not casior:\n        return base_response(404, False, \"Casior not found\", None)\n    try:\n        casior.delete()\n        return base_response(200, True, \"Casior deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete casior\", str(e))",
+        "detail": "src.routes.casior.casior_route",
+        "documentation": {}
+    },
+    {
+        "label": "login",
+        "kind": 2,
+        "importPath": "src.routes.casior.casior_route",
+        "description": "src.routes.casior.casior_route",
+        "peekOfCode": "def login():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    email = json_data.get(\"email\")\n    password = json_data.get(\"password\")\n    if not email or not password:\n        return base_response(400, False, \"Email and password are required\", None)\n    try:\n        casior = Casior.query.filter_by(email=email).first()",
         "detail": "src.routes.casior.casior_route",
         "documentation": {}
     },
@@ -1724,7 +2236,7 @@
         "kind": 5,
         "importPath": "src.routes.common.commonRoute",
         "description": "src.routes.common.commonRoute",
-        "peekOfCode": "candidate_full_bp = Blueprint(NameSpace.CANDIDATE_FULL_BP, __name__)\n# Schemas\ncandidate_schema = CandidateSchema()               # single object\ncasior_schema = CasiorSchema(many=True)           # list\ncategory_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])",
+        "peekOfCode": "candidate_full_bp = Blueprint(NameSpace.CANDIDATE_FULL_BP, __name__)\n# Schemas\ncandidate_schema = CandidateSchema()               # single object\ncasior_schema = CasiorSchema(many=True)           # list\ncategory_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\nloan_schema = LoanSchema(many=True)               # list of loans",
         "detail": "src.routes.common.commonRoute",
         "documentation": {}
     },
@@ -1733,7 +2245,7 @@
         "kind": 5,
         "importPath": "src.routes.common.commonRoute",
         "description": "src.routes.common.commonRoute",
-        "peekOfCode": "candidate_schema = CandidateSchema()               # single object\ncasior_schema = CasiorSchema(many=True)           # list\ncategory_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:",
+        "peekOfCode": "candidate_schema = CandidateSchema()               # single object\ncasior_schema = CasiorSchema(many=True)           # list\ncategory_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\nloan_schema = LoanSchema(many=True)               # list of loans\nstock_schema = StockSchema(many=True)             # list of stocks\nsupplier_schema = SuplierSchema(many=True)     # list of suppliers",
         "detail": "src.routes.common.commonRoute",
         "documentation": {}
     },
@@ -1742,7 +2254,7 @@
         "kind": 5,
         "importPath": "src.routes.common.commonRoute",
         "description": "src.routes.common.commonRoute",
-        "peekOfCode": "casior_schema = CasiorSchema(many=True)           # list\ncategory_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------",
+        "peekOfCode": "casior_schema = CasiorSchema(many=True)           # list\ncategory_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\nloan_schema = LoanSchema(many=True)               # list of loans\nstock_schema = StockSchema(many=True)             # list of stocks\nsupplier_schema = SuplierSchema(many=True)     # list of suppliers\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])",
         "detail": "src.routes.common.commonRoute",
         "documentation": {}
     },
@@ -1751,7 +2263,7 @@
         "kind": 5,
         "importPath": "src.routes.common.commonRoute",
         "description": "src.routes.common.commonRoute",
-        "peekOfCode": "category_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate",
+        "peekOfCode": "category_schema = CategorySchema(many=True)       # list\ncustomer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\nloan_schema = LoanSchema(many=True)               # list of loans\nstock_schema = StockSchema(many=True)             # list of stocks\nsupplier_schema = SuplierSchema(many=True)     # list of suppliers\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):",
         "detail": "src.routes.common.commonRoute",
         "documentation": {}
     },
@@ -1760,7 +2272,7 @@
         "kind": 5,
         "importPath": "src.routes.common.commonRoute",
         "description": "src.routes.common.commonRoute",
-        "peekOfCode": "customer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------",
+        "peekOfCode": "customer_schema = CustomerSchema(many=True)       # list\nitem_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\nloan_schema = LoanSchema(many=True)               # list of loans\nstock_schema = StockSchema(many=True)             # list of stocks\nsupplier_schema = SuplierSchema(many=True)     # list of suppliers\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:",
         "detail": "src.routes.common.commonRoute",
         "documentation": {}
     },
@@ -1769,7 +2281,7 @@
         "kind": 5,
         "importPath": "src.routes.common.commonRoute",
         "description": "src.routes.common.commonRoute",
-        "peekOfCode": "item_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------\n        candidate = Candidate.query.get(candidate_id)",
+        "peekOfCode": "item_schema = ItemSchema(many=True)               # list\norder_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\nloan_schema = LoanSchema(many=True)               # list of loans\nstock_schema = StockSchema(many=True)             # list of stocks\nsupplier_schema = SuplierSchema(many=True)     # list of suppliers\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------",
         "detail": "src.routes.common.commonRoute",
         "documentation": {}
     },
@@ -1778,7 +2290,7 @@
         "kind": 5,
         "importPath": "src.routes.common.commonRoute",
         "description": "src.routes.common.commonRoute",
-        "peekOfCode": "order_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------\n        candidate = Candidate.query.get(candidate_id)\n        if not candidate:",
+        "peekOfCode": "order_schema = OrderSchema(many=True)             # list of orders\norder_process_schema_single = OrderProcessSchema()  # single order process object\nloan_schema = LoanSchema(many=True)               # list of loans\nstock_schema = StockSchema(many=True)             # list of stocks\nsupplier_schema = SuplierSchema(many=True)     # list of suppliers\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate",
         "detail": "src.routes.common.commonRoute",
         "documentation": {}
     },
@@ -1787,7 +2299,34 @@
         "kind": 5,
         "importPath": "src.routes.common.commonRoute",
         "description": "src.routes.common.commonRoute",
-        "peekOfCode": "order_process_schema_single = OrderProcessSchema()  # single order process object\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------\n        candidate = Candidate.query.get(candidate_id)\n        if not candidate:\n            return base_response(404, False, \"Candidate not found\", None)",
+        "peekOfCode": "order_process_schema_single = OrderProcessSchema()  # single order process object\nloan_schema = LoanSchema(many=True)               # list of loans\nstock_schema = StockSchema(many=True)             # list of stocks\nsupplier_schema = SuplierSchema(many=True)     # list of suppliers\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "loan_schema",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "loan_schema = LoanSchema(many=True)               # list of loans\nstock_schema = StockSchema(many=True)             # list of stocks\nsupplier_schema = SuplierSchema(many=True)     # list of suppliers\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------\n        candidate = Candidate.query.get(candidate_id)",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "stock_schema",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "stock_schema = StockSchema(many=True)             # list of stocks\nsupplier_schema = SuplierSchema(many=True)     # list of suppliers\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------\n        candidate = Candidate.query.get(candidate_id)\n        if not candidate:",
+        "detail": "src.routes.common.commonRoute",
+        "documentation": {}
+    },
+    {
+        "label": "supplier_schema",
+        "kind": 5,
+        "importPath": "src.routes.common.commonRoute",
+        "description": "src.routes.common.commonRoute",
+        "peekOfCode": "supplier_schema = SuplierSchema(many=True)     # list of suppliers\n@candidate_full_bp.route(\"/full-data/<int:candidate_id>\", methods=[\"GET\"])\ndef get_candidate_full_data(candidate_id):\n    try:\n        # -------------------------\n        # Fetch candidate\n        # -------------------------\n        candidate = Candidate.query.get(candidate_id)\n        if not candidate:\n            return base_response(404, False, \"Candidate not found\", None)",
         "detail": "src.routes.common.commonRoute",
         "documentation": {}
     },
@@ -1796,7 +2335,7 @@
         "kind": 2,
         "importPath": "src.routes.customer.customer_route",
         "description": "src.routes.customer.customer_route",
-        "peekOfCode": "def create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            400, False, \"No input data provided\", None\n        )\n    errors = customer_schema.validate(json_data)\n    if errors:\n        return base_response(\n            422, False, \"Validation failed\", errors",
+        "peekOfCode": "def create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = customer_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    try:\n        # -------- Check if customer already exists by NIC --------\n        existing_customer = Customer.query.filter_by(nic=json_data[\"nic\"]).first()",
         "detail": "src.routes.customer.customer_route",
         "documentation": {}
     },
@@ -1841,7 +2380,7 @@
         "kind": 5,
         "importPath": "src.routes.customer.customer_route",
         "description": "src.routes.customer.customer_route",
-        "peekOfCode": "customer_bp = Blueprint(NameSpace.CUSTOMER_BP, __name__)\ncustomer_schema = CustomerSchema()\ncustomers_schema = CustomerSchema(many=True)\n# ---------------- CREATE ----------------\n@customer_bp.route(\"/save\", methods=[\"POST\"])\ndef create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            400, False, \"No input data provided\", None",
+        "peekOfCode": "customer_bp = Blueprint(NameSpace.CUSTOMER_BP, __name__)\ncustomer_schema = CustomerSchema()\ncustomers_schema = CustomerSchema(many=True)\n# ---------------- CREATE ----------------\n@customer_bp.route(\"/save\", methods=[\"POST\"])\ndef create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = customer_schema.validate(json_data)",
         "detail": "src.routes.customer.customer_route",
         "documentation": {}
     },
@@ -1850,7 +2389,7 @@
         "kind": 5,
         "importPath": "src.routes.customer.customer_route",
         "description": "src.routes.customer.customer_route",
-        "peekOfCode": "customer_schema = CustomerSchema()\ncustomers_schema = CustomerSchema(many=True)\n# ---------------- CREATE ----------------\n@customer_bp.route(\"/save\", methods=[\"POST\"])\ndef create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            400, False, \"No input data provided\", None\n        )",
+        "peekOfCode": "customer_schema = CustomerSchema()\ncustomers_schema = CustomerSchema(many=True)\n# ---------------- CREATE ----------------\n@customer_bp.route(\"/save\", methods=[\"POST\"])\ndef create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = customer_schema.validate(json_data)\n    if errors:",
         "detail": "src.routes.customer.customer_route",
         "documentation": {}
     },
@@ -1859,7 +2398,7 @@
         "kind": 5,
         "importPath": "src.routes.customer.customer_route",
         "description": "src.routes.customer.customer_route",
-        "peekOfCode": "customers_schema = CustomerSchema(many=True)\n# ---------------- CREATE ----------------\n@customer_bp.route(\"/save\", methods=[\"POST\"])\ndef create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(\n            400, False, \"No input data provided\", None\n        )\n    errors = customer_schema.validate(json_data)",
+        "peekOfCode": "customers_schema = CustomerSchema(many=True)\n# ---------------- CREATE ----------------\n@customer_bp.route(\"/save\", methods=[\"POST\"])\ndef create_customer():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = customer_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
         "detail": "src.routes.customer.customer_route",
         "documentation": {}
     },
@@ -1954,11 +2493,227 @@
         "documentation": {}
     },
     {
+        "label": "create_stock",
+        "kind": 2,
+        "importPath": "src.routes.item.stock_route",
+        "description": "src.routes.item.stock_route",
+        "peekOfCode": "def create_stock():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = stock_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    candidate = Candidate.query.get(json_data[\"candidate_id\"])\n    if not candidate:\n        return base_response(404, False, \"Candidate not found\", None)",
+        "detail": "src.routes.item.stock_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_stocks",
+        "kind": 2,
+        "importPath": "src.routes.item.stock_route",
+        "description": "src.routes.item.stock_route",
+        "peekOfCode": "def get_all_stocks():\n    try:\n        stocks = Stock.query.all()\n        return base_response(\n            200, True,\n            \"Stocks retrieved successfully\",\n            stocks_schema.dump(stocks)\n        )\n    except Exception as e:\n        return base_response(500, False, \"Failed to retrieve stocks\", str(e))",
+        "detail": "src.routes.item.stock_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_stock",
+        "kind": 2,
+        "importPath": "src.routes.item.stock_route",
+        "description": "src.routes.item.stock_route",
+        "peekOfCode": "def get_stock(stock_id):\n    stock = Stock.query.get(stock_id)\n    if not stock:\n        return base_response(404, False, \"Stock not found\", None)\n    return base_response(\n        200, True,\n        \"Stock retrieved successfully\",\n        stock_schema.dump(stock)\n    )\n# ------------------------",
+        "detail": "src.routes.item.stock_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_stock",
+        "kind": 2,
+        "importPath": "src.routes.item.stock_route",
+        "description": "src.routes.item.stock_route",
+        "peekOfCode": "def update_stock(stock_id):\n    stock = Stock.query.get(stock_id)\n    if not stock:\n        return base_response(404, False, \"Stock not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = stock_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
+        "detail": "src.routes.item.stock_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_stock",
+        "kind": 2,
+        "importPath": "src.routes.item.stock_route",
+        "description": "src.routes.item.stock_route",
+        "peekOfCode": "def delete_stock(stock_id):\n    stock = Stock.query.get(stock_id)\n    if not stock:\n        return base_response(404, False, \"Stock not found\", None)\n    try:\n        stock.delete()\n        return base_response(200, True, \"Stock deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete stock\", str(e))",
+        "detail": "src.routes.item.stock_route",
+        "documentation": {}
+    },
+    {
+        "label": "stock_bp",
+        "kind": 5,
+        "importPath": "src.routes.item.stock_route",
+        "description": "src.routes.item.stock_route",
+        "peekOfCode": "stock_bp = Blueprint(NameSpace.STOCK_BP, __name__)\nstock_schema = StockSchema()\nstocks_schema = StockSchema(many=True)\n# ------------------------\n# CREATE STOCK\n# ------------------------\n@stock_bp.route(\"/save\", methods=[\"POST\"])\ndef create_stock():\n    json_data = request.get_json()\n    if not json_data:",
+        "detail": "src.routes.item.stock_route",
+        "documentation": {}
+    },
+    {
+        "label": "stock_schema",
+        "kind": 5,
+        "importPath": "src.routes.item.stock_route",
+        "description": "src.routes.item.stock_route",
+        "peekOfCode": "stock_schema = StockSchema()\nstocks_schema = StockSchema(many=True)\n# ------------------------\n# CREATE STOCK\n# ------------------------\n@stock_bp.route(\"/save\", methods=[\"POST\"])\ndef create_stock():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)",
+        "detail": "src.routes.item.stock_route",
+        "documentation": {}
+    },
+    {
+        "label": "stocks_schema",
+        "kind": 5,
+        "importPath": "src.routes.item.stock_route",
+        "description": "src.routes.item.stock_route",
+        "peekOfCode": "stocks_schema = StockSchema(many=True)\n# ------------------------\n# CREATE STOCK\n# ------------------------\n@stock_bp.route(\"/save\", methods=[\"POST\"])\ndef create_stock():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = stock_schema.validate(json_data)",
+        "detail": "src.routes.item.stock_route",
+        "documentation": {}
+    },
+    {
+        "label": "create_suplier",
+        "kind": 2,
+        "importPath": "src.routes.item.suplier_route",
+        "description": "src.routes.item.suplier_route",
+        "peekOfCode": "def create_suplier():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = suplier_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    # Check candidate exists\n    candidate = Candidate.query.get(json_data[\"candidate_id\"])\n    if not candidate:",
+        "detail": "src.routes.item.suplier_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_supliers",
+        "kind": 2,
+        "importPath": "src.routes.item.suplier_route",
+        "description": "src.routes.item.suplier_route",
+        "peekOfCode": "def get_all_supliers():\n    try:\n        supliers = Suplier.query.all()\n        return base_response(\n            200, True,\n            \"Suppliers retrieved successfully\",\n            supliers_schema.dump(supliers)\n        )\n    except Exception as e:\n        return base_response(500, False, \"Failed to retrieve suppliers\", str(e))",
+        "detail": "src.routes.item.suplier_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_suplier",
+        "kind": 2,
+        "importPath": "src.routes.item.suplier_route",
+        "description": "src.routes.item.suplier_route",
+        "peekOfCode": "def get_suplier(suplier_id):\n    suplier = Suplier.query.get(suplier_id)\n    if not suplier:\n        return base_response(404, False, \"Supplier not found\", None)\n    return base_response(\n        200, True,\n        \"Supplier retrieved successfully\",\n        suplier_schema.dump(suplier)\n    )\n# ------------------------",
+        "detail": "src.routes.item.suplier_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_suplier",
+        "kind": 2,
+        "importPath": "src.routes.item.suplier_route",
+        "description": "src.routes.item.suplier_route",
+        "peekOfCode": "def update_suplier(suplier_id):\n    suplier = Suplier.query.get(suplier_id)\n    if not suplier:\n        return base_response(404, False, \"Supplier not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = suplier_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
+        "detail": "src.routes.item.suplier_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_suplier",
+        "kind": 2,
+        "importPath": "src.routes.item.suplier_route",
+        "description": "src.routes.item.suplier_route",
+        "peekOfCode": "def delete_suplier(suplier_id):\n    suplier = Suplier.query.get(suplier_id)\n    if not suplier:\n        return base_response(404, False, \"Supplier not found\", None)\n    try:\n        suplier.delete()\n        return base_response(200, True, \"Supplier deleted successfully\", None)\n    except Exception as e:\n        db.session.rollback()\n        return base_response(500, False, \"Failed to delete supplier\", str(e))",
+        "detail": "src.routes.item.suplier_route",
+        "documentation": {}
+    },
+    {
+        "label": "suplier_bp",
+        "kind": 5,
+        "importPath": "src.routes.item.suplier_route",
+        "description": "src.routes.item.suplier_route",
+        "peekOfCode": "suplier_bp = Blueprint(NameSpace.SUPLIER_BP, __name__)\nsuplier_schema = SuplierSchema()\nsupliers_schema = SuplierSchema(many=True)\n# ------------------------\n# CREATE SUPLIER\n# ------------------------\n@suplier_bp.route(\"/save\", methods=[\"POST\"])\ndef create_suplier():\n    json_data = request.get_json()\n    if not json_data:",
+        "detail": "src.routes.item.suplier_route",
+        "documentation": {}
+    },
+    {
+        "label": "suplier_schema",
+        "kind": 5,
+        "importPath": "src.routes.item.suplier_route",
+        "description": "src.routes.item.suplier_route",
+        "peekOfCode": "suplier_schema = SuplierSchema()\nsupliers_schema = SuplierSchema(many=True)\n# ------------------------\n# CREATE SUPLIER\n# ------------------------\n@suplier_bp.route(\"/save\", methods=[\"POST\"])\ndef create_suplier():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)",
+        "detail": "src.routes.item.suplier_route",
+        "documentation": {}
+    },
+    {
+        "label": "supliers_schema",
+        "kind": 5,
+        "importPath": "src.routes.item.suplier_route",
+        "description": "src.routes.item.suplier_route",
+        "peekOfCode": "supliers_schema = SuplierSchema(many=True)\n# ------------------------\n# CREATE SUPLIER\n# ------------------------\n@suplier_bp.route(\"/save\", methods=[\"POST\"])\ndef create_suplier():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = suplier_schema.validate(json_data)",
+        "detail": "src.routes.item.suplier_route",
+        "documentation": {}
+    },
+    {
+        "label": "create_loan",
+        "kind": 2,
+        "importPath": "src.routes.order.loan_route",
+        "description": "src.routes.order.loan_route",
+        "peekOfCode": "def create_loan():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = loan_schema.validate(json_data)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)\n    # FK validations\n    if not Candidate.query.get(json_data[\"candidate_id\"]):\n        return base_response(404, False, \"Candidate not found\", None)",
+        "detail": "src.routes.order.loan_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_loans",
+        "kind": 2,
+        "importPath": "src.routes.order.loan_route",
+        "description": "src.routes.order.loan_route",
+        "peekOfCode": "def get_all_loans():\n    try:\n        loans = Loan.query.all()\n        return base_response(\n            200, True,\n            \"Loans retrieved successfully\",\n            loans_schema.dump(loans)\n        )\n    except Exception as e:\n        return base_response(500, False, \"Failed to retrieve loans\", str(e))",
+        "detail": "src.routes.order.loan_route",
+        "documentation": {}
+    },
+    {
+        "label": "get_loan",
+        "kind": 2,
+        "importPath": "src.routes.order.loan_route",
+        "description": "src.routes.order.loan_route",
+        "peekOfCode": "def get_loan(loan_id):\n    loan = Loan.query.get(loan_id)\n    if not loan:\n        return base_response(404, False, \"Loan not found\", None)\n    return base_response(\n        200, True,\n        \"Loan retrieved successfully\",\n        loan_schema.dump(loan)\n    )\n# ------------------------",
+        "detail": "src.routes.order.loan_route",
+        "documentation": {}
+    },
+    {
+        "label": "update_loan",
+        "kind": 2,
+        "importPath": "src.routes.order.loan_route",
+        "description": "src.routes.order.loan_route",
+        "peekOfCode": "def update_loan(loan_id):\n    loan = Loan.query.get(loan_id)\n    if not loan:\n        return base_response(404, False, \"Loan not found\", None)\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = loan_schema.validate(json_data, partial=True)\n    if errors:\n        return base_response(422, False, \"Validation failed\", errors)",
+        "detail": "src.routes.order.loan_route",
+        "documentation": {}
+    },
+    {
+        "label": "delete_loan",
+        "kind": 2,
+        "importPath": "src.routes.order.loan_route",
+        "description": "src.routes.order.loan_route",
+        "peekOfCode": "def delete_loan(loan_id):\n    loan = Loan.query.get(loan_id)\n    if not loan:\n        return base_response(404, False, \"Loan not found\", None)\n    try:\n        loan.delete()\n        return base_response(\n            200, True,\n            \"Loan deleted successfully\",\n            None",
+        "detail": "src.routes.order.loan_route",
+        "documentation": {}
+    },
+    {
+        "label": "loan_bp",
+        "kind": 5,
+        "importPath": "src.routes.order.loan_route",
+        "description": "src.routes.order.loan_route",
+        "peekOfCode": "loan_bp = Blueprint(NameSpace.LOAN_BP, __name__)\nloan_schema = LoanSchema()\nloans_schema = LoanSchema(many=True)\n# ------------------------\n# CREATE LOAN\n# ------------------------\n@loan_bp.route(\"/save\", methods=[\"POST\"])\ndef create_loan():\n    json_data = request.get_json()\n    if not json_data:",
+        "detail": "src.routes.order.loan_route",
+        "documentation": {}
+    },
+    {
+        "label": "loan_schema",
+        "kind": 5,
+        "importPath": "src.routes.order.loan_route",
+        "description": "src.routes.order.loan_route",
+        "peekOfCode": "loan_schema = LoanSchema()\nloans_schema = LoanSchema(many=True)\n# ------------------------\n# CREATE LOAN\n# ------------------------\n@loan_bp.route(\"/save\", methods=[\"POST\"])\ndef create_loan():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)",
+        "detail": "src.routes.order.loan_route",
+        "documentation": {}
+    },
+    {
+        "label": "loans_schema",
+        "kind": 5,
+        "importPath": "src.routes.order.loan_route",
+        "description": "src.routes.order.loan_route",
+        "peekOfCode": "loans_schema = LoanSchema(many=True)\n# ------------------------\n# CREATE LOAN\n# ------------------------\n@loan_bp.route(\"/save\", methods=[\"POST\"])\ndef create_loan():\n    json_data = request.get_json()\n    if not json_data:\n        return base_response(400, False, \"No input data provided\", None)\n    errors = loan_schema.validate(json_data)",
+        "detail": "src.routes.order.loan_route",
+        "documentation": {}
+    },
+    {
         "label": "add_order_process",
         "kind": 2,
         "importPath": "src.routes.order.order_process_routes",
         "description": "src.routes.order.order_process_routes",
-        "peekOfCode": "def add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        # 1️⃣ Save order_process (HEADER)\n        order_process = OrderProcessModel(req_data)\n        db.session.add(order_process)\n        db.session.flush()  \n        # 👆 IMPORTANT: gets order_process_id without commit\n        order_process_id = order_process.order_process_id",
+        "peekOfCode": "def add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method = req_data.get(\"payment_method\")\n        customer_id = req_data.get(\"customer_id\")\n        candidate_id = req_data.get(\"candidate_id\")\n        total_amount = req_data.get(\"total_amount\", 0)\n        # 1️⃣ Save order_process (HEADER)\n        order_process = OrderProcessModel(req_data)",
         "detail": "src.routes.order.order_process_routes",
         "documentation": {}
     },
@@ -2003,7 +2758,7 @@
         "kind": 5,
         "importPath": "src.routes.order.order_process_routes",
         "description": "src.routes.order.order_process_routes",
-        "peekOfCode": "order_process_bp = Blueprint(\n    NameSpace.ORDER_PROCESS_BP, __name__\n)\norder_process_schema = OrderProcessSchema()\norder_process_list_schema = OrderProcessSchema(many=True)\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)",
+        "peekOfCode": "order_process_bp = Blueprint(\n    NameSpace.ORDER_PROCESS_BP, __name__\n)\norder_process_schema = OrderProcessSchema()\norder_process_list_schema = OrderProcessSchema(many=True)\norder_item_schema = OrderSchema()\nloan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():",
         "detail": "src.routes.order.order_process_routes",
         "documentation": {}
     },
@@ -2012,7 +2767,7 @@
         "kind": 5,
         "importPath": "src.routes.order.order_process_routes",
         "description": "src.routes.order.order_process_routes",
-        "peekOfCode": "order_process_schema = OrderProcessSchema()\norder_process_list_schema = OrderProcessSchema(many=True)\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        # 1️⃣ Save order_process (HEADER)\n        order_process = OrderProcessModel(req_data)",
+        "peekOfCode": "order_process_schema = OrderProcessSchema()\norder_process_list_schema = OrderProcessSchema(many=True)\norder_item_schema = OrderSchema()\nloan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])",
         "detail": "src.routes.order.order_process_routes",
         "documentation": {}
     },
@@ -2021,7 +2776,25 @@
         "kind": 5,
         "importPath": "src.routes.order.order_process_routes",
         "description": "src.routes.order.order_process_routes",
-        "peekOfCode": "order_process_list_schema = OrderProcessSchema(many=True)\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        # 1️⃣ Save order_process (HEADER)\n        order_process = OrderProcessModel(req_data)\n        db.session.add(order_process)",
+        "peekOfCode": "order_process_list_schema = OrderProcessSchema(many=True)\norder_item_schema = OrderSchema()\nloan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method = req_data.get(\"payment_method\")",
+        "detail": "src.routes.order.order_process_routes",
+        "documentation": {}
+    },
+    {
+        "label": "order_item_schema",
+        "kind": 5,
+        "importPath": "src.routes.order.order_process_routes",
+        "description": "src.routes.order.order_process_routes",
+        "peekOfCode": "order_item_schema = OrderSchema()\nloan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method = req_data.get(\"payment_method\")\n        customer_id = req_data.get(\"customer_id\")",
+        "detail": "src.routes.order.order_process_routes",
+        "documentation": {}
+    },
+    {
+        "label": "loan_schema",
+        "kind": 5,
+        "importPath": "src.routes.order.order_process_routes",
+        "description": "src.routes.order.order_process_routes",
+        "peekOfCode": "loan_schema = LoanSchema()\n# ---------------- ADD ----------------\n@order_process_bp.route(\"/add\", methods=[\"POST\"])\ndef add_order_process():\n    try:\n        req_data = request.get_json(force=True)\n        items = req_data.pop(\"items\", [])\n        payment_method = req_data.get(\"payment_method\")\n        customer_id = req_data.get(\"customer_id\")\n        candidate_id = req_data.get(\"candidate_id\")",
         "detail": "src.routes.order.order_process_routes",
         "documentation": {}
     },

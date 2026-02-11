@@ -30,6 +30,8 @@ class Customer(db.Model):
     update_at = db.Column(db.DateTime, onupdate=func.now())
 
     status_id = db.Column( db.Integer, nullable=True)
+    
+    loan_balance = db.Column(db.Float)
 
     # ------------------ helpers ------------------
 
@@ -68,6 +70,8 @@ class CustomerSchema(Schema):
     update_at = fields.DateTime(dump_only=True)
 
     status_id = fields.Int(allow_none=True)
+    
+    loan_balance = fields.Float(allow_none=True)
 
     @validates_schema
     def validate_names(self, data, **kwargs):

@@ -6,6 +6,8 @@ from src.models.order.OrderProcessModel import OrderProcessModel,OrderProcessSch
 from src.models.order.orderModel import OrderModel,OrderSchema
 from ...helper.base_responce import base_response
 from ...utils.namespace import NameSpace, success, error
+from src.models.order.loan_model import Loan,LoanSchema
+from src.models.customer.customer_model import Customer,CustomerSchema
 from src.utils.extensions import db
 
 
@@ -18,48 +20,79 @@ order_process_bp = Blueprint(
 
 order_process_schema = OrderProcessSchema()
 order_process_list_schema = OrderProcessSchema(many=True)
+order_item_schema = OrderSchema()
+loan_schema = LoanSchema()
 
 # ---------------- ADD ----------------
 @order_process_bp.route("/add", methods=["POST"])
 def add_order_process():
     try:
         req_data = request.get_json(force=True)
-
         items = req_data.pop("items", [])
+
+        payment_method = req_data.get("payment_method")
+        customer_id = req_data.get("customer_id")
+        candidate_id = req_data.get("candidate_id")
+        total_amount = req_data.get("total_amount", 0)
 
         # 1️⃣ Save order_process (HEADER)
         order_process = OrderProcessModel(req_data)
         db.session.add(order_process)
-        db.session.flush()  
-        # 👆 IMPORTANT: gets order_process_id without commit
-
+        db.session.flush()  # gets order_process_id without commit
         order_process_id = order_process.order_process_id
 
         # 2️⃣ Save order items (DETAILS)
         for item in items:
             order_item_data = {
                 "order_process_id": order_process_id,
-                "candidate_id": order_process.candidate_id,
+                "candidate_id": candidate_id,
                 "item_id": item["item_id"],
                 "item_name": item.get("item_name"),
                 "price": item["price"],
                 "quantity": item["quantity"],
                 "discount": item.get("discount", 0)
             }
-
             order_item = OrderModel(order_item_data)
             db.session.add(order_item)
 
-        # 3️⃣ Commit everything
+        # 3️⃣ Handle loan if payment method = 3
+        if payment_method == 'loan' and total_amount > 0:
+            customer = Customer.query.get(customer_id)
+            if not customer:
+                db.session.rollback()
+                return base_response(
+                    404, False, "Customer not found", None
+                )
+
+            # Check if loan exists for customer
+            existing_loan = Loan.query.filter_by(customer_id=customer_id).first()
+
+            if existing_loan:
+                # Update loan balance
+                existing_loan.loan_balance = (existing_loan.loan_balance or 0) + total_amount
+                db.session.add(existing_loan)
+            else:
+                # Create new loan
+                loan = Loan(
+                    candidate_id=candidate_id,
+                    customer_id=customer_id,
+                    loan_balance=total_amount,
+                    status_id=1  # ACTIVE
+                )
+                db.session.add(loan)
+
+            # 4️⃣ Update customer table loan_balance
+            customer.loan_balance = (customer.loan_balance or 0) + total_amount
+            db.session.add(customer)
+
+        # 5️⃣ Commit everything
         db.session.commit()
 
         return base_response(
             status_code=success.STATUS_CODE_201,
             success=True,
             message="Order created successfully",
-            data={
-                "order_process_id": order_process_id
-            }
+            data={"order_process_id": order_process_id}
         )
 
     except ValidationError as e:
