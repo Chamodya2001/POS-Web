@@ -1,7 +1,7 @@
 import config from "../../helper/config";
 import APIHandler from "../../handlers/APIHandler";
 
-export const AddEmploymentPage_service = {
+export const Employment_Service = {
   addEmploye,
  
 };

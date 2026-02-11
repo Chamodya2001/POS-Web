@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
-import { API_ROUTES } from '../config/apiConfig';
+import { Customer_Service } from './service/customer_service';
 
 export default function AddCustomerPage() {
     const { theme } = useTheme();
@@ -21,7 +21,7 @@ export default function AddCustomerPage() {
         nic: "",
         loan_balance: 0,
         casior_id: 1,
-        candidate_id: 4, // Using valid candidate_id from database
+        candidate_id: 17, // Using valid candidate_id from database
         status_id: 1
     });
 
@@ -43,14 +43,8 @@ export default function AddCustomerPage() {
         setMessage({ type: '', text: '' });
 
         try {
-            console.log('Calling API:', API_ROUTES.CUSTOMERS.SAVE);
-            const response = await fetch(API_ROUTES.CUSTOMERS.SAVE, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
+             const response = await Customer_Service.addCustomer(formData);
+                
 
             const data = await response.json();
 
@@ -65,8 +59,8 @@ export default function AddCustomerPage() {
                     address: "",
                     nic: "",
                     loan_balance: 0,
-                    casior_id: 1,
-                    candidate_id: 16,
+                    casior_id: 20,
+                    candidate_id: 17,
                     status_id: 1
                 });
             } else if (response.status === 409) {
