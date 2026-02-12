@@ -43,8 +43,8 @@ export default function AddCustomerPage() {
         setMessage({ type: '', text: '' });
 
         try {
-             const response = await Customer_Service.addCustomer(formData);
-                
+            const response = await Customer_Service.addCustomer(formData);
+
 
             const data = await response.json();
 
