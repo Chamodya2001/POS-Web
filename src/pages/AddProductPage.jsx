@@ -3,8 +3,9 @@ import { ArrowLeft, Upload, Save, X, Info, Banknote, Package, Tag, Barcode, Laye
 import { useProducts } from '../context/ProductContext';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
-import { Product_Service } from "./service/Product_Service";
+import { API } from '../services/appService';
 import config from '../helper/config';
+
 
 
 
@@ -70,7 +71,7 @@ export default function AddProductPage({ onBack }) {
                 status_id: formData.status === "active" ? 1 : 2
             };
 
-            const response = await Product_Service.addProduct(payload);
+            const response = await API.addProduct(payload);
 
 
             alert("Product saved successfully");
@@ -101,9 +102,11 @@ export default function AddProductPage({ onBack }) {
             const formData = new FormData();
             formData.append('image', file); // key MUST be "image"
 
-            const res = await Product_Service.uploadItemImage(formData);
+            const res = await API.uploadItemImage(formData);
             console.log("kcd", res)
-            setFormData(prev => ({ ...prev, image_code: res, image: `${config.pos_api_url}/static/images/products/${res}` }));
+            const imageCode = res?.data?.image_code || res; // Handle both full response and direct code
+            setFormData(prev => ({ ...prev, image_code: imageCode, image: `${config.pos_api_url}/static/images/products/${imageCode}` }));
+
         } catch (err) {
             console.error("Image upload failed:", err);
             alert("Image upload failed");

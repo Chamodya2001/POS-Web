@@ -6,7 +6,8 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
-import { API_ROUTES } from '../config/apiConfig';
+import { API } from '../services/appService';
+
 
 export default function AddSupplierPage({ supplierToEdit, onBack, onSuccess }) {
     const { theme } = useTheme();
@@ -50,22 +51,15 @@ export default function AddSupplierPage({ supplierToEdit, onBack, onSuccess }) {
         setLoading(true);
         setMessage({ type: '', text: '' });
 
-        const url = supplierToEdit
-            ? API_ROUTES.SUPPLIERS.UPDATE(supplierToEdit.id)
-            : API_ROUTES.SUPPLIERS.SAVE;
-
-        const method = supplierToEdit ? 'PUT' : 'POST';
-
         try {
-            const response = await fetch(url, {
-                method: method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
+            let response;
+            if (supplierToEdit) {
+                response = await API.updateSupplier(supplierToEdit.id, formData);
+            } else {
+                response = await API.saveSupplier(formData);
+            }
 
-            const data = await response.json();
-
-            if (response.ok) {
+            if (response.success || response) {
                 setMessage({ type: 'success', text: `Supplier ${supplierToEdit ? 'updated' : 'registered'} successfully!` });
                 if (onSuccess) {
                     setTimeout(() => onSuccess(), 1500);

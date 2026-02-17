@@ -5,140 +5,11 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
-import { API_ROUTES } from '../config/apiConfig';
 import * as XLSX from 'xlsx';
+import { API } from '../services/appService';
 
 // Demo Data for Easy Understanding
-const DEMO_EMPLOYEES = [
-    {
-        casior_id: 1,
-        first_name: "Rohit",
-        last_name: "Perera",
-        email: "rohit@example.com",
-        shop_name: "Main Branch Store",
-        status_id: 1,
-        create_at: "2024-06-15T10:30:00Z",
-        candidate: {
-            phone_number: [771234567],
-            nic: "123456789V",
-            address: "123 Main Street",
-            district: "Colombo",
-            province: "Western"
-        }
-    },
-    {
-        casior_id: 2,
-        first_name: "Priya",
-        last_name: "Silva",
-        email: "priya@example.com",
-        shop_name: "Downtown Mall",
-        status_id: 1,
-        create_at: "2024-07-20T14:15:00Z",
-        candidate: {
-            phone_number: [772345678],
-            nic: "234567890V",
-            address: "456 Park Road",
-            district: "Galle",
-            province: "Southern"
-        }
-    },
-    {
-        casior_id: 3,
-        first_name: "Kasun",
-        last_name: "Jayawardena",
-        email: "kasun@example.com",
-        shop_name: "Airport Terminal Store",
-        status_id: 1,
-        create_at: "2024-08-10T09:45:00Z",
-        candidate: {
-            phone_number: [773456789],
-            nic: "345678901V",
-            address: "789 Airport Avenue",
-            district: "Negombo",
-            province: "Western"
-        }
-    },
-    {
-        casior_id: 4,
-        first_name: "Amara",
-        last_name: "Fernando",
-        email: "amara@example.com",
-        shop_name: "Kandy Shopping Center",
-        status_id: 1,
-        create_at: "2024-09-05T11:20:00Z",
-        candidate: {
-            phone_number: [774567890],
-            nic: "456789012V",
-            address: "321 Temple Road",
-            district: "Kandy",
-            province: "Central"
-        }
-    },
-    {
-        casior_id: 5,
-        first_name: "Sandun",
-        last_name: "Jayasena",
-        email: "sandun@example.com",
-        shop_name: "Beach Road Outlet",
-        status_id: 1,
-        create_at: "2024-10-12T15:30:00Z",
-        candidate: {
-            phone_number: [775678901],
-            nic: "567890123V",
-            address: "654 Beach Avenue",
-            district: "Matara",
-            province: "Southern"
-        }
-    },
-    {
-        casior_id: 6,
-        first_name: "Chaminda",
-        last_name: "Gunarathne",
-        email: "chaminda@example.com",
-        shop_name: "Jaffna Central",
-        status_id: 0,
-        create_at: "2024-11-03T08:00:00Z",
-        candidate: {
-            phone_number: [776789012],
-            nic: "678901234V",
-            address: "987 Market Street",
-            district: "Jaffna",
-            province: "Northern"
-        }
-    },
-    {
-        casior_id: 7,
-        first_name: "Dilini",
-        last_name: "Abeysekara",
-        email: "dilini@example.com",
-        shop_name: "City Center Store",
-        status_id: 1,
-        create_at: "2024-05-22T13:45:00Z",
-        candidate: {
-            phone_number: [777890123],
-            nic: "789012345V",
-            address: "147 City Road",
-            district: "Colombo",
-            province: "Western"
-        }
-    },
-    {
-        casior_id: 8,
-        first_name: "Nuwan",
-        last_name: "Dissanayake",
-        email: "nuwan@example.com",
-        shop_name: "Ratnapura Branch",
-        status_id: 1,
-        create_at: "2024-04-18T10:15:00Z",
-        candidate: {
-            phone_number: [778901234],
-            nic: "890123456V",
-            address: "258 Gem Street",
-            district: "Ratnapura",
-            province: "Sabaragamuwa"
-        }
-    }
-];
+
 
 // Generate mock sales data
 const generateSalesData = (employeeId) => {
@@ -421,22 +292,40 @@ const SalesDataTable = ({ data, period, isDarkMode }) => {
     );
 };
 
+
 export default function EmployeeReportPage() {
     const { theme } = useTheme();
     const isDarkMode = theme === 'dark';
 
-    const [employees, setEmployees] = useState(DEMO_EMPLOYEES);
+    const [employees, setEmployees] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [selectedPeriod, setSelectedPeriod] = useState('monthly');
     const [salesData, setSalesData] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(false);
+    const [employeesLoading, setEmployeesLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchEmployees = async () => {
+            try {
+                const data = await API.getEmployees();
+                if (data && data.success) {
+                    setEmployees(data.data);
+                }
+            } catch (err) {
+                console.error("Failed to fetch employees", err);
+            } finally {
+                setEmployeesLoading(false);
+            }
+        };
+        fetchEmployees();
+    }, []);
 
     // Update sales data when employee changes
     useEffect(() => {
         if (selectedEmployee) {
             setLoading(true);
-            // Simulate API call
+            // Simulate API call for now (as there is no aggregate endpoint for sales by employee yet)
             setTimeout(() => {
                 setSalesData(generateSalesData(selectedEmployee.casior_id));
                 setLoading(false);
@@ -444,13 +333,19 @@ export default function EmployeeReportPage() {
         }
     }, [selectedEmployee]);
 
-    const handleDeleteEmployee = (id) => {
+    const handleDeleteEmployee = async (id) => {
         if (window.confirm('Remove this employee from the system?')) {
-            setEmployees(prev => prev.filter(emp => emp.casior_id !== id));
-            if (selectedEmployee?.casior_id === id) setSelectedEmployee(null);
-            // Add API call here 
+            try {
+                await API.deleteEmployee(id);
+                setEmployees(prev => prev.filter(emp => emp.casior_id !== id));
+                if (selectedEmployee?.casior_id === id) setSelectedEmployee(null);
+            } catch (err) {
+                console.error("Failed to delete employee", err);
+                alert("Failed to delete employee");
+            }
         }
     };
+
 
     const filteredEmployees = employees.filter(emp =>
         emp.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||

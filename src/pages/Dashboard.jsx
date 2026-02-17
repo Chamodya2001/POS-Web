@@ -11,7 +11,8 @@ import {
 } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 import { useAuth } from '../context/AuthContext';
-import config from '../helper/config';
+import { API } from '../services/appService';
+
 
 // ----------------- Stats Card -----------------
 const StatsCard = ({ title, value, change, icon: Icon, trend }) => (
@@ -219,7 +220,7 @@ const Dashboard = () => {
               items.map((item, i) => (
                 <div key={i} className="flex items-center gap-4 group cursor-pointer">
                   <div className="w-12 h-12 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
-                    <img src={`${config.pos_api_url}/static/images/products/${item.image_code || ''}`} className="w-full h-full object-cover" />
+                    <img src={API.getProductImageUrl(item.image_code)} alt={item.item_name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-medium text-slate-800 truncate group-hover:text-primary-600 transition-colors">

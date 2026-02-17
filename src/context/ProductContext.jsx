@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import candidateFullData_service from "./service/candidateFullData_service";
+import { API } from "../services/appService";
 import config from "../helper/config";
 import { useAuth } from "./AuthContext";
+
 
 const ProductContext = createContext(null);
 export const useProducts = () => useContext(ProductContext);
@@ -48,7 +49,8 @@ export const ProductProvider = ({ children }) => {
         setError(null);
         console.log(`ProductContext: Fetching full data for candidate ${candidate_id}...`);
 
-        const res = await candidateFullData_service(candidate_id);
+        const res = await API.getCandidateFullData(candidate_id);
+
         const data = res?.data;
         console.log("ProductContext: Full Data Response Received:", res);
 
@@ -84,7 +86,7 @@ export const ProductProvider = ({ children }) => {
           sku: item.bar_code || "",
           status: item.current_quantity > 0 ? "active" : "out_of_stock",
           image: item.image_code
-            ? `${config.pos_api_url}/static/images/products/${item.image_code}`
+            ? API.getProductImageUrl(item.image_code)
             : "/placeholder.png",
           bar_code: item.bar_code,
           discount: item.discount,
@@ -137,9 +139,51 @@ export const ProductProvider = ({ children }) => {
     setProducts(prev => prev.filter(p => p.id !== id));
   };
 
+  const addCategory = async (categoryData) => {
+    try {
+      const res = await API.saveCategory(categoryData);
+      if (res) {
+        // Refresh full data to get updated categories
+        const fullData = await API.getCandidateFullData(candidate_id);
+        if (fullData?.data?.categories) {
+          const mappedCategories = [
+            { id: "all", name: "All Items", count: 0 },
+            ...fullData.data.categories.map(cat => ({
+              id: slugify(cat.category_name),
+              name: cat.category_name,
+              count: 0,
+              originalId: cat.category_id,
+            }))
+          ];
+          setCategories(mappedCategories);
+        }
+        return res;
+      }
+    } catch (err) {
+      console.error("Failed to add category:", err);
+      throw err;
+    }
+  };
+
+  const deleteCategory = async (id) => {
+    try {
+      await API.deleteCategory(id);
+      setCategories(prev => prev.filter(c => c.originalId !== id));
+    } catch (err) {
+      console.error("Failed to delete category:", err);
+    }
+  };
+
+  const uploadCategoryImage = async (formData) => {
+    try {
+      return await API.uploadItemImage(formData); // Using item image upload for categories as per AppService
+    } catch (err) {
+      console.error("Failed to upload category image:", err);
+      throw err;
+    }
+  };
+
   /* ================= CONTEXT VALUE ================= */
-
-
 
   return (
     <ProductContext.Provider
@@ -151,9 +195,13 @@ export const ProductProvider = ({ children }) => {
         error,
         addProduct,
         updateProduct,
-        deleteProduct
+        deleteProduct,
+        addCategory,
+        deleteCategory,
+        uploadCategoryImage
       }}
     >
+
       {children}
     </ProductContext.Provider>
   );

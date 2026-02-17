@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Plus, Filter, Mail, Phone, MoreHorizontal, Building2, MapPin, Grid, List, Trash2, Edit2 } from 'lucide-react';
-import { API_ROUTES } from '../config/apiConfig';
+import API from '../services/appService';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import clsx from 'clsx';
+
 
 const SupplierCard = ({ supplier, onEdit, onDelete, canDelete }) => (
     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm hover:shadow-md transition-all group relative">
@@ -66,8 +67,7 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
     useEffect(() => {
         const fetchSuppliers = async () => {
             try {
-                const response = await fetch(API_ROUTES.SUPPLIERS.GET);
-                const data = await response.json();
+                const data = await API.getSuppliers();
                 if (data.success && data.data) {
                     setSuppliers(data.data.map(s => ({
                         id: s.supplier_id,
@@ -106,8 +106,8 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
         if (!window.confirm('Are you sure you want to delete this supplier?')) return;
 
         try {
-            const response = await fetch(API_ROUTES.SUPPLIERS.DELETE(id), { method: 'DELETE' });
-            if (response.ok) {
+            const response = await API.deleteSupplier(id);
+            if (response.success || response) {
                 setSuppliers(prev => prev.filter(s => s.id !== id));
             }
         } catch (err) {

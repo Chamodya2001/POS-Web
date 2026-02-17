@@ -28,6 +28,9 @@ const Sidebar = ({ activeTab, onTabChange }) => {
         if (user?.role === 'admin') {
             return !['orders', 'employment', 'employee-report'].includes(item.id);
         }
+        if (user?.role === 'super_admin') {
+            return item.id !== 'pos';
+        }
         return true;
     });
 

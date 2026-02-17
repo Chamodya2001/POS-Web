@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import config from '../helper/config';
+import { API } from '../services/appService';
+
 
 const AuthContext = createContext();
 
@@ -44,25 +45,14 @@ export const AuthProvider = ({ children }) => {
             let data;
 
             // Try Candidate (Super Admin) login
-            response = await fetch(`${config.pos_api_url}/api/candidates/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-
-            data = await response.json();
-
-            if (!response.ok) {
+            try {
+                data = await API.loginCandidate(email, password);
+            } catch (err) {
                 // If candidate login fails, try Casior (Admin) login
-                response = await fetch(`${config.pos_api_url}/api/casior/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                data = await response.json();
+                data = await API.loginCasior(email, password);
             }
 
-            if (response.ok && data.success) {
+            if (data && data.success) {
                 const userData = {
                     ...data.data.user,
                     role: data.data.role,
