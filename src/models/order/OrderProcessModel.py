@@ -19,7 +19,7 @@ class OrderProcessModel(db.Model):
 
     candidate_id = db.Column(db.Integer, nullable=False)
     casior_id = db.Column(db.Integer, nullable=False)
-    customer_id = db.Column(db.Integer, nullable=False)
+    customer_id = db.Column(db.Integer, nullable=True)
     payment_method = db.Column(db.String(128))
 
     total_amount = db.Column(db.Float, nullable=True)
@@ -34,15 +34,12 @@ class OrderProcessModel(db.Model):
     # Constructor
     # ---------------------------
     def __init__(self, data):
-        self.order_process_id = data.get("order_process_id")
-        self.candidate_id = data.get("candidate_id")
-        self.casior_id = data.get("casior_id")
-        self.customer_id = data.get("customer_id")
-        self.payment_method = data.get("payment_method")
-        self.total_amount = data.get("total_amount")
-        self.status_id = data.get("status_id")
-        self.created_at = data.get("created_at")
-        self.ubdated_at = data.get("ubdated_at")
+        for key in ['candidate_id', 'casior_id', 'customer_id', 'payment_method', 'total_amount', 'status_id', 'loan_id']:
+            if key in data:
+                setattr(self, key, data.get(key))
+        
+        if 'created_at' in data: self.created_at = data.get('created_at')
+        if 'ubdated_at' in data: self.ubdated_at = data.get('ubdated_at')
 
     # ---------------------------
     # Save
@@ -96,7 +93,7 @@ class OrderProcessSchema(Schema):
 
     candidate_id = fields.Int(required=True)
     casior_id = fields.Int(required=True)
-    customer_id = fields.Int(required=True)
+    customer_id = fields.Int(required=False, allow_none=True)
     payment_method = fields.Str(required=True)
 
     total_amount = fields.Float(required=False, allow_none=True)

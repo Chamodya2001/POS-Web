@@ -112,6 +112,14 @@ def add_order_process():
             message=str(e),
             data=None
         )
+    except Exception as e:
+        db.session.rollback()
+        return base_response(
+            status_code=500,
+            success=False,
+            message=f"An unexpected error occurred: {str(e)}",
+            data=None
+        )
 
 # ---------------- GET ALL ----------------
 @order_process_bp.route("/getAll", methods=["GET"])

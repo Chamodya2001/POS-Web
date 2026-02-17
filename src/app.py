@@ -16,7 +16,7 @@ def app():
      # Enable CORS
     CORS(
     app,
-    resources={r"/api/*": {"origins": "http://localhost:5173"}},
+    resources={r"/api/*": {"origins": ["http://localhost:5173", "http://localhost:5174"]}},
     supports_credentials=True,
     expose_headers=["Authorization", "x-api-name"],
     allow_headers=["Authorization", "Content-Type", "x-api-name"],
