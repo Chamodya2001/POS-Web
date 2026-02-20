@@ -1,0 +1,21 @@
+﻿candidate_id: integer
+shop_id: character varying
+first_name: character varying
+address: character varying
+district: character varying
+province: character varying
+town: character varying
+phone_number: ARRAY
+image_code: character varying
+nic: character varying
+language_id: integer
+gender_id: integer
+shop_name: character varying
+casior_quantity: integer
+email: character varying
+password_hash: character varying
+last_login: time without time zone
+created_at: time without time zone
+status_id: integer
+last_name: character varying
+dob: date

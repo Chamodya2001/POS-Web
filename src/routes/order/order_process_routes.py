@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from sqlalchemy import func
 from marshmallow import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -201,3 +202,62 @@ def delete_order_process(order_process_id):
         message="Order process deleted successfully",
         data=None
     )
+
+# ---------------- EMPLOYEE REPORT ----------------
+@order_process_bp.route("/report/employee/<int:casior_id>", methods=["GET"])
+def get_employee_report(casior_id):
+    try:
+        def get_aggregated_data(trunc_type):
+            query = db.session.query(
+                func.date_trunc(trunc_type, OrderProcessModel.created_at).label('period'),
+                func.sum(OrderProcessModel.total_amount).label('sales'),
+                func.count(OrderProcessModel.order_process_id).label('transactions')
+            ).filter(
+                OrderProcessModel.casior_id == casior_id
+            ).group_by(
+                'period'
+            ).order_by(
+                'period'
+            ).all()
+            
+            result = []
+            for row in query:
+                period_val = row.period
+                # Format based on trunc_type
+                if trunc_type == 'day':
+                    label = period_val.strftime('%b %d')
+                    full_date = period_val.strftime('%Y-%m-%d')
+                    result.append({'date': label, 'fullDate': full_date, 'sales': float(row.sales or 0), 'transactions': row.transactions})
+                elif trunc_type == 'week':
+                    label = f"Week {period_val.strftime('%U')}"
+                    date_label = period_val.strftime('%b %d')
+                    result.append({'week': label, 'date': date_label, 'sales': float(row.sales or 0), 'transactions': row.transactions})
+                elif trunc_type == 'month':
+                    label = period_val.strftime('%b %y')
+                    result.append({'month': label, 'sales': float(row.sales or 0), 'transactions': row.transactions})
+                elif trunc_type == 'year':
+                    label = period_val.strftime('%Y')
+                    result.append({'year': label, 'sales': float(row.sales or 0), 'transactions': row.transactions})
+            return result
+
+        report = {
+            "daily": get_aggregated_data('day'),
+            "weekly": get_aggregated_data('week'),
+            "monthly": get_aggregated_data('month'),
+            "yearly": get_aggregated_data('year')
+        }
+
+        return base_response(
+            status_code=200,
+            success=True,
+            message="Employee report retrieved successfully",
+            data=report
+        )
+
+    except Exception as e:
+        return base_response(
+            status_code=500,
+            success=False,
+            message=f"Failed to generate report: {str(e)}",
+            data=None
+        )

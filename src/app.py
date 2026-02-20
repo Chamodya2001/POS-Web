@@ -48,4 +48,3 @@ def app():
     app.register_blueprint(suplier_bp,url_prefix = NameSpace.SUPLIER_PREFIX)
     
     return app
-EnvironmentError

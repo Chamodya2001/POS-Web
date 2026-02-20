@@ -133,20 +133,29 @@ def login():
         return base_response(400, False, "Email and password are required", None)
 
     try:
-        # Case-insensitive and trimmed email search
+        # Check against both Email and NIC (trimmed and case-insensitive)
+        login_id = email.strip()
+        print(f"DEBUG LOGIN Attempt: [{login_id}] Password: [{password}]")
+        
         casior = Casior.query.filter(
-            func.lower(func.trim(Casior.email)) == email.strip().lower()
+            (func.lower(func.trim(Casior.email)) == login_id.lower()) |
+            (func.lower(func.trim(Casior.nic)) == login_id.lower())
         ).first()
 
         if not casior:
+            print(f"DEBUG LOGIN: No casior found for {login_id}")
             return base_response(401, False, "Invalid email or password", None)
+
+        print(f"DEBUG LOGIN: Found Casior {casior.email} (ID: {casior.casior_id}) Status: {casior.status_id}")
 
         # Check if account is active (status_id 1 = Active)
         if hasattr(casior, 'status_id') and casior.status_id == 0:
+            print(f"DEBUG LOGIN: Account disabled for {login_id}")
             return base_response(403, False, "Your account is disabled. Please contact your administrator.", None)
 
         # Check hashed password
         is_valid = casior.check_password(password)
+        print(f"DEBUG LOGIN: Password hash check result: {is_valid}")
         
         # Fallback for plain text
         if not is_valid and casior.password == password:
