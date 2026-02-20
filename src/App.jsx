@@ -22,6 +22,7 @@ import StockManagementPage from './pages/StockManagementPage';
 import AddStockPage from './pages/AddStockPage';
 import CategoriesPage from './pages/CategoriesPage';
 import StockHistoryPage from './pages/StockHistoryPage';
+import EmployeesPage from './pages/EmployeesPage';
 
 
 
@@ -79,10 +80,15 @@ const AppContent = () => {
         />
       )}
       {activeTab === 'settings' && <SettingsPage />}
-      {activeTab === 'employment' && user?.role !== 'admin' && <AddEmploymentPage />}
+      {activeTab === 'employment' && user?.role !== 'admin' && (
+        <AddEmploymentPage onBack={() => setActiveTab('employees')} />
+      )}
       {activeTab === 'employee-report' && user?.role !== 'admin' && <EmployeeReportPage />}
       {activeTab === 'add-customer' && <AddCustomerPage />}
       {activeTab === 'customer-profile' && <CustomerProfilePage customerId={selectedCustomerId} onBack={() => setActiveTab('customers')} />}
+      {activeTab === 'employees' && user?.role !== 'admin' && (
+        <EmployeesPage onAddEmployee={() => setActiveTab('employment')} />
+      )}
 
       {activeTab === 'suppliers' && (
         <SuppliersPage
@@ -135,8 +141,8 @@ const AppContent = () => {
       )}
 
       {/* Restricted tabs for admin or undefined tabs */}
-      {(['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'employee-report', 'add-customer', 'customer-profile', 'suppliers', 'add-supplier', 'stock', 'add-stock', 'categories', 'stock-history'].indexOf(activeTab) === -1 ||
-        (['orders', 'employment', 'employee-report'].includes(activeTab) && user?.role === 'admin') ||
+      {(['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'employee-report', 'employees', 'add-customer', 'customer-profile', 'suppliers', 'add-supplier', 'stock', 'add-stock', 'categories', 'stock-history'].indexOf(activeTab) === -1 ||
+        (['orders', 'employment', 'employee-report', 'employees'].includes(activeTab) && user?.role === 'admin') ||
         (activeTab === 'pos' && user?.role === 'super_admin')) && (
           <div className="flex flex-col items-center justify-center h-full text-slate-400">
             <h2 className="text-2xl font-bold text-slate-800 mb-2">

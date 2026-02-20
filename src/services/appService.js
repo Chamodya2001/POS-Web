@@ -57,6 +57,7 @@ const API_ROUTES = {
         GET_BY_ID: (id) => `${API_BASE_URL}/api/order-process/get/${id}`,
         UPDATE: (id) => `${API_BASE_URL}/api/order-process/update/${id}`,
         DELETE: (id) => `${API_BASE_URL}/api/order-process/delete/${id}`,
+        GET_EMPLOYEE_REPORT: (id) => `${API_BASE_URL}/api/order-process/report/employee/${id}`,
     },
     STOCKS: {
         SAVE: `${API_BASE_URL}/api/stock/save`,
@@ -463,6 +464,15 @@ async function deleteOrder(id) {
     return APIHandler.handleResponse(response);
 }
 
+async function getEmployeeReport(id) {
+    const requestOptions = {
+        method: "GET",
+        headers: APIHandler.getHeader(config.azure_ad_config.apis.POS.name),
+    };
+    const response = await fetch(API_ROUTES.ORDERS.GET_EMPLOYEE_REPORT(id), requestOptions);
+    return APIHandler.handleResponse(response);
+}
+
 // ==================== STOCK FUNCTIONS ====================
 
 async function addStock(data) {
@@ -709,6 +719,9 @@ export const API = {
 
     // Candidate Full Data
     getCandidateFullData,
+
+    // Reports
+    getEmployeeReport,
 };
 
 export default API;

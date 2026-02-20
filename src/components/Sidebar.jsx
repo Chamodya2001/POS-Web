@@ -21,12 +21,12 @@ const Sidebar = ({ activeTab, onTabChange }) => {
         { id: 'add-customer', icon: UserPlus, label: 'Add Customer' },
         { id: 'suppliers', icon: Building2, label: 'Suppliers' },
         { id: 'add-supplier', icon: UserPlus, label: 'Add Supplier' },
-        { id: 'employment', icon: UserCheck, label: 'Add Employment' },
+        { id: 'employees', icon: Users, label: 'Employee Details' },
         { id: 'employee-report', icon: BarChart3, label: 'Employee Report' },
         { id: 'settings', icon: Settings, label: 'Settings' },
     ].filter(item => {
         if (user?.role === 'admin') {
-            return !['orders', 'employment', 'employee-report'].includes(item.id);
+            return !['orders', 'employee-report', 'employees'].includes(item.id);
         }
         if (user?.role === 'super_admin') {
             return item.id !== 'pos';
