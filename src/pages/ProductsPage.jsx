@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   X,
   Plus,
@@ -32,6 +32,8 @@ export default function ProductsPage({ initialCategoryId, onClearFilter }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [updatedProductData, setUpdatedProductData] = useState({});
   const [originalProductData, setOriginalProductData] = useState({});
+  const fileInputRef = useRef(null);
+  const [editImagePreview, setEditImagePreview] = useState(null);
 
   useEffect(() => {
     if (initialCategoryId) {
@@ -47,6 +49,7 @@ export default function ProductsPage({ initialCategoryId, onClearFilter }) {
         console.log("Editing product:", product);
         setOriginalProductData(product);
         setUpdatedProductData({});
+        setEditImagePreview(product.image || null);
       }
     }
   }, [isEditProduct, selectedProduct, products]);
@@ -317,6 +320,7 @@ export default function ProductsPage({ initialCategoryId, onClearFilter }) {
                       IMAGE UPLOAD
                     </label>
                     <input
+                      ref={fileInputRef}
                       type="file"
                       className="hidden"
                       accept="image/*"
@@ -325,22 +329,30 @@ export default function ProductsPage({ initialCategoryId, onClearFilter }) {
                         if (file) {
                           const reader = new FileReader();
                           reader.onload = (event) => {
-                            // Here you can handle the uploaded image data (event.target.result)
-                            console.log(
-                              "Uploaded image data:",
-                              event.target.result,
-                            );
+                            const dataUrl = event.target.result;
+                            setEditImagePreview(dataUrl);
+                            // store preview/data in updatedProductData so it can be sent later
+                            setUpdatedProductData((prev) => ({ ...prev, image_code: dataUrl }));
                           };
                           reader.readAsDataURL(file);
                         }
                       }}
                     />
+
+                    {editImagePreview ? (
+                      <div className="mb-2 w-full flex items-center justify-center">
+                        <img
+                          src={editImagePreview}
+                          alt="preview"
+                          className="w-28 h-28 object-cover rounded-lg border border-slate-200 dark:border-slate-700"
+                        />
+                      </div>
+                    ) : null}
+
                     <button
                       type="button"
                       className="w-full px-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                      onClick={() =>
-                        document.querySelector('input[type="file"]').click()
-                      }
+                      onClick={() => fileInputRef.current && fileInputRef.current.click()}
                     >
                       Upload Image
                     </button>
