@@ -64,8 +64,7 @@ export const AuthProvider = ({ children }) => {
                     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100'
                 };
 
-                console.log(`[AUTH] Login successful. Target Table: ${role === 'super_admin' ? 'candidate.candidate' : 'casior.casior'}`);
-                console.log(`[AUTH] User Identity:`, userData);
+               
 
                 setUser(userData);
                 localStorage.setItem('pos_user', JSON.stringify(userData));
