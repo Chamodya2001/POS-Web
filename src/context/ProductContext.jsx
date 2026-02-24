@@ -28,7 +28,6 @@ export const ProductProvider = ({ children }) => {
   const [candidateAllData, setCandidateAllData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
    const measurements ={
       1: "kg",
       2: "liters",
@@ -68,7 +67,6 @@ export const ProductProvider = ({ children }) => {
         setLoading(true);
         setError(null);
         
-
         const res = await API.getCandidateFullData(candidate_id);
 
         const data = res?.data;
@@ -144,7 +142,7 @@ export const ProductProvider = ({ children }) => {
       // Prepare backend payload from UI product shape
       const payload = buildBackendPayload(product);
       const response = await API.addProduct(payload);
-      // Refresh data from server to ensure normalized shape
+      
       await fetchData();
       alert("Product saved successfully");
     
