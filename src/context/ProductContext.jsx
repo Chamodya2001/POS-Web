@@ -79,6 +79,7 @@ export const ProductProvider = ({ children }) => {
         const mappedProducts = (data.items || []).map(item => ({
           id: String(item.item_id),
           name: item.item_name,
+          sinhala_name: item.sinhala_name,
           category: categoryMap[item.category_id] || "all",
           price: item.sale_price,
           cost: item.cost_price,

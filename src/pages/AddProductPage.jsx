@@ -19,6 +19,7 @@ export default function AddProductPage({ onBack }) {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
+        sinhala_name: '',
         description: '',
         price: '',
         cost: '',
@@ -60,6 +61,7 @@ export default function AddProductPage({ onBack }) {
                 candidate_id: 17, // later from auth
                 category_id: parseInt(formData.category),
                 item_name: formData.name,
+                sinhala_name: formData.sinhala_name,
                 short_code: formData.sku,
                 bar_code: formData.barcode,
                 sale_price: Number(formData.price),
@@ -157,13 +159,23 @@ export default function AddProductPage({ onBack }) {
                         </h3>
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Product Name</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Product Name (English)</label>
                                 <input
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
                                     placeholder="e.g. Premium Leather Jacket"
                                     className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">භාණ්ඩයේ නම (සිංහල)</label>
+                                <input
+                                    name="sinhala_name"
+                                    value={formData.sinhala_name}
+                                    onChange={handleChange}
+                                    placeholder="උදා: පොල් තෙල්"
+                                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white font-sinhala"
                                 />
                             </div>
                             <div>
