@@ -41,7 +41,7 @@ const API_ROUTES = {
         GET: `${API_BASE_URL}/api/item/get`,
         GET_BY_ID: (id) => `${API_BASE_URL}/api/item/${id}`,
         UPDATE: (id) => `${API_BASE_URL}/api/item/${id}`,
-        DELETE: (id) => `${API_BASE_URL}/api/item/${id}`,
+        DELETE: (id) => `${API_BASE_URL}/api/item/${id}/delete`,
         UPLOAD_IMAGE: `${API_BASE_URL}/api/item/upload-image`,
     },
     CATEGORIES: {
