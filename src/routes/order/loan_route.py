@@ -32,18 +32,38 @@ def create_loan():
         return base_response(404, False, "Customer not found", None)
 
     try:
-        loan = Loan(**json_data)
-        loan.save()
+        # Check if loan already exists for this customer
+        customer_id = json_data["customer_id"]
+        existing_loan = Loan.query.filter_by(customer_id=customer_id).first()
+        
+        if existing_loan:
+            # Update existing loan record
+            existing_loan.loan_balance = json_data.get("loan_balance", 0)
+            existing_loan.status_id = json_data.get("status_id", existing_loan.status_id)
+            db.session.add(existing_loan)
+            loan = existing_loan
+        else:
+            # Create new loan record
+            loan = Loan(**json_data)
+            db.session.add(loan)
+
+        # CRITICAL: Update customer table balance
+        customer = Customer.query.get(customer_id)
+        if customer:
+            customer.loan_balance = json_data.get("loan_balance", 0)
+            db.session.add(customer)
+
+        db.session.commit()
 
         return base_response(
             201, True,
-            "Loan created successfully",
+            "Loan updated successfully" if existing_loan else "Loan created successfully",
             loan_schema.dump(loan)
         )
 
     except Exception as e:
         db.session.rollback()
-        return base_response(500, False, "Failed to create loan", str(e))
+        return base_response(500, False, "Failed to process loan", str(e))
 
 
 # ------------------------

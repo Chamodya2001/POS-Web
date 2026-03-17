@@ -12,6 +12,7 @@ class Item(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey("category.category.category_id"), nullable=False)
     
     item_name = db.Column(db.String(256), nullable=False)
+    sinhala_name = db.Column(db.String(512))
     description = db.Column(db.Text)
     bar_code = db.Column(db.String(512))
     sale_price = db.Column(db.Float, nullable=False)
@@ -53,6 +54,7 @@ class ItemSchema(Schema):
     category_id = fields.Int(required=True)
 
     item_name = fields.Str(required=True)
+    sinhala_name = fields.Str(allow_none=True)
     description = fields.Str()
     bar_code = fields.Str()
 
