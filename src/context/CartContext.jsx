@@ -11,30 +11,34 @@ export const useCart = () => { // Custom hook for easy access
 };
 
 export const CartProvider = ({ children }) => {
-    const [cart, setCart] = useState([]);
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
-    const [discount, setDiscount] = useState(0);
-    const [taxRate, setTaxRate] = useState(0.10); // 10% tax default
-
-    // Load cart and selected customer from local storage on mount
-    useEffect(() => {
+    const [cart, setCart] = useState(() => {
         const savedCart = localStorage.getItem('pos_cart');
         if (savedCart) {
             try {
-                setCart(JSON.parse(savedCart));
+                return JSON.parse(savedCart);
             } catch (e) {
                 console.error("Failed to parse cart", e);
+                return [];
             }
         }
+        return [];
+    });
+
+    const [selectedCustomer, setSelectedCustomer] = useState(() => {
         const savedCustomer = localStorage.getItem('pos_selected_customer');
         if (savedCustomer) {
             try {
-                setSelectedCustomer(JSON.parse(savedCustomer));
+                return JSON.parse(savedCustomer);
             } catch (e) {
                 console.error("Failed to parse selected customer", e);
+                return null;
             }
         }
-    }, []);
+        return null;
+    });
+
+    const [discount, setDiscount] = useState(0);
+    const [taxRate] = useState(0); // Set tax to 0 as requested
 
     // Save cart to local storage on change
     useEffect(() => {

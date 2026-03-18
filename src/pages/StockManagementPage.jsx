@@ -86,8 +86,8 @@ export default function StockManagementPage({ onAddStock, onViewHistory }) {
     };
 
     const filteredStocks = stocks.filter(s =>
-        s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        s.sku.toLowerCase().includes(searchTerm.toLowerCase())
+        (s.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (s.sku || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const lowStockCount = stocks.filter(s => s.currentStock <= 5 && s.currentStock > 0).length;

@@ -77,17 +77,10 @@ const RecentOrderRow = ({ id, customer, itemsText, total, status, date }) => (
 const Dashboard = () => {
   const { candidateAllData, loading, error } = useProducts();
   const { user } = useAuth();
-  const [items, setItems] = useState([]);
-  const [customers, setCustomers] = useState([]);
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    if (candidateAllData) {
-      setItems(candidateAllData.items || []);
-      setCustomers(candidateAllData.customers || []);
-      setOrders(candidateAllData.orders || []);
-    }
-  }, [candidateAllData]);
+  
+  const items = candidateAllData?.items || [];
+  const customers = candidateAllData?.customers || [];
+  const orders = candidateAllData?.orders || [];
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">

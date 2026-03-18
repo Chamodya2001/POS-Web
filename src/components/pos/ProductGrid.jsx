@@ -22,7 +22,7 @@ const ProductGrid = () => {
 
     const filteredProducts = MOCK_PRODUCTS.filter((product) => {
         const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
-        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = (product.name || '').toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
     });
 

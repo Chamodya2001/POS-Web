@@ -159,7 +159,7 @@ const CheckoutModal = ({ isOpen, onClose, orderTotal, previousBalance, cart, onC
                                 <button
                                     onClick={() => {
                                         setCashPaymentType('full');
-                                        setCashPaidAmount(total);
+                                        setCashPaidAmount(grandTotal);
                                         setError(null);
                                     }}
                                     className={clsx(

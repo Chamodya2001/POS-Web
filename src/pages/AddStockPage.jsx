@@ -37,8 +37,14 @@ export default function AddStockPage({ onBack, onSuccess }) {
 
                 // Fetch Suppliers
                 const sData = await API.getSuppliers();
-                if (sData.success) setSuppliers(sData.data);
-                else {
+                if (sData.success && sData.data) {
+                    console.log("AddStockPage: RAW Suppliers from API:", sData.data);
+                    const mappedSuppliers = sData.data.map(s => ({
+                        supplier_id: s.suplier_id || s.supplier_id || s.id,
+                        name: s.company_name || s.name || 'Unnamed'
+                    }));
+                    setSuppliers(mappedSuppliers);
+                } else {
                     // Demo Suppliers if API fails
                     setSuppliers([
                         { supplier_id: 1, name: 'Global Tech Solutions' },

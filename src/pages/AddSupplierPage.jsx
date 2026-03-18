@@ -7,19 +7,24 @@ import {
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
 import { API } from '../services/appService';
+import { useAuth } from '../context/AuthContext';
 
 
 export default function AddSupplierPage({ supplierToEdit, onBack, onSuccess }) {
+    console.log("AddSupplierPage [V2.0] render - supplierToEdit:", supplierToEdit);
     const { theme } = useTheme();
     const isDarkMode = theme === 'dark';
 
+    const { user } = useAuth();
+
     const [formData, setFormData] = useState({
-        name: "",
-        contact_person: "",
+        company_name: "",
+        contact_person_name: "",
         email: "",
         phone: "",
         address: "",
-        status: 1
+        status_id: 1,
+        candidate_id: user?.candidate_id || null
     });
 
     const [loading, setLoading] = useState(false);
@@ -28,12 +33,13 @@ export default function AddSupplierPage({ supplierToEdit, onBack, onSuccess }) {
     useEffect(() => {
         if (supplierToEdit) {
             setFormData({
-                name: supplierToEdit.name || "",
-                contact_person: supplierToEdit.contact_person || supplierToEdit.contactPerson || "",
+                company_name: supplierToEdit.company_name || supplierToEdit.name || "",
+                contact_person_name: supplierToEdit.contact_person_name || supplierToEdit.contact_person || supplierToEdit.contactPerson || "",
                 email: supplierToEdit.email || "",
-                phone: supplierToEdit.phone || "",
+                phone: Array.isArray(supplierToEdit.phone) ? supplierToEdit.phone[0] : (supplierToEdit.phone || ""),
                 address: supplierToEdit.address || "",
-                status: supplierToEdit.status === 'Active' ? 1 : 2
+                status_id: (supplierToEdit.status_id === 1 || supplierToEdit.status === 'Active') ? 1 : 2,
+                candidate_id: supplierToEdit.candidate_id || user?.candidate_id || null
             });
         }
     }, [supplierToEdit]);
@@ -42,7 +48,7 @@ export default function AddSupplierPage({ supplierToEdit, onBack, onSuccess }) {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: name === 'status' ? parseInt(value) : value
+            [name]: name === 'status_id' ? parseInt(value) : value
         }));
     };
 
@@ -52,28 +58,58 @@ export default function AddSupplierPage({ supplierToEdit, onBack, onSuccess }) {
         setMessage({ type: '', text: '' });
 
         try {
-            let response;
-            if (supplierToEdit) {
-                response = await API.updateSupplier(supplierToEdit.id, formData);
-            } else {
-                response = await API.saveSupplier(formData);
+            // Prepare data for API - ensure phone is an array and candidate_id is present
+            const payload = {
+                ...formData,
+                phone: formData.phone ? [formData.phone] : [],
+                candidate_id: formData.candidate_id || user?.candidate_id
+            };
+
+            if (!payload.candidate_id) {
+                 setMessage({ type: 'error', text: 'Authentication error: Missing candidate identification.' });
+                 setLoading(false);
+                 return;
             }
 
-            if (response.success || response) {
+            let response;
+            if (supplierToEdit) {
+                console.log("Update requested [V2.0] for supplier object:", supplierToEdit);
+                const targetId = supplierToEdit?.id || supplierToEdit?.suplier_id || supplierToEdit?.supplier_id;
+                console.log("Derived targetId [V2.0] for update:", targetId);
+                
+                if (!targetId) {
+                    console.error("Critical: targetId is falsy! [V2.0]", { supplierToEdit });
+                    throw new Error("Cannot update supplier: Missing ID");
+                }
+                
+                response = await API.updateSupplier(targetId, payload);
+            } else {
+                console.log("Registering new supplier with payload:", payload);
+                response = await API.saveSupplier(payload);
+            }
+
+            if (response.success) {
                 setMessage({ type: 'success', text: `Supplier ${supplierToEdit ? 'updated' : 'registered'} successfully!` });
                 if (onSuccess) {
                     setTimeout(() => onSuccess(), 1500);
                 }
             } else {
-                setMessage({ type: 'error', text: data.message || 'Operation failed.' });
+                setMessage({ type: 'error', text: response.message || 'Operation failed.' });
             }
         } catch (error) {
             console.error('Error submitting supplier form:', error);
-            // Simulated success for demo if backend not ready
-            setMessage({ type: 'success', text: `Supplier ${supplierToEdit ? 'updated' : 'registered'} successfully! (Demo Mode)` });
-            if (onSuccess) {
-                setTimeout(() => onSuccess(), 1500);
+            
+            // Extract validation error messages if available
+            let errorMsg = 'Operation failed.';
+            if (error && error.message) errorMsg = error.message;
+            if (error && error.data && typeof error.data === 'object') {
+                const firstKey = Object.keys(error.data)[0];
+                if (firstKey) {
+                    errorMsg = `${firstKey}: ${error.data[firstKey][0]}`;
+                }
             }
+
+            setMessage({ type: 'error', text: errorMsg });
         } finally {
             setLoading(false);
         }
@@ -124,8 +160,8 @@ export default function AddSupplierPage({ supplierToEdit, onBack, onSuccess }) {
                                 <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                 <input
                                     required
-                                    name="name"
-                                    value={formData.name}
+                                    name="company_name"
+                                    value={formData.company_name}
                                     onChange={handleChange}
                                     className="w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-4 focus:ring-primary-500/10 outline-none transition-all dark:text-white"
                                     placeholder="Enter company name"
@@ -139,8 +175,8 @@ export default function AddSupplierPage({ supplierToEdit, onBack, onSuccess }) {
                                 <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                 <input
                                     required
-                                    name="contact_person"
-                                    value={formData.contact_person}
+                                    name="contact_person_name"
+                                    value={formData.contact_person_name}
                                     onChange={handleChange}
                                     className="w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-4 focus:ring-primary-500/10 outline-none transition-all dark:text-white"
                                     placeholder="Full name"
@@ -183,8 +219,8 @@ export default function AddSupplierPage({ supplierToEdit, onBack, onSuccess }) {
                             <div className="relative">
                                 <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                 <select
-                                    name="status"
-                                    value={formData.status}
+                                    name="status_id"
+                                    value={formData.status_id}
                                     onChange={handleChange}
                                     className="w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl text-sm focus:ring-4 focus:ring-primary-500/10 outline-none transition-all dark:text-white appearance-none"
                                 >

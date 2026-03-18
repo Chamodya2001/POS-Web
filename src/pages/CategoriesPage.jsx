@@ -22,7 +22,7 @@ export default function CategoriesPage({ onViewItems }) {
     const [showAddModal, setShowAddModal] = useState(false);
 
     const filteredCategories = categories.filter(cat =>
-        cat.name?.toLowerCase().includes(searchTerm.toLowerCase())
+        (cat.name || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (loading) {

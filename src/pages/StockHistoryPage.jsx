@@ -47,9 +47,9 @@ export default function StockHistoryPage({ onBack, productId = null }) {
 
 
     const filteredHistory = history.filter(h =>
-        h.item_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        h.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        h.supplier.toLowerCase().includes(searchTerm.toLowerCase())
+        (h.item_name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (h.id || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (h.supplier || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (loading) {

@@ -65,8 +65,8 @@ export default function ProductsPage({ initialCategoryId, onClearFilter }) {
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
-      product.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.sku?.toLowerCase().includes(searchQuery.toLowerCase());
+      (product.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (product.sku || '').toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory =
       filterCategory === "all" || product.category === filterCategory;
     return matchesSearch && matchesCategory;
