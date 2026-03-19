@@ -191,7 +191,7 @@ export default function EmployeesPage({ onAddEmployee }) {
 
     const filteredEmployees = employees.filter(emp =>
         `${emp.first_name} ${emp.last_name}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        emp.email?.toLowerCase().includes(searchQuery.toLowerCase())
+        (emp.email || '').toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const inputClasses = (name) => clsx(

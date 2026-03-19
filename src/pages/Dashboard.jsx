@@ -56,7 +56,7 @@ const RecentOrderRow = ({ id, customer, itemsText, total, status, date }) => (
     </td>
     <td className="py-4 px-4 text-sm text-slate-500">{itemsText}</td>
     <td className="py-4 px-4 font-medium text-slate-800">RS {total}</td>
-    <td className="py-4 px-4">
+    {/* <td className="py-4 px-4">
       <span
         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${status === 'Completed'
           ? 'bg-green-50 text-green-700 border-green-100'
@@ -68,7 +68,7 @@ const RecentOrderRow = ({ id, customer, itemsText, total, status, date }) => (
         {status === 'Completed' ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
         {status}
       </span>
-    </td>
+    </td> */}
     <td className="py-4 px-4 text-sm text-slate-400 text-right">{date}</td>
   </tr>
 );
@@ -77,17 +77,10 @@ const RecentOrderRow = ({ id, customer, itemsText, total, status, date }) => (
 const Dashboard = () => {
   const { candidateAllData, loading, error } = useProducts();
   const { user } = useAuth();
-  const [items, setItems] = useState([]);
-  const [customers, setCustomers] = useState([]);
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    if (candidateAllData) {
-      setItems(candidateAllData.items || []);
-      setCustomers(candidateAllData.customers || []);
-      setOrders(candidateAllData.orders || []);
-    }
-  }, [candidateAllData]);
+  
+  const items = candidateAllData?.items || [];
+  const customers = candidateAllData?.customers || [];
+  const orders = candidateAllData?.orders || [];
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -174,8 +167,8 @@ const Dashboard = () => {
                   <th className="py-3 px-4">Customer</th>
                   <th className="py-3 px-4">Items</th>
                   <th className="py-3 px-4">Total</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4 text-right">Time</th>
+                  {/* <th className="py-3 px-4">Status</th> */}
+                  <th className="py-3 px-4 text-right">Date/Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -185,17 +178,17 @@ const Dashboard = () => {
                     const customerName = customers.find(c => c.customer_id === order_process.customer_id)?.first_name || '-';
                     const itemsText = getOrderItemsText(orderItems);
                     const totalPrice = order_process.total_amount || orderItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-                    const status = order_process.status_id === 1 ? 'Completed' : 'Pending';
+                    // const status = order_process.status_id === 1 ? 'Completed' : 'Pending';
                     const date = new Date(order_process.created_at).toLocaleString();
 
                     return (
                       <RecentOrderRow
                         key={order_process.order_process_id}
-                        id={`#ORD-${order_process.order_process_id}`}
+                        id={`ORD-${order_process.order_process_id}`}
                         customer={customerName}
                         itemsText={itemsText}
                         total={totalPrice}
-                        status={status}
+                        // status={status}
                         date={date}
                       />
                     );

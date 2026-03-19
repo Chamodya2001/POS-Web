@@ -97,6 +97,7 @@ const AppContent = () => {
             setActiveTab('add-supplier');
           }}
           onEditSupplier={(supplier) => {
+            console.log("SuppliersPage: Edit button clicked for supplier", supplier);
             setSelectedSupplier(supplier);
             setActiveTab('add-supplier');
           }}
@@ -114,7 +115,7 @@ const AppContent = () => {
       {activeTab === 'stock' && (
         <StockManagementPage
           onAddStock={() => setActiveTab('add-stock')}
-          onViewHistory={(id) => setActiveTab('stock-history')}
+          onViewHistory={() => setActiveTab('stock-history')}
         />
       )}
 

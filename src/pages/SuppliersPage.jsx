@@ -69,15 +69,21 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
             try {
                 const data = await API.getSuppliers();
                 if (data.success && data.data) {
-                    setSuppliers(data.data.map(s => ({
-                        id: s.supplier_id,
-                        name: s.name,
-                        contactPerson: s.contact_person,
-                        email: s.email,
-                        phone: s.phone,
-                        address: s.address,
-                        status: s.status === 1 ? 'Active' : 'Inactive'
-                    })));
+                    console.log("SuppliersPage [V2.0]: RAW DATA from API:", data.data);
+                    setSuppliers(data.data.map(s => {
+                        console.log("SuppliersPage [V2.0]: Mapping raw data row:", s);
+                        // Extract the ID from various possible field names
+                        const supplierId = s.suplier_id || s.supplier_id || s.id;
+                        return {
+                            id: supplierId,
+                            name: s.company_name || s.name || 'Unnamed Supplier',
+                            contactPerson: s.contact_person_name || s.contact_person || s.contactPerson || 'No Contact',
+                            email: s.email || '',
+                            phone: Array.isArray(s.phone) ? s.phone.join(', ') : (s.phone || ''),
+                            address: s.address || '',
+                            status: (s.status_id === 1 || s.status === 1 || s.status === 'Active') ? 'Active' : 'Inactive'
+                        };
+                    }));
                 } else {
                     // Demo Data
                     setSuppliers([
@@ -118,8 +124,8 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
     };
 
     const filteredSuppliers = suppliers.filter(s =>
-        s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        s.contactPerson.toLowerCase().includes(searchTerm.toLowerCase())
+        (s.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (s.contactPerson || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (

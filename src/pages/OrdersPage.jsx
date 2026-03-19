@@ -60,7 +60,7 @@ export default function OrdersPage() {
 
     const filteredOrders = orders.filter(order => {
         const matchesTab = activeTab === 'All' || order.status === activeTab;
-        const matchesSearch = order.customer.toLowerCase().includes(searchTerm.toLowerCase()) || order.id.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSearch = (order.customer || '').toLowerCase().includes(searchTerm.toLowerCase()) || (order.id || '').toLowerCase().includes(searchTerm.toLowerCase());
         return matchesTab && matchesSearch;
     });
 
