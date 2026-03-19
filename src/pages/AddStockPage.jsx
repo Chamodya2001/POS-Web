@@ -5,7 +5,8 @@ import {
     DollarSign, Hash, CheckCircle2,
     AlertCircle, Search, PlusCircle
 } from 'lucide-react';
-import { API_ROUTES } from '../config/apiConfig';
+import { API } from '../services/appService';
+
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
 
@@ -31,13 +32,11 @@ export default function AddStockPage({ onBack, onSuccess }) {
         const fetchData = async () => {
             try {
                 // Fetch Products
-                const pRes = await fetch(API_ROUTES.ITEMS.GET);
-                const pData = await pRes.json();
+                const pData = await API.getItems();
                 if (pData.success) setProducts(pData.data);
 
                 // Fetch Suppliers
-                const sRes = await fetch(API_ROUTES.SUPPLIERS.GET);
-                const sData = await sRes.json();
+                const sData = await API.getSuppliers();
                 if (sData.success) setSuppliers(sData.data);
                 else {
                     // Demo Suppliers if API fails
@@ -76,13 +75,9 @@ export default function AddStockPage({ onBack, onSuccess }) {
                 stoke_ubdate_date: formData.received_date
             };
 
-            const response = await fetch(API_ROUTES.ITEMS.UPDATE(formData.item_id), {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updateData),
-            });
+            const response = await API.updateItem(formData.item_id, updateData);
 
-            if (response.ok) {
+            if (response.success || response) {
                 setMessage({ type: 'success', text: 'Stock updated successfully!' });
                 if (onSuccess) setTimeout(onSuccess, 1500);
             } else {

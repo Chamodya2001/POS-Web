@@ -5,7 +5,8 @@ import {
     TrendingUp, AlertTriangle, Calendar,
     Building2, MoreHorizontal, Edit2
 } from 'lucide-react';
-import { API_ROUTES } from '../config/apiConfig';
+import { API } from '../services/appService';
+
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
 import UpdateStockModal from '../components/StockUpdateModal';
@@ -45,8 +46,7 @@ export default function StockManagementPage({ onAddStock, onViewHistory }) {
     const fetchStockData = async () => {
         setLoading(true);
         try {
-            const response = await fetch(API_ROUTES.ITEMS.GET);
-            const data = await response.json();
+            const data = await API.getItems();
             if (data.success && data.data) {
                 setStocks(data.data.map(item => ({
                     id: item.item_id,

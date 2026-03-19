@@ -7,7 +7,8 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
-import API_BASE_URL from '../config/apiConfig';
+import { API } from '../services/appService';
+
 
 export default function CustomerProfilePage({ customerId, onBack }) {
     const { theme } = useTheme();
@@ -20,13 +21,13 @@ export default function CustomerProfilePage({ customerId, onBack }) {
     useEffect(() => {
         const fetchCustomer = async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/customer/${customerId}`);
-                const data = await response.json();
+                const data = await API.getCustomerById(customerId);
                 if (data.success) {
                     setCustomer(data.data);
                 } else {
                     setError(data.message);
                 }
+
             } catch (err) {
                 setError("Failed to connect to the server.");
             } finally {

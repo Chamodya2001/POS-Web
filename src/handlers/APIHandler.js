@@ -10,11 +10,21 @@ class APIHandler {
   }
 
   static async handleResponse(response) {
-    if (!response.ok) {
-      const error = await response.json();
-      throw error;
+    const contentType = response.headers.get("Content-Type");
+
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      if (!response.ok) {
+        throw data;
+      }
+      return data;
+    } else {
+      const text = await response.text();
+      if (!response.ok) {
+        throw new Error(text || `Request failed with status ${response.status}`);
+      }
+      return text;
     }
-    return response.json();
   }
 }
 

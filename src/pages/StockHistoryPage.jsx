@@ -8,63 +8,43 @@ import {
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
 
+import { API } from '../services/appService';
+
 export default function StockHistoryPage({ onBack, productId = null }) {
     const { theme } = useTheme();
     const isDarkMode = theme === 'dark';
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [history, setHistory] = useState([]);
 
-    // Mock History Data
-    const [history, setHistory] = useState([
-        {
-            id: 'TX-9901',
-            item_name: 'Premium Coffee Beans',
-            type: 'Addition',
-            quantity: 50,
-            unit_price: 1200,
-            total: 60000,
-            supplier: 'Global Tech Solutions',
-            user: 'Admin User',
-            date: '2024-03-20T10:30:00Z',
-            status: 'Completed'
-        },
-        {
-            id: 'TX-9895',
-            item_name: 'Organic Green Tea',
-            type: 'Sale',
-            quantity: -2,
-            unit_price: 850,
-            total: 1700,
-            supplier: '-',
-            user: 'Cashier Rohit',
-            date: '2024-03-19T14:45:00Z',
-            status: 'Completed'
-        },
-        {
-            id: 'TX-9882',
-            item_name: 'Natural Honey 500g',
-            type: 'Adjustment',
-            quantity: -1,
-            unit_price: 1500,
-            total: 1500,
-            supplier: '-',
-            user: 'Manager Silva',
-            date: '2024-03-18T09:15:00Z',
-            status: 'Damaged'
-        },
-        {
-            id: 'TX-9870',
-            item_name: 'Premium Coffee Beans',
-            type: 'Addition',
-            quantity: 100,
-            unit_price: 1150,
-            total: 115000,
-            supplier: 'NextGen Electronics',
-            user: 'Admin User',
-            date: '2024-03-15T11:00:00Z',
-            status: 'Completed'
-        }
-    ]);
+    useEffect(() => {
+        const fetchHistory = async () => {
+            try {
+                const data = await API.getStocks();
+                if (data && data.success) {
+                    const formatted = data.data.map(s => ({
+                        id: `TX-${s.stock_id}`,
+                        item_name: s.item_name || 'Unknown Item',
+                        type: 'Addition', // Assuming stock entries are additions
+                        quantity: s.quantity || 0,
+                        unit_price: s.stoke_price || 0,
+                        total: (s.quantity || 0) * (s.stoke_price || 0),
+                        supplier: s.suplier_name || '-',
+                        user: 'Admin', // Static for now as API might not provide user info per stock
+                        date: s.created_at,
+                        status: 'Completed'
+                    }));
+                    setHistory(formatted);
+                }
+            } catch (err) {
+                console.error("Failed to fetch stock history", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchHistory();
+    }, []);
+
 
     const filteredHistory = history.filter(h =>
         h.item_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -72,8 +52,13 @@ export default function StockHistoryPage({ onBack, productId = null }) {
         h.supplier.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    if (loading) {
+        return <div className="p-8 text-center text-slate-500">Loading stock history...</div>;
+    }
+
     return (
         <div className="p-4 md:p-6 max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div className="flex items-center gap-4">

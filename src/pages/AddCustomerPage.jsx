@@ -6,7 +6,8 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
-import { Customer_Service } from './service/customer_service';
+import { API } from '../services/appService';
+
 
 export default function AddCustomerPage() {
     const { theme } = useTheme();
@@ -43,47 +44,42 @@ export default function AddCustomerPage() {
         setMessage({ type: '', text: '' });
 
         try {
-             const response = await Customer_Service.addCustomer(formData);
-                
-
-            const data = await response.json();
-
-            if (response.ok) {
-                setMessage({ type: 'success', text: 'Customer registered successfully!' });
-                // Reset form after successful submission
-                setFormData({
-                    first_name: "",
-                    last_name: "",
-                    email: "",
-                    phone_number: "",
-                    address: "",
-                    nic: "",
-                    loan_balance: 0,
-                    casior_id: 20,
-                    candidate_id: 17,
-                    status_id: 1
-                });
-            } else if (response.status === 409) {
-                // Handle duplicate NIC
+            const data = await API.addCustomer(formData);
+            setMessage({ type: 'success', text: 'Customer registered successfully!' });
+            // Reset form after successful submission
+            setFormData({
+                first_name: "",
+                last_name: "",
+                email: "",
+                phone_number: "",
+                address: "",
+                nic: "",
+                loan_balance: 0,
+                casior_id: 20,
+                candidate_id: 17,
+                status_id: 1
+            });
+        } catch (error) {
+            console.error('Error submitting customer form:', error);
+            if (error.message === 'Duplicate entry' || error.status === 409) {
                 setMessage({
                     type: 'error',
-                    text: `Duplicate entry: ${data.message || 'Customer with this NIC already exists.'}`
+                    text: error.message || 'Customer with this NIC already exists.'
                 });
-            } else if (response.status === 422) {
-                // Validation errors
-                const errorMessages = Object.entries(data.data || {})
-                    .map(([field, errors]) => `${field}: ${Array.isArray(errors) ? errors.join(', ') : errors}`)
-                    .join(' | ');
+            } else if (error.status === 422 || error.data) {
+                const errorData = error.data || error;
+                const errorMessages = typeof errorData === 'object'
+                    ? Object.entries(errorData)
+                        .map(([field, errors]) => `${field}: ${Array.isArray(errors) ? errors.join(', ') : errors}`)
+                        .join(' | ')
+                    : error.message;
                 setMessage({
                     type: 'error',
                     text: errorMessages || 'Validation failed. Please check your inputs.'
                 });
             } else {
-                setMessage({ type: 'error', text: data.message || 'Registration failed.' });
+                setMessage({ type: 'error', text: error.message || 'Registration failed.' });
             }
-        } catch (error) {
-            console.error('Error submitting customer form:', error);
-            setMessage({ type: 'error', text: 'Network error. Please check if the backend is running.' });
         } finally {
             setLoading(false);
         }

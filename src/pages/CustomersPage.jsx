@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Plus, Filter, Mail, Phone, MoreHorizontal, ShoppingBag, Star, Calendar, MapPin, Grid, List, Trash2 } from 'lucide-react';
-import { API_ROUTES } from '../config/apiConfig';
 import { useAuth } from '../context/AuthContext';
+import { API } from '../services/appService';
+
 
 
 const CustomerCard = ({ customer, onViewProfile, onDelete, canDelete }) => (
@@ -73,8 +74,7 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const response = await fetch(API_ROUTES.CUSTOMERS.GET);
-                const data = await response.json();
+                const data = await API.getCustomers();
                 if (data.success && data.data.length > 0) {
                     // Map API fields to match the UI component's expected fields
                     const mappedData = data.data.map(c => ({

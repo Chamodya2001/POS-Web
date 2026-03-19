@@ -3,15 +3,19 @@ import { ArrowLeft, Upload, Save, X, Info, Banknote, Package, Tag, Barcode, Laye
 import { useProducts } from '../context/ProductContext';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
-import { Product_Service } from "./service/Product_Service";
+import { API } from '../services/appService';
 import config from '../helper/config';
+import { useAuth } from '../context/AuthContext';
+
 
 
 
 import CategoryModal from '../components/inventory/CategoryModal';
+import { m } from 'framer-motion';
 
 export default function AddProductPage({ onBack }) {
-    const { categories } = useProducts();
+    const { user } = useAuth();
+    const { categories, measurements ,addProduct} = useProducts();
 
     const fileInputRef = useRef(null);
 
@@ -19,6 +23,7 @@ export default function AddProductPage({ onBack }) {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
+        measurement: '',
         price: '',
         cost: '',
         discount: '',
@@ -56,24 +61,26 @@ export default function AddProductPage({ onBack }) {
             setLoading(true);
 
             const payload = {
+<<<<<<< HEAD
                 candidate_id: 4, // later from auth
+=======
+                candidate_id: user?.candidate_id || user?.id,
+>>>>>>> 3d91d089b7aa3c1556e0b4a8f577bdaed07871fd
                 category_id: parseInt(formData.category),
                 item_name: formData.name,
-                short_code: formData.sku,
-                bar_code: formData.barcode,
+                description: formData.description,
+                measurement: formData.measurement,
+                bar_code: formData.barcode || formData.sku,
                 sale_price: Number(formData.price),
                 stoke_price: Number(formData.cost),
-                stoke_quantity: Number(formData.stock),
-                current_quantity: Number(formData.stock),
+                low_stock_alert: Number(formData.lowStockThreshold),
+                // stoke_quantity: Number(formData.stock),
+                // current_quantity: Number(formData.stock),
                 discount: Number(formData.discount),
                 image_code: formData.image_code,
                 status_id: formData.status === "active" ? 1 : 2
             };
-
-            const response = await Product_Service.addProduct(payload);
-
-
-            alert("Product saved successfully");
+            addProduct(payload);
             onBack();
 
         } catch (error) {
@@ -101,9 +108,11 @@ export default function AddProductPage({ onBack }) {
             const formData = new FormData();
             formData.append('image', file); // key MUST be "image"
 
-            const res = await Product_Service.uploadItemImage(formData);
-            console.log("kcd", res)
-            setFormData(prev => ({ ...prev, image_code: res, image: `${config.pos_api_url}/static/images/products/${res}` }));
+            const res = await API.uploadItemImage(formData);
+            
+            const imageCode = res?.data?.image_code || res; // Handle both full response and direct code
+            setFormData(prev => ({ ...prev, image_code: imageCode, image: `${config.pos_api_url}/static/images/products/${imageCode}` }));
+
         } catch (err) {
             console.error("Image upload failed:", err);
             alert("Image upload failed");
@@ -174,6 +183,20 @@ export default function AddProductPage({ onBack }) {
                                     className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white resize-none"
                                 />
                             </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Unit of Measurement</label>
+                                <select
+                                    name="measurement"
+                                    value={formData.measurement}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white"
+                                >
+                                    <option value="">Select Measurement</option>
+                                    {Object.entries(measurements).map(([id, label]) => (
+                                        <option key={id} value={id}>{label}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -231,7 +254,7 @@ export default function AddProductPage({ onBack }) {
                             </div>
                         )}
 
-                        <div className="mt-4">
+                        {/* <div className="mt-4">
                             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Tax Rate (%)</label>
                             <input
                                 type="number"
@@ -241,7 +264,7 @@ export default function AddProductPage({ onBack }) {
                                 placeholder="0"
                                 className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white"
                             />
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Inventory */}
@@ -276,7 +299,7 @@ export default function AddProductPage({ onBack }) {
                                     />
                                 </div>
                             </div>
-                            <div>
+                            {/* <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Current Stock</label>
                                 <input
                                     type="number"
@@ -286,7 +309,7 @@ export default function AddProductPage({ onBack }) {
                                     placeholder="0"
                                     className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white"
                                 />
-                            </div>
+                            </div> */}
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Low Stock Alert</label>
                                 <input
@@ -384,7 +407,7 @@ export default function AddProductPage({ onBack }) {
                                     >
                                         <option value="">Select Category</option>
                                         {categories.map(cat => (
-                                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                                            <option key={cat.id} value={cat.originalId}>{cat.name}</option>
                                         ))}
                                     </select>
                                     <button

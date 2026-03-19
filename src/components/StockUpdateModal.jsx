@@ -4,7 +4,8 @@ import {
     Calendar, Plus, Minus, DollarSign,
     CheckCircle2, AlertCircle, Loader2
 } from 'lucide-react';
-import { API_ROUTES } from '../config/apiConfig';
+import { API } from '../services/appService';
+
 import clsx from 'clsx';
 
 export default function UpdateStockModal({ isOpen, onClose, item, onUpdateSuccess }) {
@@ -37,8 +38,7 @@ export default function UpdateStockModal({ isOpen, onClose, item, onUpdateSucces
 
     const fetchSuppliers = async () => {
         try {
-            const res = await fetch(API_ROUTES.SUPPLIERS.GET);
-            const data = await res.json();
+            const data = await API.getSuppliers();
             if (data.success) setSuppliers(data.data);
             else {
                 // Demo fallback
@@ -71,13 +71,9 @@ export default function UpdateStockModal({ isOpen, onClose, item, onUpdateSucces
                 supplier_name: suppliers.find(s => s.supplier_id === parseInt(formData.supplier_id))?.name || 'Manual Adjustment'
             };
 
-            const response = await fetch(API_ROUTES.ITEMS.UPDATE(item.id), {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
-            });
+            const response = await API.updateItem(item.id, payload);
 
-            if (response.ok) {
+            if (response.success || response) {
                 setMessage({ type: 'success', text: 'Inventory updated successfully!' });
                 setTimeout(() => {
                     onUpdateSuccess();

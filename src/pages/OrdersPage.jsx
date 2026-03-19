@@ -1,16 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Eye, Download, RefreshCcw, MoreHorizontal, Calendar, CheckCircle, Clock, XCircle, ArrowUpDown, ChevronLeft, ChevronRight, FileText } from 'lucide-react';
-
-const ORDERS_DATA = [
-    { id: '#ORD-7782', customer: 'Alex Morgan', items: 3, total: 45.90, status: 'Completed', date: 'Oct 24, 2023', payment: 'Credit Card' },
-    { id: '#ORD-7781', customer: 'Sarah Wilson', items: 1, total: 12.50, status: 'Processing', date: 'Oct 24, 2023', payment: 'Cash' },
-    { id: '#ORD-7780', customer: 'James Doe', items: 8, total: 129.00, status: 'Completed', date: 'Oct 23, 2023', payment: 'E-Wallet' },
-    { id: '#ORD-7779', customer: 'Emily Mack', items: 2, total: 24.00, status: 'Completed', date: 'Oct 23, 2023', payment: 'Credit Card' },
-    { id: '#ORD-7778', customer: 'Michael Scott', items: 5, total: 89.99, status: 'Refunded', date: 'Oct 22, 2023', payment: 'Credit Card' },
-    { id: '#ORD-7777', customer: 'David Miller', items: 4, total: 55.00, status: 'Cancelled', date: 'Oct 21, 2023', payment: 'Cash' },
-    { id: '#ORD-7776', customer: 'Jessica Brown', items: 6, total: 210.50, status: 'Completed', date: 'Oct 20, 2023', payment: 'Credit Card' },
-    { id: '#ORD-7775', customer: 'Daniel Lo', items: 2, total: 18.00, status: 'Completed', date: 'Oct 19, 2023', payment: 'E-Wallet' },
-];
+import { API } from '../services/appService';
 
 const StatusBadge = ({ status }) => {
     const styles = {
@@ -40,12 +30,44 @@ const StatusBadge = ({ status }) => {
 export default function OrdersPage() {
     const [activeTab, setActiveTab] = useState('All');
     const [searchTerm, setSearchTerm] = useState('');
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const filteredOrders = ORDERS_DATA.filter(order => {
+    React.useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const data = await API.getOrders();
+                if (data && data.success) {
+                    const formatted = data.data.map(o => ({
+                        id: `#ORD-${o.order_process_id}`,
+                        customer: o.customer_name || 'Walk-in Customer',
+                        items: o.total_items || 0,
+                        total: o.total_amount || 0,
+                        status: o.status_id === 1 ? 'Completed' : 'Processing',
+                        date: new Date(o.created_at).toLocaleDateString(),
+                        payment: o.payment_method || 'Cash'
+                    }));
+                    setOrders(formatted);
+                }
+            } catch (err) {
+                console.error("Failed to fetch orders", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchOrders();
+    }, []);
+
+    const filteredOrders = orders.filter(order => {
         const matchesTab = activeTab === 'All' || order.status === activeTab;
         const matchesSearch = order.customer.toLowerCase().includes(searchTerm.toLowerCase()) || order.id.toLowerCase().includes(searchTerm.toLowerCase());
         return matchesTab && matchesSearch;
     });
+
+    if (loading) {
+        return <div className="p-8 text-center text-slate-500">Loading orders...</div>;
+    }
+
 
     return (
         <div className="p-2 max-w-[1200px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">

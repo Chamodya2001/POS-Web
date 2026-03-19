@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import candidateFullData_service from "./service/candidateFullData_service";
+import { API } from "../services/appService";
 import config from "../helper/config";
 import { useAuth } from "./AuthContext";
+
 
 const ProductContext = createContext(null);
 export const useProducts = () => useContext(ProductContext);
@@ -15,19 +16,45 @@ const slugify = (text) =>
     .replace(/\s+/g, "-");
 
 export const ProductProvider = ({ children }) => {
+<<<<<<< HEAD
   const candidate_id = 4;
+=======
+  const { user } = useAuth();
+
+  // Extract candidate_id from user. Try plural variants if needed, or 'id' as fallback
+  const candidate_id = user?.candidate_id || user?.id;
+
+  
+>>>>>>> 3d91d089b7aa3c1556e0b4a8f577bdaed07871fd
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [candidateAllData, setCandidateAllData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+   const measurements ={
+      1: "kg",
+      2: "liters",
+      3: "pieces",
+      4: "packs",
+      5: "boxes",
+      6: "meters",
+      7: "feet",
+      8: "yards",
+      9: "dozens",
+      10: "gallons",
+      11: "ounces",
+      12: "pounds",
+      13: "milliliters",
+      14: "grams",
+      15: "count"
+
+  }
+
 
   /* ================= FETCH DATA ================= */
   useEffect(() => {
-    console.log("ProductContext: Powering up for candidate_id:", candidate_id);
-
+   
     if (!candidate_id) {
       console.warn("ProductContext: No candidate_id found. Skipping fetch.");
       setLoading(false);
@@ -36,15 +63,18 @@ export const ProductProvider = ({ children }) => {
       return;
     }
 
-    const fetchData = async () => {
+   fetchData();
+  }, [candidate_id]);
+
+  const fetchData = async () => {
       try {
         setLoading(true);
         setError(null);
-        console.log(`ProductContext: Fetching full data for candidate ${candidate_id}...`);
+        
+        const res = await API.getCandidateFullData(candidate_id);
 
-        const res = await candidateFullData_service(candidate_id);
         const data = res?.data;
-        console.log("ProductContext: Full Data Response Received:", res);
+        
 
         if (!data || Object.keys(data).length === 0) {
           throw new Error("No data returned from API for this candidate.");
@@ -64,6 +94,7 @@ export const ProductProvider = ({ children }) => {
         // Create a mapping from category_id → slug
         const categoryMap = {};
         mappedCategories.forEach(cat => {
+          console.log("Mapping category:", cat.originalId, "to", cat.id);
           if (cat.originalId) categoryMap[cat.originalId] = cat.id;
         });
 
@@ -78,7 +109,7 @@ export const ProductProvider = ({ children }) => {
           sku: item.bar_code || "",
           status: item.current_quantity > 0 ? "active" : "out_of_stock",
           image: item.image_code
-            ? `${config.pos_api_url}/static/images/products/${item.image_code}`
+            ? API.getProductImageUrl(item.image_code)
             : "/placeholder.png",
           bar_code: item.bar_code,
           discount: item.discount,
@@ -97,7 +128,7 @@ export const ProductProvider = ({ children }) => {
         }));
 
         // Set states
-        setCandidateAllData(res);
+        setCandidateAllData(data);
         setCategories(categoriesWithCounts);
         setProducts(mappedProducts);
         setError(null);
@@ -109,31 +140,117 @@ export const ProductProvider = ({ children }) => {
       }
     };
 
-    fetchData();
-  }, [candidate_id]);
-
-
-
-
-
   /* ================= CRUD HELPERS ================= */
-  const addProduct = (product) => {
-    setProducts(prev => [product, ...prev]);
+  const addProduct = async (product) => {
+    try {
+      // Prepare backend payload from UI product shape
+      const payload = buildBackendPayload(product);
+      const response = await API.addProduct(payload);
+      
+      await fetchData();
+      alert("Product saved successfully");
+    
+    } catch (err) {
+      console.error("Failed to add product:", err);
+      throw err;
+    }
   };
 
-  const updateProduct = (id, updates) => {
-    setProducts(prev =>
-      prev.map(p => (p.id === id ? { ...p, ...updates } : p))
-    );
+  // Helper: build backend payload from normalized UI product or form data
+  const buildBackendPayload = (data, original = {}) => {
+    // merged source: original then new data (data may be form values)
+    const merged = { ...original, ...data };
+
+    // Resolve category_id: prefer explicit category_id, else look up from categories by slug
+    let category_id = merged.category_id;
+    if (!category_id && merged.category) {
+      const found = categories.find((c) => c.id === String(merged.category));
+      category_id = found?.originalId || merged.category;
+    }
+
+    return {
+      candidate_id: candidate_id,
+      category_id: category_id ? Number(category_id) : undefined,
+      item_name: merged.name || merged.item_name,
+      description: merged.description,
+      measurement: merged.measurement,
+      bar_code: merged.bar_code || merged.sku,
+      sale_price: Number(merged.price ?? merged.sale_price ?? 0),
+      stoke_price: Number(merged.cost_price ?? merged.stoke_price ?? 0),
+      low_stock_alert: Number(merged.low_stock_alert ?? 0),
+      discount: Number(merged.discount ?? 0),
+      image_code: merged.image_code,
+      status_id: (merged.status === "active" || merged.status === "Active") ? 1 : 2,
+      //item_id: merged.item_id || merged.id,
+    };
+  };
+
+  const updateProduct = async (id, updates) => {
+    try {
+      const original = products.find((p) => p.id === id) || {};
+      const payload = buildBackendPayload(updates, original);
+      await API.updateProduct(id, payload);
+      // Update local normalized state with merged values
+      setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...updates } : p)));
+    } catch (err) {
+      console.error("Failed to update product:", err);
+    }
   };
 
   const deleteProduct = (id) => {
+    try {
+      API.deleteProduct(id);
+    } catch (err) {     
+       console.error("Failed to delete product:", err);
+    }
     setProducts(prev => prev.filter(p => p.id !== id));
   };
 
+  const addCategory = async (categoryData) => {
+    try {
+      const res = await API.saveCategory(categoryData);
+      if (res) {
+        // Refresh full data to get updated categories
+        const fullData = await API.getCandidateFullData(candidate_id);
+        if (fullData?.data?.categories) {
+          const mappedCategories = [
+            { id: "all", name: "All Items", count: 0 },
+            ...fullData.data.categories.map(cat => ({
+              id: slugify(cat.category_name),
+              name: cat.category_name,
+              count: 0,
+              originalId: cat.category_id,
+            }))
+          ];
+          setCategories(mappedCategories);
+        }
+        return res;
+      }
+    } catch (err) {
+      console.error("Failed to add category:", err);
+      throw err;
+    }
+  };
+
+  const deleteCategory = async (id) => {
+    try {
+      await API.deleteCategory(id);
+      setCategories(prev => prev.filter(c => c.originalId !== id));
+    } catch (err) {
+      console.error("Failed to delete category:", err);
+    }
+  };
+
+  const uploadCategoryImage = async (formData) => {
+    try {
+      return await API.uploadItemImage(formData); // Using item image upload for categories as per AppService
+    } catch (err) {
+      console.error("Failed to upload category image:", err);
+      throw err;
+    }
+  };
+
   /* ================= CONTEXT VALUE ================= */
-
-
 
   return (
     <ProductContext.Provider
@@ -145,9 +262,17 @@ export const ProductProvider = ({ children }) => {
         error,
         addProduct,
         updateProduct,
-        deleteProduct
+        deleteProduct,
+        addCategory,
+        deleteCategory,
+        uploadCategoryImage,
+        measurements,
+        setProducts
+        
+        
       }}
     >
+
       {children}
     </ProductContext.Provider>
   );
