@@ -28,6 +28,7 @@ export const ProductProvider = ({ children }) => {
   const [candidateAllData, setCandidateAllData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
    const measurements ={
       1: "kg",
       2: "liters",
@@ -60,7 +61,7 @@ export const ProductProvider = ({ children }) => {
     }
 
    fetchData();
-  }, [candidate_id]);
+  }, [candidate_id,refreshTrigger]);
 
   const fetchData = async () => {
       try {
@@ -170,7 +171,7 @@ export const ProductProvider = ({ children }) => {
       category_id: category_id ? Number(category_id) : undefined,
       item_name: merged.name || merged.item_name,
       description: merged.description,
-      measurement: merged.measurement,
+      measurement_id: merged.measurement_id,
       bar_code: merged.bar_code || merged.sku,
       sale_price: Number(merged.price ?? merged.sale_price ?? 0),
       stoke_price: Number(merged.cost_price ?? merged.stoke_price ?? 0),
@@ -264,7 +265,10 @@ export const ProductProvider = ({ children }) => {
         deleteCategory,
         uploadCategoryImage,
         measurements,
-        setProducts
+        setProducts,
+
+        refreshTrigger,
+        setRefreshTrigger,
         
         
       }}

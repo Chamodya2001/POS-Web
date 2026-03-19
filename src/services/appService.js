@@ -40,7 +40,7 @@ const API_ROUTES = {
         SAVE: `${API_BASE_URL}/api/item/save`,
         GET: `${API_BASE_URL}/api/item/get`,
         GET_BY_ID: (id) => `${API_BASE_URL}/api/item/${id}`,
-        UPDATE: (id) => `${API_BASE_URL}/api/item/${id}`,
+        UPDATE: (id) => `${API_BASE_URL}/api/item/update/${id}`,
         DELETE: (id) => `${API_BASE_URL}/api/item/${id}/delete`,
         UPLOAD_IMAGE: `${API_BASE_URL}/api/item/upload-image`,
     },

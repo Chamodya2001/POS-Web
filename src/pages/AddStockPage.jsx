@@ -9,6 +9,7 @@ import { API } from '../services/appService';
 
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
+import { frameData } from 'framer-motion';
 
 export default function AddStockPage({ onBack, onSuccess }) {
     const { theme } = useTheme();
@@ -74,11 +75,17 @@ export default function AddStockPage({ onBack, onSuccess }) {
             const selectedItem = products.find(p => p.item_id === parseInt(formData.item_id));
             if (!selectedItem) throw new Error("Please select a product");
 
+            const supplierName = suppliers.find(s => s.supplier_id === parseInt(formData.supplier_id))?.name || 'Manual Adjustment';
+
             const updateData = {
                 current_quantity: (selectedItem.current_quantity || 0) + parseFloat(formData.quantity),
                 stoke_quantity: (selectedItem.stoke_quantity || 0) + parseFloat(formData.quantity),
                 stoke_price: parseFloat(formData.unit_price),
-                stoke_ubdate_date: formData.received_date
+                stoke_ubdate_date: formData.received_date,
+                stock_additional_notes: formData.note,
+                suplier_id : parseInt(formData.supplier_id),
+                latest_supplier: supplierName,
+
             };
 
             const response = await API.updateItem(formData.item_id, updateData);

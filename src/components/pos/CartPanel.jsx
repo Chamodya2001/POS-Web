@@ -6,8 +6,12 @@ import { API } from '../../services/appService';
 import { printReceipt } from '../../utils/printReceipt';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useProducts } from '../../context/ProductContext';
 
 const CheckoutModal = ({ isOpen, onClose, orderTotal, previousBalance, cart, onComplete }) => {
+
+    const { setRefreshTrigger } = useProducts();
+
     const [paymentMethod, setPaymentMethod] = useState('card');
     const { selectedCustomer } = useCart();
     const { user } = useAuth();
@@ -32,7 +36,7 @@ const CheckoutModal = ({ isOpen, onClose, orderTotal, previousBalance, cart, onC
                 payment_method: paymentMethod,
                 status_id: 1, // Completed
                 items: cart.map(item => ({
-                    item_id: item.id,
+                    item_id:  parseInt(item.id),
                     item_name: item.name,
                     quantity: item.quantity,
                     price: item.price
@@ -105,9 +109,14 @@ const CheckoutModal = ({ isOpen, onClose, orderTotal, previousBalance, cart, onC
             setError("Failed to process payment. Please try again.");
             console.error(err);
         } finally {
+            refreshProducts();
             setIsProcessing(false);
         }
     };
+
+    const refreshProducts = () => {
+    setRefreshTrigger(prev => !prev); 
+  };
 
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">

@@ -1,0 +1,15 @@
+import { useProducts } from "../context/ProductContext";
+
+const SomeComponent = () => {
+  const { setRefreshTrigger } = useProducts();
+
+  const refreshProducts = () => {
+    setRefreshTrigger(prev => !prev); // 🔥 toggle
+  };
+
+  return (
+    <button onClick={refreshProducts}>
+      Refresh Products
+    </button>
+  );
+};
