@@ -16,16 +16,12 @@ const slugify = (text) =>
     .replace(/\s+/g, "-");
 
 export const ProductProvider = ({ children }) => {
-<<<<<<< HEAD
-  const candidate_id = 4;
-=======
   const { user } = useAuth();
 
   // Extract candidate_id from user. Try plural variants if needed, or 'id' as fallback
   const candidate_id = user?.candidate_id || user?.id;
 
   
->>>>>>> 3d91d089b7aa3c1556e0b4a8f577bdaed07871fd
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
