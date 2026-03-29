@@ -406,7 +406,7 @@ export default function ProductsPage({ initialCategoryId, onClearFilter }) {
 
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">
-                      BASE PRICE
+                      STORE PRICE
                     </label>
                     <input
                       type="number"
@@ -423,16 +423,16 @@ export default function ProductsPage({ initialCategoryId, onClearFilter }) {
 
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">
-                      COST PRICE
+                      SALE PRICE
                     </label>
                     <input
                       type="number"
                       value={
-                        updatedProductData.cost_price !== undefined
-                          ? updatedProductData.cost_price
-                          : originalProductData.cost_price || ""
+                        updatedProductData.cost !== undefined
+                          ? updatedProductData.cost
+                          : originalProductData.cost || ""
                       }
-                      name="cost_price"
+                      name="cost"
                       onChange={handleUpdate}
                       className="w-full px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/50 dark:text-white shadow-sm"
                     />

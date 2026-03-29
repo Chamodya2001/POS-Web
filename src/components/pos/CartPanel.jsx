@@ -7,6 +7,7 @@ import { printReceipt } from '../../utils/printReceipt';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useProducts } from '../../context/ProductContext';
+import { u } from 'framer-motion/client';
 
 const CheckoutModal = ({ isOpen, onClose, orderTotal, previousBalance, cart, onComplete }) => {
 
@@ -281,6 +282,7 @@ const CheckoutModal = ({ isOpen, onClose, orderTotal, previousBalance, cart, onC
 };
 
 const CartPanel = () => {
+    const { user } = useAuth();
     const { cart, removeFromCart, updateQuantity, calculateTotal, clearCart, selectedCustomer, setSelectedCustomer } = useCart();
     const { subtotal, tax, total, previousBalance, finalTotal } = calculateTotal();
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -294,7 +296,7 @@ const CartPanel = () => {
     const fetchCustomers = async () => {
         setIsLoadingCustomers(true);
         try {
-            const response = await API.getCustomers();
+            const response = await API.getCustomers(user?.candidate_id);
             if (response.success) {
                 setCustomers(response.data);
 
@@ -531,6 +533,8 @@ const CartPanel = () => {
                     Checkout RS {finalTotal.toFixed(2)}
                 </button>
             </div>
+
+            
 
             <CheckoutModal
                 isOpen={isCheckoutOpen}

@@ -7,8 +7,11 @@ import {
 import { API } from '../services/appService';
 
 import clsx from 'clsx';
+import { useAuth } from '../context/AuthContext';
 
 export default function UpdateStockModal({ isOpen, onClose, item, onUpdateSuccess }) {
+    const { user } = useAuth();
+
     const [loading, setLoading] = useState(false);
     const [suppliers, setSuppliers] = useState([]);
     const [message, setMessage] = useState({ type: '', text: '' });
@@ -38,7 +41,7 @@ export default function UpdateStockModal({ isOpen, onClose, item, onUpdateSucces
 
     const fetchSuppliers = async () => {
         try {
-            const data = await API.getSuppliers();
+            const data = await API.getSuppliers(user?.candidate_id);
             if (data.success && data.data) {
                 console.log("StockUpdateModal [V2.0] RAW Suppliers:", data.data);
                 const mappedSuppliers = data.data.map(s => ({

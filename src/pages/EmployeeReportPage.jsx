@@ -7,6 +7,7 @@ import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
 import * as XLSX from 'xlsx';
 import { API } from '../services/appService';
+import { useAuth } from '../context/AuthContext';
 
 // Professional Employee Card Component
 const EmployeeCardSelector = ({ employee, isSelected, isDarkMode, onClick, onDelete }) => (
@@ -237,6 +238,8 @@ const SalesDataTable = ({ data, period, isDarkMode }) => {
 
 
 export default function EmployeeReportPage() {
+    const { user } = useAuth();
+
     const { theme } = useTheme();
     const isDarkMode = theme === 'dark';
 
@@ -251,7 +254,7 @@ export default function EmployeeReportPage() {
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
-                const data = await API.getEmployees();
+                const data = await API.getEmployees(user?.candidate_id);
                 if (data && data.success) {
                     setEmployees(data.data);
                 }

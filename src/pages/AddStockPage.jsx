@@ -10,9 +10,11 @@ import { API } from '../services/appService';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
 import { frameData } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 export default function AddStockPage({ onBack, onSuccess }) {
     const { theme } = useTheme();
+    const { user } = useAuth();
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -33,11 +35,11 @@ export default function AddStockPage({ onBack, onSuccess }) {
         const fetchData = async () => {
             try {
                 // Fetch Products
-                const pData = await API.getItems();
+                const pData = await API.getItems(user?.candidate_id);
                 if (pData.success) setProducts(pData.data);
 
                 // Fetch Suppliers
-                const sData = await API.getSuppliers();
+                const sData = await API.getSuppliers(user?.candidate_id);
                 if (sData.success && sData.data) {
                     console.log("AddStockPage: RAW Suppliers from API:", sData.data);
                     const mappedSuppliers = sData.data.map(s => ({

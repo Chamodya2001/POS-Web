@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Filter, Eye, Download, RefreshCcw, MoreHorizontal, Calendar, CheckCircle, Clock, XCircle, ArrowUpDown, ChevronLeft, ChevronRight, FileText } from 'lucide-react';
 import { API } from '../services/appService';
+import { useAuth } from '../context/AuthContext';
 
 const StatusBadge = ({ status }) => {
     const styles = {
@@ -32,11 +33,12 @@ export default function OrdersPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { user } = useAuth();
 
     React.useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const data = await API.getOrders();
+                const data = await API.getOrders(user?.candidate_id);
                 if (data && data.success) {
                     const formatted = data.data.map(o => ({
                         id: `#ORD-${o.order_process_id}`,

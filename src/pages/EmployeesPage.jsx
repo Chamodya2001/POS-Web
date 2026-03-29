@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import {
     User, Mail, Phone, MapPin, Briefcase,
     Calendar, Shield, Lock, Save, Trash2,
@@ -79,7 +79,7 @@ export default function EmployeesPage({ onAddEmployee }) {
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
-                const response = await API.getEmployees();
+                const response = await API.getEmployees(user?.candidate_id);
                 if (response && response.success) {
                     setEmployees(response.data);
                 }

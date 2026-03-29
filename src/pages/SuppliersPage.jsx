@@ -67,7 +67,7 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
     useEffect(() => {
         const fetchSuppliers = async () => {
             try {
-                const data = await API.getSuppliers();
+                const data = await API.getSuppliers(user?.candidate_id);
                 if (data.success && data.data) {
                     console.log("SuppliersPage [V2.0]: RAW DATA from API:", data.data);
                     setSuppliers(data.data.map(s => {

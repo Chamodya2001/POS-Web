@@ -1,11 +1,74 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, Filter, Mail, Phone, MoreHorizontal, ShoppingBag, Star, Calendar, MapPin, Grid, List, Trash2 } from 'lucide-react';
+import { Search, Plus, Filter, Mail, Phone, MoreHorizontal, ShoppingBag, Star, Calendar, MapPin, Grid, List, Trash2, CheckCircle2, XCircle, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { API } from '../services/appService';
 
 
 
-const CustomerCard = ({ customer, onViewProfile, onDelete, canDelete }) => (
+const sendCustomerMessage = async (user, customerId, customerName, customerEmail, customerPhone, customerLoan, onNotify) => {
+    
+    if (!user) {
+        console.error("User not authenticated. Cannot send message.");
+        onNotify?.('error', 'User not authenticated. Cannot send message.');
+        return;
+    }
+
+    try {
+        const response = await API.sendCustomerMessage(
+            user.email,        // senderEmail
+            customerEmail,     // receiverEmail
+            customerName,      // customerName
+            customerLoan,      // customerLoan
+            user.shop_name ,    // shopName
+            user.phone_number  ,// senderPhone
+            user.email
+        );
+
+        const isSuccess =
+            response?.success === true ||
+            response?.status === true ||
+            response?.status === 'success' ||
+            typeof response === 'string';
+
+        if (isSuccess) {
+            const message = response?.message || `Message sent to ${customerName} successfully!`;
+            if (onNotify) {
+                onNotify('success', message);
+            } else {
+                alert(message);
+            }
+        } else {
+            const message = response?.message || `Failed to send message to ${customerName}.`;
+            if (onNotify) {
+                onNotify('error', message);
+            } else {
+                alert(message);
+            }
+        }
+
+        return response;
+    } catch (error) {
+        console.error("Error sending customer message:", error);
+        onNotify?.('error', error?.message || `Failed to send message to ${customerName}.`);
+        return { success: false, message: error?.message };
+    }
+};
+
+const CustomerCard = ({ customer, onViewProfile, onDelete, canDelete, user, onNotify }) => {
+    const [isSending, setIsSending] = useState(false);
+
+    const handleSendMessageClick = async () => {
+        if (isSending) return;
+
+        setIsSending(true);
+        try {
+            await sendCustomerMessage(user, customer.id, customer.name, customer.email, customer.phone, customer.loan, onNotify);
+        } finally {
+            setIsSending(false);
+        }
+    };
+
+    return (
     <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-all group relative">
         <div className="absolute top-4 right-4 flex gap-2">
             {canDelete && (
@@ -49,8 +112,11 @@ const CustomerCard = ({ customer, onViewProfile, onDelete, canDelete }) => (
             </div>
 
             <div className="flex gap-2 w-full">
-                <button className="flex-1 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 text-sm font-medium transition-colors flex items-center justify-center gap-2">
-                    <Mail className="w-4 h-4" /> Message
+                <button 
+                className="flex-1 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 active:bg-slate-100 active:scale-[0.98] text-sm font-medium transition-all duration-150 flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/30 disabled:opacity-60 disabled:cursor-not-allowed"
+                onClick={handleSendMessageClick}
+                disabled={isSending}>
+                 <Mail className={`w-4 h-4 ${isSending ? 'animate-pulse' : ''}`} /> {isSending ? 'Sending...' : 'Message'}
                 </button>
                 <button
                     onClick={() => onViewProfile(customer.id)}
@@ -63,6 +129,7 @@ const CustomerCard = ({ customer, onViewProfile, onDelete, canDelete }) => (
         </div>
     </div>
 );
+};
 
 export default function CustomersPage({ onAddCustomer, onViewProfile }) {
     const { user } = useAuth();
@@ -70,11 +137,26 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
     const [viewMode, setViewMode] = useState('grid');
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [notification, setNotification] = useState(null);
+
+    const showNotification = (type, message) => {
+        setNotification({ type, message });
+    };
+
+    useEffect(() => {
+        if (!notification) return undefined;
+
+        const timer = setTimeout(() => {
+            setNotification(null);
+        }, 3500);
+
+        return () => clearTimeout(timer);
+    }, [notification]);
 
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const data = await API.getCustomers();
+                const data = await API.getCustomers(user?.candidate_id);
                 if (data.success && data.data.length > 0) {
                     // Map API fields to match the UI component's expected fields
                     const mappedData = data.data.map(c => ({
@@ -148,6 +230,30 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
 
     return (
         <div className="p-2 max-w-[1200px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {notification && (
+                <div className="fixed top-4 right-4 z-50 w-[calc(100%-2rem)] max-w-sm animate-in slide-in-from-top-2 fade-in duration-300">
+                    <div className={`rounded-xl border px-4 py-3 shadow-xl backdrop-blur-sm flex items-start gap-3 ${notification.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-red-50 border-red-200 text-red-900'}`}>
+                        {notification.type === 'success' ? (
+                            <CheckCircle2 className="w-5 h-5 mt-0.5 text-emerald-600" />
+                        ) : (
+                            <XCircle className="w-5 h-5 mt-0.5 text-red-600" />
+                        )}
+
+                        <div className="flex-1">
+                            <p className="text-sm font-semibold">{notification.type === 'success' ? 'Success' : 'Error'}</p>
+                            <p className="text-sm opacity-90">{notification.message}</p>
+                        </div>
+
+                        <button
+                            onClick={() => setNotification(null)}
+                            className="p-1 rounded-md hover:bg-black/5 transition-colors"
+                            aria-label="Dismiss notification"
+                        >
+                            <X className="w-4 h-4" />
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
@@ -205,7 +311,7 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
             ) : viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {customers.map(customer => (
-                        <CustomerCard key={customer.id} customer={customer} onViewProfile={onViewProfile} onDelete={handleDelete} canDelete={canDelete} />
+                        <CustomerCard key={customer.id} customer={customer} onViewProfile={onViewProfile} onDelete={handleDelete} canDelete={canDelete} user={user} onNotify={showNotification} />
                     ))}
                     {customers.length === 0 && (
                         <div className="col-span-full text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
