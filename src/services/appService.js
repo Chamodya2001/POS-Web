@@ -17,28 +17,31 @@ const API_ROUTES = {
     },
     EMPLOYEES: {
         SAVE: `${API_BASE_URL}/api/casior/save`,
-        GET: `${API_BASE_URL}/api/casior/get`,
+        GET: (candidateId) => `${API_BASE_URL}/api/casior/get/${candidateId}`,
         GET_BY_ID: (id) => `${API_BASE_URL}/api/casior/${id}`,
         UPDATE: (id) => `${API_BASE_URL}/api/casior/${id}`,
         DELETE: (id) => `${API_BASE_URL}/api/casior/${id}`,
+      
     },
     CUSTOMERS: {
         SAVE: `${API_BASE_URL}/api/customer/save`,
-        GET: `${API_BASE_URL}/api/customer/get-all`, // Note: "get-all" route
+        GET: (candidateId) => `${API_BASE_URL}/api/customer/get-all/${candidateId}`, // Note: "get-all" route
         GET_BY_ID: (id) => `${API_BASE_URL}/api/customer/${id}`,
         UPDATE: (id) => `${API_BASE_URL}/api/customer/${id}`,
         DELETE: (id) => `${API_BASE_URL}/api/customer/${id}`,
+        SENDCUSTOMERMESSAGE:  `${API_BASE_URL}/api/customer/send-customer-email`,
+
     },
     SUPPLIERS: {
         SAVE: `${API_BASE_URL}/api/suplier/save`, // Note: "suplier" spelling
-        GET: `${API_BASE_URL}/api/suplier/get`,
+        GET: (candidateID) => `${API_BASE_URL}/api/suplier/get/${candidateID}`,
         GET_BY_ID: (id) => `${API_BASE_URL}/api/suplier/${id}`,
         UPDATE: (id) => `${API_BASE_URL}/api/suplier/${id}`,
         DELETE: (id) => `${API_BASE_URL}/api/suplier/${id}`,
     },
     ITEMS: {
         SAVE: `${API_BASE_URL}/api/item/save`,
-        GET: `${API_BASE_URL}/api/item/get`,
+        GET: (candidateId) => `${API_BASE_URL}/api/item/get/all/${candidateId}`,
         GET_BY_ID: (id) => `${API_BASE_URL}/api/item/${id}`,
         UPDATE: (id) => `${API_BASE_URL}/api/item/update/${id}`,
         DELETE: (id) => `${API_BASE_URL}/api/item/${id}/delete`,
@@ -53,7 +56,7 @@ const API_ROUTES = {
     },
     ORDERS: {
         SAVE: `${API_BASE_URL}/api/order-process/add`,
-        GET_ALL: `${API_BASE_URL}/api/order-process/getAll`,
+        GET_ALL: (candidateID) => `${API_BASE_URL}/api/order-process/getAll/${candidateID}`,
         GET_BY_ID: (id) => `${API_BASE_URL}/api/order-process/get/${id}`,
         UPDATE: (id) => `${API_BASE_URL}/api/order-process/update/${id}`,
         DELETE: (id) => `${API_BASE_URL}/api/order-process/delete/${id}`,
@@ -165,12 +168,12 @@ async function addEmployee(data) {
     return APIHandler.handleResponse(response);
 }
 
-async function getAllEmployees() {
+async function getAllEmployees(candidateID) {
     const requestOptions = {
         method: "GET",
         headers: APIHandler.getHeader(config.azure_ad_config.apis.POS.name),
     };
-    const response = await fetch(API_ROUTES.EMPLOYEES.GET, requestOptions);
+    const response = await fetch(API_ROUTES.EMPLOYEES.GET(candidateID), requestOptions);
     return APIHandler.handleResponse(response);
 }
 
@@ -214,12 +217,12 @@ async function addCustomer(data) {
     return APIHandler.handleResponse(response);
 }
 
-async function getAllCustomers() {
+async function getAllCustomers(id) {
     const requestOptions = {
         method: "GET",
         headers: APIHandler.getHeader(config.azure_ad_config.apis.POS.name),
     };
-    const response = await fetch(API_ROUTES.CUSTOMERS.GET, requestOptions);
+    const response = await fetch(API_ROUTES.CUSTOMERS.GET(id), requestOptions);
     return APIHandler.handleResponse(response);
 }
 
@@ -251,6 +254,24 @@ async function deleteCustomer(id) {
     return APIHandler.handleResponse(response);
 }
 
+async function sendCustomerMessage(
+    senderEmail,
+    receiverEmail,
+    customerName,
+    customerLoan,
+    shopName,
+    senderPhone,
+    email
+) {
+    const requestOptions = {
+        method: "POST",
+        headers: APIHandler.getHeader(config.azure_ad_config.apis.POS.name),
+        body: JSON.stringify({ senderEmail, receiverEmail, customerName, customerLoan, shopName, senderPhone, email }),
+    };
+    const response = await fetch(API_ROUTES.CUSTOMERS.SENDCUSTOMERMESSAGE, requestOptions);
+    return APIHandler.handleResponse(response);
+}
+
 // ==================== SUPPLIER FUNCTIONS ====================
 
 async function addSupplier(data) {
@@ -263,12 +284,12 @@ async function addSupplier(data) {
     return APIHandler.handleResponse(response);
 }
 
-async function getAllSuppliers() {
+async function getAllSuppliers(candidate_id) {
     const requestOptions = {
         method: "GET",
         headers: APIHandler.getHeader(config.azure_ad_config.apis.POS.name),
     };
-    const response = await fetch(API_ROUTES.SUPPLIERS.GET, requestOptions);
+    const response = await fetch(API_ROUTES.SUPPLIERS.GET(candidate_id), requestOptions);
     return APIHandler.handleResponse(response);
 }
 
@@ -312,12 +333,12 @@ async function addProduct(data) {
     return APIHandler.handleResponse(response);
 }
 
-async function getAllProducts() {
+async function getAllProducts(candidate_id) {
     const requestOptions = {
         method: "GET",
         headers: APIHandler.getHeader(config.azure_ad_config.apis.POS.name),
     };
-    const response = await fetch(API_ROUTES.ITEMS.GET, requestOptions);
+    const response = await fetch(API_ROUTES.ITEMS.GET(candidate_id), requestOptions);
     return APIHandler.handleResponse(response);
 }
 
@@ -427,12 +448,12 @@ async function saveOrder(data) {
     return APIHandler.handleResponse(response);
 }
 
-async function getAllOrders() {
+async function getAllOrders(candidate_id) {
     const requestOptions = {
         method: "GET",
         headers: APIHandler.getHeader(config.azure_ad_config.apis.POS.name),
     };
-    const response = await fetch(API_ROUTES.ORDERS.GET_ALL, requestOptions);
+    const response = await fetch(API_ROUTES.ORDERS.GET_ALL(candidate_id), requestOptions);
     return APIHandler.handleResponse(response);
 }
 
@@ -626,6 +647,7 @@ export const API = {
     getCustomerById,
     updateCustomer,
     deleteCustomer,
+    sendCustomerMessage,
 
     // Customers ALIASES
     getCustomers: getAllCustomers,

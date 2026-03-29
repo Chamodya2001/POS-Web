@@ -10,6 +10,7 @@ import { API } from '../services/appService';
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
 import UpdateStockModal from '../components/StockUpdateModal';
+import { useAuth } from '../context/AuthContext';
 
 const StockStatCard = ({ title, value, subtext, icon: Icon, trend, color }) => (
     <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">
@@ -34,6 +35,7 @@ const StockStatCard = ({ title, value, subtext, icon: Icon, trend, color }) => (
 );
 
 export default function StockManagementPage({ onAddStock, onViewHistory }) {
+    const { user } = useAuth();
     const { theme } = useTheme();
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -46,7 +48,7 @@ export default function StockManagementPage({ onAddStock, onViewHistory }) {
     const fetchStockData = async () => {
         setLoading(true);
         try {
-            const data = await API.getItems();
+            const data = await API.getItems(user?.candidate_id);
             if (data.success && data.data) {
                 setStocks(data.data.map(item => ({
                     id: item.item_id,

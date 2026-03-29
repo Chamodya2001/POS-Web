@@ -151,8 +151,8 @@ const Dashboard = () => {
       </div>
 
       {/* Orders Table */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 scrollbar-thin ">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm max-h-[400px] overflow-y-auto"> 
           <div className="p-6 border-b border-slate-50">
             <SectionHeader
               title="Recent Orders"
@@ -160,7 +160,7 @@ const Dashboard = () => {
             />
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse over">
               <thead>
                 <tr className="bg-slate-50/50 border-b border-slate-100 text-xs uppercase text-slate-500 font-semibold tracking-wider">
                   <th className="py-3 px-4">Order ID</th>
@@ -206,7 +206,7 @@ const Dashboard = () => {
         </div>
 
         {/* Top Selling Items */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col h-full">
+        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col max-h-[400px] overflow-y-auto">
           <SectionHeader title="Top Selling Items" />
           <div className="space-y-4 flex-1">
             {items.length > 0 ? (

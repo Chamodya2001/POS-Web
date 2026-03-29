@@ -101,8 +101,8 @@ export const ProductProvider = ({ children }) => {
           name: item.item_name,
           sinhala_name: item.sinhala_name,
           category: categoryMap[item.category_id] || "all",
-          price: item.sale_price,
-          cost: item.cost_price,
+          price: item.stoke_price,
+          cost: item.sale_price,
           stock: item.current_quantity,
           sku: item.bar_code || "",
           status: item.current_quantity > 0 ? "active" : "out_of_stock",
@@ -113,7 +113,9 @@ export const ProductProvider = ({ children }) => {
           discount: item.discount,
           measurement_id: item.measurement_id,
           stoke_price: item.stoke_price,
-          stoke_ubdate_date: item.stoke_ubdate_date
+          stoke_ubdate_date: item.stoke_ubdate_date,
+          low_stock_alert: item.low_stock_alert,
+          description: item.description,
         }));
 
         // Update category counts
@@ -174,7 +176,7 @@ export const ProductProvider = ({ children }) => {
       measurement_id: merged.measurement_id,
       bar_code: merged.bar_code || merged.sku,
       sale_price: Number(merged.price ?? merged.sale_price ?? 0),
-      stoke_price: Number(merged.cost_price ?? merged.stoke_price ?? 0),
+      stoke_price: Number(merged.cost ?? merged.stoke_price ?? 0),
       low_stock_alert: Number(merged.low_stock_alert ?? 0),
       discount: Number(merged.discount ?? 0),
       image_code: merged.image_code,
