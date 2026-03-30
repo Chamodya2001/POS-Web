@@ -23,8 +23,7 @@ import AddStockPage from './pages/AddStockPage';
 import CategoriesPage from './pages/CategoriesPage';
 import StockHistoryPage from './pages/StockHistoryPage';
 import EmployeesPage from './pages/EmployeesPage';
-
-
+import UserProfilePage from './pages/UserProfilePage';
 
 const AppContent = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -141,8 +140,10 @@ const AppContent = () => {
         />
       )}
 
+      {activeTab === 'profile' && <UserProfilePage />}
+
       {/* Restricted tabs for admin or undefined tabs */}
-      {(['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'employee-report', 'employees', 'add-customer', 'customer-profile', 'suppliers', 'add-supplier', 'stock', 'add-stock', 'categories', 'stock-history'].indexOf(activeTab) === -1 ||
+      {(['pos', 'dashboard', 'orders', 'customers', 'products', 'settings', 'employment', 'employee-report', 'employees', 'add-customer', 'customer-profile', 'suppliers', 'add-supplier', 'stock', 'add-stock', 'categories', 'stock-history', 'profile'].indexOf(activeTab) === -1 ||
         (['orders', 'employment', 'employee-report', 'employees'].includes(activeTab) && user?.role === 'admin') ||
         (activeTab === 'pos' && user?.role === 'super_admin')) && (
           <div className="flex flex-col items-center justify-center h-full text-slate-400">

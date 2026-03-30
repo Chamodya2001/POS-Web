@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { API } from '../../services/appService';
 import { printReceipt } from '../../utils/printReceipt';
+import ReceiptPreviewModal from './ReceiptPreviewModal';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -77,26 +78,24 @@ const CheckoutModal = ({ isOpen, onClose, orderTotal, previousBalance, cart, onC
                     }
                 }
 
-                try {
-                    const receiptData = {
-                        orderId: orderId,
-                        items: orderData.items,
-                        orderTotal: orderTotal,
-                        previousBalance: previousBalance,
-                        grandTotal: grandTotal,
-                        cashPaidAmount: parseFloat(cashPaidAmount),
-                        paymentMethod: paymentMethod,
-                        user: user,
-                        customer: selectedCustomer
-                    };
-                    printReceipt(receiptData);
-                } catch (printErr) {
-                    console.error("Failed to print receipt:", printErr);
-                }
+                const refinedPaymentMethod = paymentMethod === 'cash' && cashPaymentType === 'partial' ? 'partial_cash' : paymentMethod;
+
+                const receiptData = {
+                    orderId: orderId,
+                    items: orderData.items,
+                    orderTotal: orderTotal,
+                    previousBalance: previousBalance,
+                    grandTotal: grandTotal,
+                    cashPaidAmount: parseFloat(cashPaidAmount),
+                    paymentMethod: refinedPaymentMethod,
+                    user: user,
+                    customer: selectedCustomer
+                };
 
                 onComplete({
-                    paymentMethod: paymentMethod === 'cash' && cashPaymentType === 'partial' ? 'partial_cash' : paymentMethod,
-                    orderId: orderId
+                    paymentMethod: refinedPaymentMethod,
+                    orderId: orderId,
+                    receiptData: receiptData
                 });
             } else {
                 setError(response.message || "Failed to save order");
@@ -275,6 +274,8 @@ const CartPanel = () => {
     const { cart, removeFromCart, updateQuantity, calculateTotal, clearCart, selectedCustomer, setSelectedCustomer } = useCart();
     const { subtotal, tax, total, previousBalance, finalTotal } = calculateTotal();
     const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+    const [isReceiptOpen, setIsReceiptOpen] = useState(false);
+    const [lastOrderData, setLastOrderData] = useState(null);
 
     // Customer Selection State
     const [isCustomerSearchOpen, setIsCustomerSearchOpen] = useState(false);
@@ -485,7 +486,13 @@ const CartPanel = () => {
                                     <span className="w-4 text-center text-xs font-black text-slate-800">{item.quantity}</span>
                                     <button
                                         onClick={() => updateQuantity(item.id, 1)}
-                                        className="w-5 h-5 flex items-center justify-center rounded bg-slate-900 text-white shadow-sm hover:bg-slate-800 transition-colors"
+                                        disabled={item.quantity >= item.stock}
+                                        className={clsx(
+                                            "w-5 h-5 flex items-center justify-center rounded shadow-sm transition-colors",
+                                            item.quantity >= item.stock 
+                                                ? "bg-slate-200 text-slate-400 cursor-not-allowed" 
+                                                : "bg-slate-900 text-white hover:bg-slate-800"
+                                        )}
                                     >
                                         <Plus className="w-2.5 h-2.5" />
                                     </button>
@@ -529,11 +536,19 @@ const CartPanel = () => {
                 orderTotal={total}
                 previousBalance={previousBalance}
                 cart={cart}
-                onComplete={async () => {
+                onComplete={async (data) => {
                     setIsCheckoutOpen(false);
+                    setLastOrderData(data.receiptData);
+                    setIsReceiptOpen(true);
                     await fetchCustomers(); // Refresh balances in the list
                     clearCart();
                 }}
+            />
+
+            <ReceiptPreviewModal
+                isOpen={isReceiptOpen}
+                onClose={() => setIsReceiptOpen(false)}
+                orderData={lastOrderData}
             />
         </div>
     );

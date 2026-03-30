@@ -88,7 +88,17 @@ export default function StockManagementPage({ onAddStock, onViewHistory }) {
     const filteredStocks = stocks.filter(s =>
         (s.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
         (s.sku || '').toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    ).sort((a, b) => {
+        const aStock = a.currentStock || 0;
+        const bStock = b.currentStock || 0;
+        
+        // Items with currentStock > 0 come first
+        if (aStock > 0 && bStock <= 0) return -1;
+        if (aStock <= 0 && bStock > 0) return 1;
+        
+        // Maintain secondary order
+        return 0;
+    });
 
     const lowStockCount = stocks.filter(s => s.currentStock <= 5 && s.currentStock > 0).length;
     const outOfStockCount = stocks.filter(s => s.currentStock === 0).length;

@@ -55,29 +55,51 @@ export const CartProvider = ({ children }) => {
     }, [selectedCustomer]);
 
     const addToCart = (product) => {
+        if (!product || !product.id || product.stock <= 0) return;
+        
         setCart((prevCart) => {
-            const existingItem = prevCart.find((item) => item.id === product.id);
-            if (existingItem) {
-                return prevCart.map((item) =>
-                    item.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-                );
+            const existingItemIndex = prevCart.findIndex((item) => String(item.id) === String(product.id));
+            if (existingItemIndex > -1) {
+                const newCart = [...prevCart];
+                const existingItem = newCart[existingItemIndex];
+                
+                // Prevent adding more than available stock
+                if (existingItem.quantity >= product.stock) {
+                    return prevCart;
+                }
+
+                newCart[existingItemIndex] = { 
+                    ...existingItem, 
+                    quantity: (existingItem.quantity || 0) + 1 
+                };
+                return newCart;
             } else {
-                return [...prevCart, { ...product, quantity: 1, price: parseFloat(product.price) }];
+                return [...prevCart, { 
+                    ...product, 
+                    quantity: 1, 
+                    price: parseFloat(product.price) || 0,
+                    discount: parseFloat(product.discount) || 0
+                }];
             }
         });
     };
 
     const removeFromCart = (productId) => {
-        setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+        setCart((prevCart) => prevCart.filter((item) => String(item.id) !== String(productId)));
     };
 
     const updateQuantity = (productId, delta) => {
         setCart((prevCart) => {
             return prevCart.map((item) => {
-                if (item.id === productId) {
-                    const newQuantity = Math.max(0, item.quantity + delta);
+                if (String(item.id) === String(productId)) {
+                    let newQuantity = (item.quantity || 0) + delta;
+                    
+                    // Prevent exceeding available stock
+                    if (delta > 0 && newQuantity > item.stock) {
+                        newQuantity = item.stock;
+                    }
+
+                    newQuantity = Math.max(0, newQuantity);
                     return { ...item, quantity: newQuantity };
                 }
                 return item;
