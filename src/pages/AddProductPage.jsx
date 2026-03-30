@@ -62,11 +62,7 @@ export default function AddProductPage({ onBack }) {
             setLoading(true);
 
             const payload = {
-<<<<<<< HEAD
-                candidate_id: 4, // later from auth
-=======
                 candidate_id: user?.candidate_id || user?.id,
->>>>>>> 3d91d089b7aa3c1556e0b4a8f577bdaed07871fd
                 category_id: parseInt(formData.category),
                 item_name: formData.name,
                 sinhala_name: formData.sinhala_name,

@@ -18,6 +18,11 @@ export default function CustomerProfilePage({ customerId, onBack }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const [isEditCustomer, setIsEditCustomer] = useState(false);
+    const [updatedCustomerData, setUpdatedCustomerData] = useState({});
+    const [originalCustomerData, setOriginalCustomerData] = useState({});
+    const [saving, setSaving] = useState(false);
+
     useEffect(() => {
         const fetchCustomer = async () => {
             try {
@@ -27,7 +32,6 @@ export default function CustomerProfilePage({ customerId, onBack }) {
                 } else {
                     setError(data.message);
                 }
-
             } catch (err) {
                 setError("Failed to connect to the server.");
             } finally {
@@ -37,6 +41,42 @@ export default function CustomerProfilePage({ customerId, onBack }) {
 
         if (customerId) fetchCustomer();
     }, [customerId]);
+
+    // Handle input changes in the edit form
+    const handleCustomerUpdate = (e) => {
+        const { name, value } = e.target;
+            setUpdatedCustomerData((prev) => ({
+            ...prev,
+         [name]: value,
+        }));
+    };
+    // Handle submit
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSaving(true);
+
+        const dataToSend = {
+        ...originalCustomerData,
+        ...updatedCustomerData,
+        };
+
+        try {
+        const res = await API.updateCustomer(customerId, dataToSend);
+
+        if (res.success) {
+            setCustomer(dataToSend); // update UI
+            setIsEditCustomer(false);
+            setUpdatedCustomerData({});
+            setOriginalCustomerData({});
+        } else {
+            alert(res.message);
+        }
+        } catch {
+        alert("Update failed");
+        } finally {
+        setSaving(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -80,14 +120,233 @@ export default function CustomerProfilePage({ customerId, onBack }) {
                     </div>
                 </div>
                 <div className="flex gap-3">
-                    <button className="flex items-center gap-2 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+                    <button onClick={() => {setOriginalCustomerData(customer);
+                                            setUpdatedCustomerData({});
+                                            setIsEditCustomer(true);}}
+                        className="flex items-center gap-2 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
                         <Edit className="w-4 h-4" /> Edit Profile
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 transition-all">
-                        <Trash2 className="w-4 h-4" /> Delete
                     </button>
                 </div>
             </div>
+            {/* Edit Customer Modal */}
+                    {isEditCustomer && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+                        <div className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden animate-in zoom-in-95 duration-300">
+                        
+                        <div className="p-8 max-h-[90vh] overflow-y-auto">
+                            
+                            {/* Header */}
+                            <div className="flex items-center justify-between mb-8">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/10 text-primary-600 rounded-xl flex items-center justify-center">
+                                <Edit className="w-6 h-6" />
+                                </div>
+                                <div>
+                                <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                                    Edit Customer
+                                </h2>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm">
+                                    Update customer details.
+                                </p>
+                                </div>
+                            </div>
+
+                            <button
+                                onClick={() => setIsEditCustomer(false)}
+                                className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300">
+                                ✕
+                            </button>
+                            </div>
+
+                            {/* Form */}
+                            <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                setIsEditCustomer(false);
+                            }}
+                            className="space-y-6"
+                            >
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                                {/* First Name */}
+                                <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase">
+                                    First Name
+                                </label>
+                                <input
+                                    name="first_name"
+                                    value={
+                                    updatedCustomerData.first_name !== undefined
+                                        ? updatedCustomerData.first_name
+                                        : originalCustomerData.first_name || ""
+                                    }
+                                    onChange={handleCustomerUpdate}
+                                    className="input-style"
+                                />
+                                </div>
+
+                                {/* Last Name */}
+                                <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase">
+                                    Last Name
+                                </label>
+                                <input
+                                    name="last_name"
+                                    value={
+                                    updatedCustomerData.last_name !== undefined
+                                        ? updatedCustomerData.last_name
+                                        : originalCustomerData.last_name || ""
+                                    }
+                                    onChange={handleCustomerUpdate}
+                                    className="input-style"
+                                />
+                                </div>
+
+                                {/* Email */}
+                                <div className="space-y-2 md:col-span-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={
+                                    updatedCustomerData.email !== undefined
+                                        ? updatedCustomerData.email
+                                        : originalCustomerData.email || ""
+                                    }
+                                    onChange={handleCustomerUpdate}
+                                    className="input-style"
+                                />
+                                </div>
+
+                                {/* Phone */}
+                                <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase">
+                                    Phone Number
+                                </label>
+                                <input
+                                    name="phone_number"
+                                    value={
+                                    updatedCustomerData.phone_number !== undefined
+                                        ? updatedCustomerData.phone_number
+                                        : originalCustomerData.phone_number || ""
+                                    }
+                                    onChange={handleCustomerUpdate}
+                                    className="input-style"
+                                />
+                                </div>
+
+                                {/* NIC */}
+                                <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase">
+                                    NIC
+                                </label>
+                                <input
+                                    name="nic"
+                                    value={
+                                    updatedCustomerData.nic !== undefined
+                                        ? updatedCustomerData.nic
+                                        : originalCustomerData.nic || ""
+                                    }
+                                    onChange={handleCustomerUpdate}
+                                    className="input-style"
+                                />
+                                </div>
+
+                                {/* Address */}
+                                <div className="space-y-2 md:col-span-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase">
+                                    Address
+                                </label>
+                                <textarea
+                                    name="address"
+                                    rows={3}
+                                    value={
+                                    updatedCustomerData.address !== undefined
+                                        ? updatedCustomerData.address
+                                        : originalCustomerData.address || ""
+                                    }
+                                    onChange={handleCustomerUpdate}
+                                    className="input-style resize-none"
+                                />
+                                </div>
+
+                                {/* Loan Balance */}
+                                <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase">
+                                    Loan Balance
+                                </label>
+                                <input
+                                    type="number"
+                                    name="loan_balance"
+                                    value={
+                                    updatedCustomerData.loan_balance !== undefined
+                                        ? updatedCustomerData.loan_balance
+                                        : originalCustomerData.loan_balance || ""
+                                    }
+                                    onChange={handleCustomerUpdate}
+                                    className="input-style"
+                                />
+                                </div>
+
+                                {/* Status */}
+                                <div className="space-y-2">
+                                <label className="text-xs font-bold text-slate-400 uppercase">
+                                    Status
+                                </label>
+                                <select
+                                    name="status_id"
+                                    value={
+                                    updatedCustomerData.status_id !== undefined
+                                        ? updatedCustomerData.status_id
+                                        : originalCustomerData.status_id || 1
+                                    }
+                                    onChange={handleCustomerUpdate}
+                                    className="input-style"
+                                >
+                                    <option value={1}>Active</option>
+                                    <option value={0}>Inactive</option>
+                                </select>
+                                </div>
+
+                                {/* Buttons */}
+                                <div className="flex gap-4 pt-4 md:col-span-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsEditCustomer(false)}
+                                    className="flex-1 px-6 py-3 bg-slate-100 dark:bg-slate-800 rounded-xl font-bold"
+                                >
+                                    Cancel
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    onClick={() => {
+                                    const dataToSend = {
+                                        ...originalCustomerData,
+                                        ...updatedCustomerData,
+                                    };
+
+                                    // 👉 Call your API here
+                                    API.updateCustomer(customerId, dataToSend);
+
+                                    setIsEditCustomer(false);
+                                    setUpdatedCustomerData({});
+                                    setOriginalCustomerData({});
+                                    }}
+                                    className="flex-1 px-6 py-3 bg-primary-600 text-white rounded-xl font-bold"
+                                >
+                                    Save Changes
+                                </button>
+                                </div>
+
+                            </div>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                    )}
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Left Column: Basic Info & Stats */}
@@ -209,6 +468,7 @@ export default function CustomerProfilePage({ customerId, onBack }) {
                             ))}
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>

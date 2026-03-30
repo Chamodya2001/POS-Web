@@ -27,7 +27,7 @@ const API_ROUTES = {
         SAVE: `${API_BASE_URL}/api/customer/save`,
         GET: (candidateId) => `${API_BASE_URL}/api/customer/get-all/${candidateId}`, // Note: "get-all" route
         GET_BY_ID: (id) => `${API_BASE_URL}/api/customer/${id}`,
-        UPDATE: (id) => `${API_BASE_URL}/api/customer/${id}`,
+        UPDATE: (id) => `${API_BASE_URL}/api/customer/update/${id}`,
         DELETE: (id) => `${API_BASE_URL}/api/customer/${id}`,
         SENDCUSTOMERMESSAGE:  `${API_BASE_URL}/api/customer/send-customer-email`,
 
