@@ -43,8 +43,13 @@ const API_ROUTES = {
         SAVE: `${API_BASE_URL}/api/item/save`,
         GET: (candidateId) => `${API_BASE_URL}/api/item/get/all/${candidateId}`,
         GET_BY_ID: (id) => `${API_BASE_URL}/api/item/${id}`,
+<<<<<<< HEAD
         UPDATE: (id) => `${API_BASE_URL}/api/item/update/${id}`,
         DELETE: (id) => `${API_BASE_URL}/api/item/${id}/delete`,
+=======
+        UPDATE: (id) => `${API_BASE_URL}/api/item/${id}`,
+        DELETE: (id) => `${API_BASE_URL}/api/item/${id}`,
+>>>>>>> 4a175d12cca80ea5719a715695011241b230bb09
         UPLOAD_IMAGE: `${API_BASE_URL}/api/item/upload-image`,
     },
     CATEGORIES: {
