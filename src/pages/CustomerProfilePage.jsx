@@ -130,15 +130,19 @@ export default function CustomerProfilePage({ customerId, onBack }) {
             </div>
             {/* Edit Customer Modal */}
                     {isEditCustomer && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
-                        <div className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden animate-in zoom-in-95 duration-300">
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 
+                        bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+                        <div className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-2xl 
+                        shadow-2xl border border-slate-100 dark:border-slate-800 overflow-hidden 
+                        animate-in zoom-in-95 duration-300">
                         
                         <div className="p-8 max-h-[90vh] overflow-y-auto">
                             
                             {/* Header */}
                             <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/10 text-primary-600 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/10 
+                                text-primary-600 rounded-xl flex items-center justify-center">
                                 <Edit className="w-6 h-6" />
                                 </div>
                                 <div>
