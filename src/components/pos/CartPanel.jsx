@@ -1,373 +1,139 @@
-import React, { useState, useEffect } from 'react';
-import { Trash2, Plus, Minus, CreditCard, Banknote, Landmark, Printer, CheckCircle, User, Search, X, Check, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Trash2, Plus, Minus, CreditCard, Banknote, Printer, CheckCircle, User, Search, X, UserPlus, Wallet } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
-import { API_ROUTES } from '../../config/apiConfig';
+import { useAuth } from '../../context/AuthContext';
+import { API } from '../../services/appService';
+import { printReceipt } from '../../utils/printReceipt';
+import ReceiptPreviewModal from './ReceiptPreviewModal';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useProducts } from '../../context/ProductContext';
+import { u } from 'framer-motion/client';
 
-const CustomerSelector = ({ selectedCustomer, onSelect, customers }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
+const CheckoutModal = ({ isOpen, onClose, orderTotal, previousBalance, cart, onComplete }) => {
 
-    const filteredCustomers = customers.filter(c =>
-        c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.phone?.includes(searchQuery)
-    );
+    const { setRefreshTrigger } = useProducts();
 
-    return (
-        <div className="relative mb-4">
-            {!selectedCustomer ? (
-                <button
-                    onClick={() => setIsOpen(true)}
-                    className="w-full flex items-center justify-between p-3 bg-slate-50 border border-dashed border-slate-300 rounded-xl text-slate-500 hover:bg-slate-100 hover:border-slate-400 transition-all group"
-                >
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center group-hover:bg-slate-300 transition-colors">
-                            <User className="w-4 h-4" />
-                        </div>
-                        <span className="text-sm font-medium">Select Customer (Optional)</span>
-                    </div>
-                    <Plus className="w-4 h-4" />
-                </button>
-            ) : (
-                <div className="flex items-center justify-between p-3 bg-primary-50 border border-primary-100 rounded-xl group animate-in fade-in slide-in-from-top-2">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full border-2 border-primary-200 overflow-hidden bg-white">
-                            <img src={selectedCustomer.avatar} alt="" className="w-full h-full object-cover" />
-                        </div>
-                        <div>
-                            <h4 className="text-sm font-bold text-slate-800">{selectedCustomer.name}</h4>
-                            <p className="text-[10px] text-primary-600 font-medium">Loan: RS {selectedCustomer.loan.toFixed(2)}</p>
-                        </div>
-                    </div>
-                    <button
-                        onClick={() => onSelect(null)}
-                        className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                    >
-                        <X className="w-4 h-4" />
-                    </button>
-                </div>
-            )}
-
-            <AnimatePresence>
-                {isOpen && (
-                    <>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setIsOpen(false)}
-                            className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-[50]"
-                        />
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                            className="absolute top-0 left-0 w-full bg-white rounded-2xl shadow-2xl border border-slate-200 z-[51] overflow-hidden"
-                        >
-                            <div className="p-4 border-b border-slate-100 bg-slate-50/50">
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                    <input
-                                        autoFocus
-                                        type="text"
-                                        placeholder="Search by name or phone..."
-                                        className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                                        value={searchQuery}
-                                        onChange={(e) => setSearchQuery(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                            <div className="max-h-60 overflow-y-auto p-2 custom-scrollbar">
-                                {filteredCustomers.length > 0 ? (
-                                    filteredCustomers.map(customer => (
-                                        <button
-                                            key={customer.id}
-                                            onClick={() => {
-                                                onSelect(customer);
-                                                setIsOpen(false);
-                                                setSearchQuery('');
-                                            }}
-                                            className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition-all text-left"
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <img src={customer.avatar} className="w-8 h-8 rounded-full border border-slate-100" />
-                                                <div>
-                                                    <p className="text-sm font-semibold text-slate-800">{customer.name}</p>
-                                                    <p className="text-[11px] text-slate-500">{customer.phone}</p>
-                                                </div>
-                                            </div>
-                                            <div className="text-right">
-                                                <p className="text-[11px] font-bold text-red-600">Loan: RS {customer.loan.toFixed(2)}</p>
-                                                <ChevronRight className="w-3 h-3 text-slate-300 ml-auto mt-1" />
-                                            </div>
-                                        </button>
-                                    ))
-                                ) : (
-                                    <div className="p-8 text-center text-slate-400 flex flex-col items-center">
-                                        <Search className="w-8 h-8 mb-2 opacity-20" />
-                                        <p className="text-xs">No customers found</p>
-                                    </div>
-                                )}
-                            </div>
-                        </motion.div>
-                    </>
-                )}
-            </AnimatePresence>
-        </div>
-    );
-};
-
-const CartPanel = () => {
-    const { cart, updateQuantity, updateItemDiscount, calculateTotal, clearCart } = useCart();
-    const { subtotal, discount, total } = calculateTotal();
-    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
-    const [customers, setCustomers] = useState([]);
-
-    useEffect(() => {
-        const fetchCustomers = async () => {
-            try {
-                const response = await fetch(API_ROUTES.CUSTOMERS.GET);
-                const data = await response.json();
-                if (data.success && data.data.length > 0) {
-                    const mappedData = data.data.map(c => ({
-                        id: c.customer_id,
-                        name: `${c.first_name} ${c.last_name || ''}`,
-                        phone: c.phone_number,
-                        loan: parseFloat(c.loan_balance || 0),
-                        avatar: `https://ui-avatars.com/api/?name=${c.first_name}+${c.last_name}&background=random`
-                    }));
-                    setCustomers(mappedData);
-                } else {
-                    setCustomers([
-                        { id: 1, name: 'Alex Morgan', phone: '0771234567', loan: 1500.00, avatar: 'https://ui-avatars.com/api/?name=Alex+Morgan&background=random' },
-                        { id: 2, name: 'Sarah Wilson', phone: '0779876543', loan: 0.00, avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=random' },
-                        { id: 3, name: 'James Doe', phone: '0774567890', loan: 3400.00, avatar: 'https://ui-avatars.com/api/?name=James+Doe&background=random' }
-                    ]);
-                }
-            } catch (err) {
-                console.error("Failed to fetch customers", err);
-                setCustomers([
-                    { id: 1, name: 'Alex Morgan', phone: '0771234567', loan: 1500.00, avatar: 'https://ui-avatars.com/api/?name=Alex+Morgan&background=random' },
-                    { id: 2, name: 'Sarah Wilson', phone: '0779876543', loan: 0.00, avatar: 'https://ui-avatars.com/api/?name=Sarah+Wilson&background=random' },
-                    { id: 3, name: 'James Doe', phone: '0774567890', loan: 3400.00, avatar: 'https://ui-avatars.com/api/?name=James+Doe&background=random' }
-                ]);
-            }
-        };
-        fetchCustomers();
-    }, []);
-
-    const loanBalance = selectedCustomer?.loan || 0;
-    const finalTotal = total + loanBalance;
-
-    return (
-        <div className="flex flex-col h-full bg-white rounded-l-2xl border-l border-slate-200 shadow-2xl relative z-30 overflow-hidden text-slate-800">
-            <div className="p-5 border-b border-slate-100 flex items-center justify-between">
-                <div>
-                    <h2 className="font-bold text-xl text-slate-800">Current Order</h2>
-                    <p className="text-xs text-slate-500 mt-1">Transaction ID: #{Math.floor(100000 + Math.random() * 900000)}</p>
-                </div>
-                <button
-                    onClick={() => {
-                        clearCart();
-                        setSelectedCustomer(null);
-                    }}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                    title="Clear Cart"
-                >
-                    <Trash2 className="w-5 h-5" />
-                </button>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
-                <CustomerSelector
-                    selectedCustomer={selectedCustomer}
-                    onSelect={setSelectedCustomer}
-                    customers={customers}
-                />
-
-                <div className="space-y-3">
-                    {cart.length === 0 ? (
-                        <div className="py-20 flex flex-col items-center justify-center text-slate-400 opacity-60">
-                            <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                                <Printer className="w-10 h-10" />
-                            </div>
-                            <p className="font-medium">Cart is empty</p>
-                            <p className="text-xs">Scan items or select from grid</p>
-                        </div>
-                    ) : (
-                        <AnimatePresence initial={false}>
-                            {cart.map((item) => (
-                                <motion.div
-                                    key={item.id}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, x: -50 }}
-                                    className="p-3 bg-slate-50 rounded-xl border border-slate-100 group"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-14 h-14 bg-white rounded-lg overflow-hidden border border-slate-200 shrink-0">
-                                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                                        </div>
-
-                                        <div className="flex-1 min-w-0">
-                                            <h4 className="font-medium text-slate-800 text-sm truncate">{item.name}</h4>
-                                            <p className="text-xs text-primary-600 font-bold mt-0.5">RS {item.price.toFixed(2)}</p>
-                                        </div>
-
-                                        <div className="flex items-center gap-2 bg-white rounded-lg border border-slate-200 p-1 shadow-sm">
-                                            <button
-                                                onClick={() => updateQuantity(item.id, -1)}
-                                                className="w-6 h-6 flex items-center justify-center rounded-md hover:bg-slate-100 text-slate-600 transition-colors"
-                                            >
-                                                <Minus className="w-3 h-3" />
-                                            </button>
-                                            <span className="w-6 text-center text-sm font-semibold text-slate-800">{item.quantity}</span>
-                                            <button
-                                                onClick={() => updateQuantity(item.id, 1)}
-                                                className="w-6 h-6 flex items-center justify-center rounded-md bg-slate-900 text-white shadow-sm hover:bg-slate-800 transition-colors"
-                                            >
-                                                <Plus className="w-3 h-3" />
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* Item-wise Discount Section */}
-                                    <div className="mt-3 flex items-center justify-between border-t border-slate-200/50 pt-2">
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Disc (RS)</span>
-                                            <div className="relative">
-                                                <input
-                                                    type="number"
-                                                    value={item.discount || ''}
-                                                    onChange={(e) => updateItemDiscount(item.id, e.target.value)}
-                                                    placeholder="0"
-                                                    className="w-16 px-2 py-1 bg-white border border-slate-200 rounded text-[11px] font-bold text-green-600 focus:outline-none focus:ring-1 focus:ring-green-500/20 focus:border-green-500 transition-all"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="text-right">
-                                            <p className="text-[10px] text-slate-400 font-medium">Item Total</p>
-                                            <p className="text-xs font-bold text-slate-800">
-                                                RS {((item.price - (item.discount || 0)) * item.quantity).toFixed(2)}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    )}
-                </div>
-            </div>
-
-            <div className="p-6 bg-white border-t border-slate-200 shadow-[0_-5px_20px_rgba(0,0,0,0.02)] z-10">
-                <div className="space-y-3 mb-6">
-                    <div className="flex justify-between text-sm text-slate-600 font-medium tracking-tight">
-                        <span>Items Subtotal (Real Price)</span>
-                        <span className="text-slate-900">RS {subtotal.toFixed(2)}</span>
-                    </div>
-
-                    {discount > 0 && (
-                        <div className="flex justify-between text-sm text-green-600 font-bold bg-green-50/50 px-3 py-2 rounded-xl border border-green-100/50">
-                            <span className="flex items-center gap-2">Total Discount</span>
-                            <span>- RS {discount.toFixed(2)}</span>
-                        </div>
-                    )}
-
-                    {selectedCustomer && (
-                        <div className="flex justify-between text-sm text-red-600 font-bold bg-red-50 p-3 rounded-xl border border-red-100 animate-in fade-in slide-in-from-right-4">
-                            <span className="flex items-center gap-2">
-                                <Landmark className="w-4 h-4" /> Previous Loan Balance
-                            </span>
-                            <span>+ RS {loanBalance.toFixed(2)}</span>
-                        </div>
-                    )}
-
-                    <div className="flex justify-between text-xl font-black text-slate-900 pt-4 border-t-2 border-slate-100 border-dashed">
-                        <span>Grand Total</span>
-                        <div className="text-right">
-                            <span className="text-primary-600">RS {finalTotal.toFixed(2)}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button
-                    onClick={() => setIsCheckoutOpen(true)}
-                    disabled={cart.length === 0}
-                    className="w-full py-4 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-xl font-bold text-lg shadow-lg shadow-primary-500/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                >
-                    Proceed to Payment
-                </button>
-            </div>
-
-            <CheckoutModal
-                isOpen={isCheckoutOpen}
-                onClose={() => setIsCheckoutOpen(false)}
-                total={finalTotal}
-                customer={selectedCustomer}
-                onComplete={() => {
-                    setIsCheckoutOpen(false);
-                    clearCart();
-                    setSelectedCustomer(null);
-                }}
-            />
-        </div>
-    );
-};
-
-const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
     const [paymentMethod, setPaymentMethod] = useState('card');
+    const { selectedCustomer } = useCart();
+    const { user } = useAuth();
     const [isProcessing, setIsProcessing] = useState(false);
+    const [error, setError] = useState(null);
     const [cashPaymentType, setCashPaymentType] = useState('full'); // 'full' or 'partial'
-    const [amountPaid, setAmountPaid] = useState(total);
-
-    useEffect(() => {
-        setAmountPaid(total);
-        setCashPaymentType('full');
-    }, [total, paymentMethod]);
+    const grandTotal = orderTotal + previousBalance;
+    const [cashPaidAmount, setCashPaidAmount] = useState(grandTotal);
 
     if (!isOpen) return null;
 
-    const remainingToLoan = Math.max(0, total - (parseFloat(amountPaid) || 0));
-
-    const handlePayment = () => {
+    const handlePayment = async () => {
         setIsProcessing(true);
-        setTimeout(() => {
-            setIsProcessing(false);
+        setError(null);
 
-            if (paymentMethod === 'card') {
-                alert(`Card payment of RS ${total.toFixed(2)} successful!`);
-            } else if (paymentMethod === 'cash') {
-                if (cashPaymentType === 'partial') {
-                    alert(`Partial Cash payment of RS ${(parseFloat(amountPaid) || 0).toFixed(2)} successful! RS ${remainingToLoan.toFixed(2)} added to ${customer?.name}'s loan.`);
-                } else {
-                    alert(`Full Cash payment of RS ${total.toFixed(2)} successful!`);
+        try {
+            const orderData = {
+                candidate_id: user?.candidate_id || 1,
+                casior_id: user?.casior_id || 1,
+                customer_id: selectedCustomer ? selectedCustomer.customer_id : null,
+                total_amount: orderTotal,
+                payment_method: paymentMethod,
+                status_id: 1, // Completed
+                items: cart.map(item => ({
+                    item_id:  parseInt(item.id),
+                    item_name: item.name,
+                    quantity: item.quantity,
+                    price: item.price
+                }))
+            };
+
+            const response = await API.saveOrder(orderData);
+
+            if (response.success) {
+                const orderId = response.data?.order_process_id || 'N/A';
+
+                // Sync Loan Balance if a customer is selected
+                if (selectedCustomer) {
+                    let newBalance = grandTotal; // Default for 'loan' or 'card' where nothing/full is paid against the debt? 
+                    // Wait: if it's 'card' or 'cash' (full), they paid the grandTotal, so newBalance is 0.
+                    // If it's 'loan', they paid 0, so newBalance is grandTotal.
+                    // If it's 'partial cash', they paid cashPaidAmount, so newBalance is grandTotal - cashPaidAmount.
+
+                    if (paymentMethod === 'loan') {
+                        newBalance = grandTotal;
+                    } else if (paymentMethod === 'cash') {
+                        if (cashPaymentType === 'full') {
+                            newBalance = 0;
+                        } else {
+                            newBalance = grandTotal - (parseFloat(cashPaidAmount) || 0);
+                        }
+                    } else if (paymentMethod === 'card') {
+                        // Assuming card covers the full grand total
+                        newBalance = 0;
+                    }
+
+                    try {
+                        await API.saveLoan({
+                            candidate_id: user?.candidate_id || 1,
+                            customer_id: selectedCustomer.customer_id,
+                            loan_balance: Math.max(0, newBalance),
+                            status_id: 1 // ACTIVE
+                        });
+                    } catch (loanErr) {
+                        console.error("Failed to sync loan balance:", loanErr);
+                        // We don't block completion if loan sync fails but log it
+                    }
                 }
-            } else if (paymentMethod === 'loan') {
-                alert(`RS ${total.toFixed(2)} marked as on loan for ${customer?.name}!`);
-            }
 
-            onComplete();
-        }, 1500);
+                const refinedPaymentMethod = paymentMethod === 'cash' && cashPaymentType === 'partial' ? 'partial_cash' : paymentMethod;
+
+                const receiptData = {
+                    orderId: orderId,
+                    items: orderData.items,
+                    orderTotal: orderTotal,
+                    previousBalance: previousBalance,
+                    grandTotal: grandTotal,
+                    cashPaidAmount: parseFloat(cashPaidAmount),
+                    paymentMethod: refinedPaymentMethod,
+                    user: user,
+                    customer: selectedCustomer
+                };
+
+                onComplete({
+                    paymentMethod: refinedPaymentMethod,
+                    orderId: orderId,
+                    receiptData: receiptData
+                });
+            } else {
+                setError(response.message || "Failed to save order");
+            }
+        } catch (err) {
+            setError("Failed to process payment. Please try again.");
+            console.error(err);
+        } finally {
+            refreshProducts();
+            setIsProcessing(false);
+        }
     };
+
+    const refreshProducts = () => {
+    setRefreshTrigger(prev => !prev); 
+  };
 
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
                 <div className="p-6 border-b border-slate-100">
                     <h2 className="text-xl font-bold text-slate-800">Payment</h2>
-                    <p className="text-sm text-slate-500">
-                        {customer ? `Settling balance for ${customer.name}` : 'Select payment method'}
-                    </p>
+                    <p className="text-sm text-slate-500">Select payment method for order #12345</p>
                 </div>
 
                 <div className="p-6 space-y-6">
-                    <div className="text-center py-6 bg-slate-900 rounded-2xl border border-slate-800 shadow-inner">
-                        <p className="text-slate-400 text-xs mb-1 uppercase tracking-widest font-semibold">Amount to Pay</p>
-                        <p className="text-4xl font-black text-white">RS {total.toFixed(2)}</p>
-                        {customer && customer.loan > 0 && (
-                            <p className="text-[10px] text-primary-400 mt-2 font-medium">Includes RS {customer.loan.toFixed(2)} loan settlement</p>
+                    <div className="text-center py-4 bg-primary-50 rounded-xl border border-primary-100 border-dashed">
+                        <p className="text-slate-500 text-sm mb-1">Grand Total</p>
+                        <p className="text-4xl font-bold text-primary-600">RS {grandTotal.toFixed(2)}</p>
+                        {previousBalance > 0 && (
+                            <p className="text-[10px] text-slate-400 mt-1 font-bold italic">
+                                (Ordered: RS {orderTotal.toFixed(2)} + Prev: RS {previousBalance.toFixed(2)})
+                            </p>
                         )}
                     </div>
 
@@ -375,55 +141,55 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
                         {[
                             { id: 'card', label: 'Card', icon: CreditCard },
                             { id: 'cash', label: 'Cash', icon: Banknote },
-                            { id: 'loan', label: 'Add to Loan', icon: Landmark, disabled: !customer },
+                            { id: 'loan', label: 'Loan', icon: Wallet },
                         ].map((method) => (
                             <button
                                 key={method.id}
-                                disabled={method.disabled}
-                                onClick={() => setPaymentMethod(method.id)}
+                                onClick={() => {
+                                    setPaymentMethod(method.id);
+                                    setError(null);
+                                }}
                                 className={clsx(
                                     "flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-200",
-                                    method.disabled ? "opacity-30 cursor-not-allowed bg-slate-50 border-slate-100" :
-                                        paymentMethod === method.id
-                                            ? "bg-primary-600 text-white border-primary-600 shadow-lg scale-[1.02]"
-                                            : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                                    paymentMethod === method.id
+                                        ? "bg-slate-900 text-white border-slate-900 shadow-lg"
+                                        : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                                 )}
                             >
                                 <method.icon className="w-6 h-6 mb-2" />
-                                <span className="text-[10px] font-bold uppercase">{method.label}</span>
+                                <span className="text-xs font-medium">{method.label}</span>
                             </button>
                         ))}
                     </div>
 
-                    {/* Cash Payment Details - Only if Cash selected and Customer exists */}
-                    {paymentMethod === 'cash' && customer && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-4"
-                        >
-                            <div className="flex gap-2">
+                    {paymentMethod === 'cash' && (
+                        <div className="space-y-4 animate-in slide-in-from-top-2 duration-300">
+                            <div className="flex p-1 bg-slate-100 rounded-xl">
                                 <button
                                     onClick={() => {
                                         setCashPaymentType('full');
-                                        setAmountPaid(total);
+                                        setCashPaidAmount(grandTotal);
+                                        setError(null);
                                     }}
                                     className={clsx(
-                                        "flex-1 py-2 px-4 rounded-xl text-xs font-bold transition-all",
+                                        "flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-all",
                                         cashPaymentType === 'full'
-                                            ? "bg-white text-primary-600 shadow-sm border border-primary-100"
-                                            : "text-slate-500 border border-transparent hover:bg-slate-100"
+                                            ? "bg-white text-slate-800 shadow-sm"
+                                            : "text-slate-500 hover:text-slate-700"
                                     )}
                                 >
                                     Full Payment
                                 </button>
                                 <button
-                                    onClick={() => setCashPaymentType('partial')}
+                                    onClick={() => {
+                                        setCashPaymentType('partial');
+                                        setError(null);
+                                    }}
                                     className={clsx(
-                                        "flex-1 py-2 px-4 rounded-xl text-xs font-bold transition-all",
+                                        "flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-all",
                                         cashPaymentType === 'partial'
-                                            ? "bg-white text-primary-600 shadow-sm border border-primary-100"
-                                            : "text-slate-500 border border-transparent hover:bg-slate-100"
+                                            ? "bg-white text-slate-800 shadow-sm"
+                                            : "text-slate-500 hover:text-slate-700"
                                     )}
                                 >
                                     Partial Payment
@@ -431,53 +197,372 @@ const CheckoutModal = ({ isOpen, onClose, total, customer, onComplete }) => {
                             </div>
 
                             {cashPaymentType === 'partial' && (
-                                <div className="space-y-3 animate-in fade-in slide-in-from-top-2">
-                                    <div>
-                                        <label className="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Cash Amount Paid</label>
+                                <div className="space-y-3">
+                                    <div className="relative">
+                                        <p className="text-xs font-bold text-slate-500 mb-1.5 ml-1">Paid Amount (Cash)</p>
                                         <div className="relative">
-                                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">RS</span>
+                                            <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">RS</span>
                                             <input
                                                 type="number"
-                                                value={amountPaid}
-                                                onChange={(e) => setAmountPaid(e.target.value)}
-                                                className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                                                value={cashPaidAmount}
+                                                onChange={(e) => setCashPaidAmount(e.target.value)}
+                                                className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 font-bold text-lg"
                                                 placeholder="0.00"
                                             />
                                         </div>
                                     </div>
-                                    <div className="flex justify-between items-center p-2 bg-red-50 rounded-lg border border-red-100">
-                                        <span className="text-[10px] font-bold text-red-600 uppercase">Remaining to Loan</span>
-                                        <span className="text-sm font-black text-red-700">RS {remainingToLoan.toFixed(2)}</span>
+                                    <div className="p-3 bg-primary-50 border border-primary-100 rounded-xl flex items-center justify-between">
+                                        <span className="text-xs font-bold text-primary-600 uppercase">Balance to Loan</span>
+                                        <span className="font-black text-primary-700">RS {(grandTotal - (parseFloat(cashPaidAmount) || 0)).toFixed(2)}</span>
                                     </div>
                                 </div>
                             )}
-                        </motion.div>
+                        </div>
+                    )}
+
+                    {(paymentMethod === 'loan' || (paymentMethod === 'cash' && cashPaymentType === 'partial')) && (
+                        <div className={clsx(
+                            "p-4 rounded-xl border flex items-center justify-between transition-all",
+                            selectedCustomer ? "bg-amber-50 border-amber-200" : "bg-red-50 border-red-200 animate-pulse"
+                        )}>
+                            <div className="flex items-center gap-3">
+                                <div className={clsx(
+                                    "p-2 rounded-lg",
+                                    selectedCustomer ? "bg-amber-100 text-amber-600" : "bg-red-100 text-red-600"
+                                )}>
+                                    <User className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-semibold text-slate-500 uppercase">Confirm Customer</p>
+                                    <p className={clsx(
+                                        "font-bold text-sm",
+                                        selectedCustomer ? "text-slate-900" : "text-red-600"
+                                    )}>
+                                        {selectedCustomer ? `${selectedCustomer.first_name} ${selectedCustomer.last_name || ''}` : "Walk-in Customer"}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {error && (
+                        <div className="p-3 bg-red-50 border border-red-100 rounded-xl flex items-center gap-2 text-red-600 slide-in-from-top-2 animate-in duration-200">
+                            <X className="w-4 h-4 shrink-0" />
+                            <p className="text-xs font-bold">{error}</p>
+                        </div>
                     )}
                 </div>
 
-                <div className="p-6 border-t border-slate-100 bg-slate-50/50">
+                <div className="p-6 border-t border-slate-100 bg-slate-50">
                     <button
                         onClick={handlePayment}
-                        disabled={isProcessing || (paymentMethod === 'cash' && cashPaymentType === 'partial' && (!amountPaid || amountPaid <= 0))}
-                        className="w-full py-4 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white rounded-xl font-bold text-lg shadow-lg shadow-primary-500/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                        disabled={isProcessing}
+                        className="w-full py-4 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold text-lg shadow-lg shadow-primary-500/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                     >
                         {isProcessing ? (
                             <span className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         ) : (
                             <>
-                                Complete Payment <CheckCircle className="w-5 h-5" />
+                                Confirm Payment <CheckCircle className="w-5 h-5" />
                             </>
                         )}
                     </button>
                     <button
                         onClick={onClose}
                         disabled={isProcessing}
-                        className="w-full mt-3 py-3 text-slate-400 hover:text-slate-600 font-medium text-sm text-center transition-colors"
+                        className="w-full mt-3 py-3 text-slate-500 hover:text-slate-800 font-medium text-sm text-center"
                     >
                         Cancel Transaction
                     </button>
                 </div>
             </div>
+        </div>
+    );
+};
+
+const CartPanel = () => {
+    const { user } = useAuth();
+    const { cart, removeFromCart, updateQuantity, calculateTotal, clearCart, selectedCustomer, setSelectedCustomer } = useCart();
+    const { subtotal, tax, total, previousBalance, finalTotal } = calculateTotal();
+    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+    const [isReceiptOpen, setIsReceiptOpen] = useState(false);
+    const [lastOrderData, setLastOrderData] = useState(null);
+
+    // Customer Selection State
+    const [isCustomerSearchOpen, setIsCustomerSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [customers, setCustomers] = useState([]);
+    const [isLoadingCustomers, setIsLoadingCustomers] = useState(false);
+
+    const fetchCustomers = async () => {
+        setIsLoadingCustomers(true);
+        try {
+            const response = await API.getCustomers(user?.candidate_id);
+            if (response.success) {
+                setCustomers(response.data);
+
+                // If we have a selected customer, refresh their data from the new list
+                if (selectedCustomer) {
+                    const latestData = response.data.find(c => c.customer_id === selectedCustomer.customer_id);
+                    if (latestData) {
+                        setSelectedCustomer(latestData);
+                    }
+                }
+            }
+        } catch (err) {
+            console.error("Failed to fetch customers", err);
+        } finally {
+            setIsLoadingCustomers(false);
+        }
+    };
+
+    // Auto-refresh customer data on mount to get latest balances
+    React.useEffect(() => {
+        fetchCustomers();
+    }, []);
+
+    const filteredCustomers = customers.filter(c =>
+        `${c.first_name} ${c.last_name}`.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (c.phone_number && c.phone_number.includes(searchQuery))
+    );
+
+    const handleSelectCustomer = (customer) => {
+        setSelectedCustomer(customer);
+        setIsCustomerSearchOpen(false);
+        setSearchQuery('');
+    };
+
+    const toggleCustomerSearch = () => {
+        if (!isCustomerSearchOpen && customers.length === 0) {
+            fetchCustomers();
+        }
+        setIsCustomerSearchOpen(!isCustomerSearchOpen);
+    };
+
+    return (
+        <div className="flex flex-col h-full bg-white rounded-l-2xl border-l border-slate-200 shadow-2xl relative z-30 overflow-hidden">
+            <div className="p-4 border-b border-slate-100">
+                <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-baseline gap-2">
+                        <h2 className="font-bold text-lg text-slate-800">Current Order</h2>
+                        <span className="text-[10px] text-slate-400 font-medium">#883920</span>
+                    </div>
+                    <button
+                        onClick={clearCart}
+                        className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        title="Clear Cart"
+                    >
+                        <Trash2 className="w-4 h-4" />
+                    </button>
+                </div>
+
+                {/* Customer Selector */}
+                <div className="relative">
+                    {!selectedCustomer ? (
+                        <button
+                            onClick={toggleCustomerSearch}
+                            className="w-full py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg text-xs flex items-center justify-between hover:bg-slate-100 transition-all group"
+                        >
+                            <div className="flex items-center gap-2 text-slate-500 group-hover:text-slate-700">
+                                <UserPlus className="w-3.5 h-3.5" />
+                                <span className="font-bold">Add Customer</span>
+                            </div>
+                            <Search className="w-3.5 h-3.5 text-slate-400" />
+                        </button>
+                    ) : (
+                        <div className="flex items-center justify-between p-2 bg-primary-50 border border-primary-200 rounded-lg animate-in fade-in zoom-in duration-300">
+                            <div className="flex items-center gap-2 min-w-0">
+                                <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center shrink-0">
+                                    <User className="w-4 h-4 text-primary-600" />
+                                </div>
+                                <div className="min-w-0">
+                                    <p className="text-sm font-bold text-slate-800 truncate leading-tight">
+                                        {selectedCustomer.first_name} {selectedCustomer.last_name}
+                                    </p>
+                                    <p className="text-[10px] font-bold mt-0.5 leading-none">
+                                        Bal: <span className={parseFloat(selectedCustomer.loan_balance || 0) > 0 ? "text-red-500" : "text-green-600"}>
+                                            RS {parseFloat(selectedCustomer.loan_balance || 0).toFixed(2)}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setSelectedCustomer(null)}
+                                className="p-1 hover:bg-primary-200 text-primary-600 rounded-md transition-colors"
+                            >
+                                <X className="w-3.5 h-3.5" />
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Customer Search Dropdown */}
+                    <AnimatePresence>
+                        {isCustomerSearchOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-2xl z-50 overflow-hidden"
+                            >
+                                <div className="p-3 border-b border-slate-100">
+                                    <div className="relative">
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                        <input
+                                            autoFocus
+                                            type="text"
+                                            placeholder="Search by name or phone..."
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="max-h-60 overflow-y-auto custom-scrollbar">
+                                    {isLoadingCustomers ? (
+                                        <div className="p-8 flex justify-center">
+                                            <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                                        </div>
+                                    ) : filteredCustomers.length > 0 ? (
+                                        filteredCustomers.map(customer => (
+                                            <button
+                                                key={customer.customer_id}
+                                                onClick={() => handleSelectCustomer(customer)}
+                                                className="w-full p-3 flex items-center gap-3 hover:bg-slate-50 transition-colors text-left"
+                                            >
+                                                <div className="w-8 h-8 bg-slate-100 rounded-full flex items-center justify-center">
+                                                    <User className="w-4 h-4 text-slate-500" />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <p className="text-sm font-bold text-slate-800">{customer.first_name} {customer.last_name}</p>
+                                                    <p className="text-xs text-slate-500">{customer.phone_number || "No phone"}</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-[10px] font-bold text-slate-400 uppercase">Balance</p>
+                                                    <p className={clsx(
+                                                        "text-xs font-bold",
+                                                        parseFloat(customer.loan_balance || 0) > 0 ? "text-red-500" : "text-green-600"
+                                                    )}>
+                                                        RS {parseFloat(customer.loan_balance || 0).toFixed(2)}
+                                                    </p>
+                                                </div>
+                                            </button>
+                                        ))
+                                    ) : (
+                                        <div className="p-8 text-center text-slate-500">
+                                            <p className="text-sm">No customers found</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+                {cart.length === 0 ? (
+                    <div className="h-full flex flex-col items-center justify-center text-slate-400 opacity-60">
+                        <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                            <Printer className="w-10 h-10" />
+                        </div>
+                        <p className="font-medium">Cart is empty</p>
+                        <p className="text-xs">Scan items or select from grid</p>
+                    </div>
+                ) : (
+                    <AnimatePresence initial={false}>
+                        {cart.map((item) => (
+                            <motion.div
+                                key={item.id}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, x: -50 }}
+                                className="flex items-center gap-2 p-2 bg-slate-50 rounded-lg border border-slate-100 group"
+                            >
+                                <div className="w-10 h-10 bg-white rounded-md overflow-hidden border border-slate-200 shrink-0">
+                                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                                </div>
+
+                                <div className="flex-1 min-w-0">
+                                    <h4 className="font-bold text-slate-800 text-[13px] truncate leading-tight">{item.name}</h4>
+                                    <p className="text-[11px] text-primary-600 font-black mt-0.5">RS {item.price.toFixed(2)}</p>
+                                </div>
+
+                                <div className="flex items-center gap-1.5 bg-white rounded-md border border-slate-200 p-0.5 shadow-sm">
+                                    <button
+                                        onClick={() => updateQuantity(item.id, -1)}
+                                        className="w-5 h-5 flex items-center justify-center rounded hover:bg-slate-100 text-slate-600 transition-colors"
+                                    >
+                                        <Minus className="w-2.5 h-2.5" />
+                                    </button>
+                                    <span className="w-4 text-center text-xs font-black text-slate-800">{item.quantity}</span>
+                                    <button
+                                        onClick={() => updateQuantity(item.id, 1)}
+                                        disabled={item.quantity >= item.stock}
+                                        className={clsx(
+                                            "w-5 h-5 flex items-center justify-center rounded shadow-sm transition-colors",
+                                            item.quantity >= item.stock 
+                                                ? "bg-slate-200 text-slate-400 cursor-not-allowed" 
+                                                : "bg-slate-900 text-white hover:bg-slate-800"
+                                        )}
+                                    >
+                                        <Plus className="w-2.5 h-2.5" />
+                                    </button>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                )}
+            </div>
+
+            <div className="px-4 py-3 bg-white border-t border-slate-200 shadow-[0_-5px_20px_rgba(0,0,0,0.02)] z-10">
+                <div className="space-y-1.5 mb-3">
+                    <div className="flex justify-between text-xs text-slate-500 italic">
+                        <span>Current Order Total</span>
+                        <span>RS {total.toFixed(2)}</span>
+                    </div>
+                    {selectedCustomer && (
+                        <div className="flex justify-between text-xs font-bold text-red-500 italic">
+                            <span>Previous Balance</span>
+                            <span>RS {previousBalance.toFixed(2)}</span>
+                        </div>
+                    )}
+                    <div className="flex justify-between text-lg font-black text-slate-900 pt-1.5 border-t border-slate-900">
+                        <span>GRAND TOTAL</span>
+                        <span>RS {finalTotal.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <button
+                    onClick={() => setIsCheckoutOpen(true)}
+                    disabled={cart.length === 0}
+                    className="w-full py-3 bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-bold text-base shadow-lg shadow-primary-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                >
+                    Checkout RS {finalTotal.toFixed(2)}
+                </button>
+            </div>
+
+            
+
+            <CheckoutModal
+                isOpen={isCheckoutOpen}
+                onClose={() => setIsCheckoutOpen(false)}
+                orderTotal={total}
+                previousBalance={previousBalance}
+                cart={cart}
+                onComplete={async (data) => {
+                    setIsCheckoutOpen(false);
+                    setLastOrderData(data.receiptData);
+                    setIsReceiptOpen(true);
+                    await fetchCustomers(); // Refresh balances in the list
+                    clearCart();
+                }}
+            />
+
+            <ReceiptPreviewModal
+                isOpen={isReceiptOpen}
+                onClose={() => setIsReceiptOpen(false)}
+                orderData={lastOrderData}
+            />
         </div>
     );
 };

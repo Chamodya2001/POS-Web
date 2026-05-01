@@ -11,52 +11,96 @@ export const useCart = () => { // Custom hook for easy access
 };
 
 export const CartProvider = ({ children }) => {
-    const [cart, setCart] = useState([]);
-    const [discount, setDiscount] = useState(0);
-    const [taxRate, setTaxRate] = useState(0.10); // 10% tax default
-
-    // Load cart from local storage on mount
-    useEffect(() => {
+    const [cart, setCart] = useState(() => {
         const savedCart = localStorage.getItem('pos_cart');
         if (savedCart) {
             try {
-                setCart(JSON.parse(savedCart));
+                return JSON.parse(savedCart);
             } catch (e) {
                 console.error("Failed to parse cart", e);
+                return [];
             }
         }
-    }, []);
+        return [];
+    });
+
+    const [selectedCustomer, setSelectedCustomer] = useState(() => {
+        const savedCustomer = localStorage.getItem('pos_selected_customer');
+        if (savedCustomer) {
+            try {
+                return JSON.parse(savedCustomer);
+            } catch (e) {
+                console.error("Failed to parse selected customer", e);
+                return null;
+            }
+        }
+        return null;
+    });
+
+    const [discount, setDiscount] = useState(0);
+    const [taxRate] = useState(0); // Set tax to 0 as requested
 
     // Save cart to local storage on change
     useEffect(() => {
         localStorage.setItem('pos_cart', JSON.stringify(cart));
     }, [cart]);
 
+    // Save selected customer to local storage on change
+    useEffect(() => {
+        if (selectedCustomer) {
+            localStorage.setItem('pos_selected_customer', JSON.stringify(selectedCustomer));
+        } else {
+            localStorage.removeItem('pos_selected_customer');
+        }
+    }, [selectedCustomer]);
+
     const addToCart = (product) => {
+        if (!product || !product.id || product.stock <= 0) return;
+        
         setCart((prevCart) => {
-            const existingItem = prevCart.find((item) => item.id === product.id);
-            if (existingItem) {
-                return prevCart.map((item) =>
-                    item.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-                );
+            const existingItemIndex = prevCart.findIndex((item) => String(item.id) === String(product.id));
+            if (existingItemIndex > -1) {
+                const newCart = [...prevCart];
+                const existingItem = newCart[existingItemIndex];
+                
+                // Prevent adding more than available stock
+                if (existingItem.quantity >= product.stock) {
+                    return prevCart;
+                }
+
+                newCart[existingItemIndex] = { 
+                    ...existingItem, 
+                    quantity: (existingItem.quantity || 0) + 1 
+                };
+                return newCart;
             } else {
-                return [...prevCart, { ...product, quantity: 1 }];
+                return [...prevCart, { 
+                    ...product, 
+                    quantity: 1, 
+                    price: parseFloat(product.price) || 0,
+                    discount: parseFloat(product.discount) || 0
+                }];
             }
         });
     };
 
     const removeFromCart = (productId) => {
-        setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+        setCart((prevCart) => prevCart.filter((item) => String(item.id) !== String(productId)));
     };
 
     const updateQuantity = (productId, delta) => {
         setCart((prevCart) => {
             return prevCart.map((item) => {
-                if (item.id === productId) {
-                    const newQuantity = Math.max(0, item.quantity + delta);
-                    return { ...item, quantity: newQuantity }; // Allow 0 to stay, or filter out later if desired. Logic: if 0, maybe keep it but show transparent. Or just remove. Let's keep 0 but user can remove. Actually better to remove if 0.
+                if (String(item.id) === String(productId)) {
+                    let newQuantity = (item.quantity || 0) + delta;
+                    
+                    // Prevent exceeding available stock
+                    if (delta > 0 && newQuantity > item.stock) {
+                        newQuantity = item.stock;
+                    }
+
+                    newQuantity = Math.max(0, newQuantity);
+                    return { ...item, quantity: newQuantity };
                 }
                 return item;
             }).filter(item => item.quantity > 0);
@@ -77,18 +121,23 @@ export const CartProvider = ({ children }) => {
     const clearCart = () => {
         setCart([]);
         setDiscount(0);
+        setSelectedCustomer(null);
     };
 
     const calculateTotal = () => {
-        const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-        const discount = cart.reduce((discount, item) => discount + ((item.discount || 0) * item.quantity), 0);
-        // const tax = subtotal * taxRate;
-        const total = subtotal - discount;
+        const subtotal = cart.reduce((total, item) => total + (parseFloat(item.price) * item.quantity), 0);
+        const itemDiscounts = cart.reduce((discount, item) => discount + ((parseFloat(item.discount) || 0) * item.quantity), 0);
+        const tax = (subtotal - itemDiscounts) * taxRate;
+        const currentTotal = subtotal - itemDiscounts + tax;
+        const previousBalance = selectedCustomer ? parseFloat(selectedCustomer.loan_balance || 0) : 0;
+
         return {
             subtotal,
-            // tax,
-            discount,
-            total: Math.max(0, total)
+            tax,
+            discount: itemDiscounts,
+            total: Math.max(0, currentTotal),
+            previousBalance,
+            finalTotal: Math.max(0, currentTotal + previousBalance)
         };
     };
 
@@ -102,7 +151,8 @@ export const CartProvider = ({ children }) => {
         calculateTotal,
         discount,
         setDiscount,
-        // taxRate
+        selectedCustomer,
+        setSelectedCustomer
     };
 
     return (

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Plus, Filter, Mail, Phone, MoreHorizontal, Building2, MapPin, Grid, List, Trash2, Edit2 } from 'lucide-react';
-import { API_ROUTES } from '../config/apiConfig';
+import API from '../services/appService';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 import clsx from 'clsx';
+
 
 const SupplierCard = ({ supplier, onEdit, onDelete, canDelete }) => (
     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-5 shadow-sm hover:shadow-md transition-all group relative">
@@ -66,18 +67,23 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
     useEffect(() => {
         const fetchSuppliers = async () => {
             try {
-                const response = await fetch(API_ROUTES.SUPPLIERS.GET);
-                const data = await response.json();
+                const data = await API.getSuppliers(user?.candidate_id);
                 if (data.success && data.data) {
-                    setSuppliers(data.data.map(s => ({
-                        id: s.supplier_id,
-                        name: s.name,
-                        contactPerson: s.contact_person,
-                        email: s.email,
-                        phone: s.phone,
-                        address: s.address,
-                        status: s.status === 1 ? 'Active' : 'Inactive'
-                    })));
+                    console.log("SuppliersPage [V2.0]: RAW DATA from API:", data.data);
+                    setSuppliers(data.data.map(s => {
+                        console.log("SuppliersPage [V2.0]: Mapping raw data row:", s);
+                        // Extract the ID from various possible field names
+                        const supplierId = s.suplier_id || s.supplier_id || s.id;
+                        return {
+                            id: supplierId,
+                            name: s.company_name || s.name || 'Unnamed Supplier',
+                            contactPerson: s.contact_person_name || s.contact_person || s.contactPerson || 'No Contact',
+                            email: s.email || '',
+                            phone: Array.isArray(s.phone) ? s.phone.join(', ') : (s.phone || ''),
+                            address: s.address || '',
+                            status: (s.status_id === 1 || s.status === 1 || s.status === 'Active') ? 'Active' : 'Inactive'
+                        };
+                    }));
                 } else {
                     // Demo Data
                     setSuppliers([
@@ -106,8 +112,8 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
         if (!window.confirm('Are you sure you want to delete this supplier?')) return;
 
         try {
-            const response = await fetch(API_ROUTES.SUPPLIERS.DELETE(id), { method: 'DELETE' });
-            if (response.ok) {
+            const response = await API.deleteSupplier(id);
+            if (response.success || response) {
                 setSuppliers(prev => prev.filter(s => s.id !== id));
             }
         } catch (err) {
@@ -118,8 +124,8 @@ export default function SuppliersPage({ onAddSupplier, onEditSupplier }) {
     };
 
     const filteredSuppliers = suppliers.filter(s =>
-        s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        s.contactPerson.toLowerCase().includes(searchTerm.toLowerCase())
+        (s.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (s.contactPerson || '').toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (

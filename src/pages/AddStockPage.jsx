@@ -5,12 +5,16 @@ import {
     DollarSign, Hash, CheckCircle2,
     AlertCircle, Search, PlusCircle
 } from 'lucide-react';
-import { API_ROUTES } from '../config/apiConfig';
+import { API } from '../services/appService';
+
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
+import { frameData } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 export default function AddStockPage({ onBack, onSuccess }) {
     const { theme } = useTheme();
+    const { user } = useAuth();
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -31,15 +35,19 @@ export default function AddStockPage({ onBack, onSuccess }) {
         const fetchData = async () => {
             try {
                 // Fetch Products
-                const pRes = await fetch(API_ROUTES.ITEMS.GET);
-                const pData = await pRes.json();
+                const pData = await API.getItems(user?.candidate_id);
                 if (pData.success) setProducts(pData.data);
 
                 // Fetch Suppliers
-                const sRes = await fetch(API_ROUTES.SUPPLIERS.GET);
-                const sData = await sRes.json();
-                if (sData.success) setSuppliers(sData.data);
-                else {
+                const sData = await API.getSuppliers(user?.candidate_id);
+                if (sData.success && sData.data) {
+                    console.log("AddStockPage: RAW Suppliers from API:", sData.data);
+                    const mappedSuppliers = sData.data.map(s => ({
+                        supplier_id: s.suplier_id || s.supplier_id || s.id,
+                        name: s.company_name || s.name || 'Unnamed'
+                    }));
+                    setSuppliers(mappedSuppliers);
+                } else {
                     // Demo Suppliers if API fails
                     setSuppliers([
                         { supplier_id: 1, name: 'Global Tech Solutions' },
@@ -69,20 +77,22 @@ export default function AddStockPage({ onBack, onSuccess }) {
             const selectedItem = products.find(p => p.item_id === parseInt(formData.item_id));
             if (!selectedItem) throw new Error("Please select a product");
 
+            const supplierName = suppliers.find(s => s.supplier_id === parseInt(formData.supplier_id))?.name || 'Manual Adjustment';
+
             const updateData = {
                 current_quantity: (selectedItem.current_quantity || 0) + parseFloat(formData.quantity),
                 stoke_quantity: (selectedItem.stoke_quantity || 0) + parseFloat(formData.quantity),
                 stoke_price: parseFloat(formData.unit_price),
-                stoke_ubdate_date: formData.received_date
+                stoke_ubdate_date: formData.received_date,
+                stock_additional_notes: formData.note,
+                suplier_id : parseInt(formData.supplier_id),
+                latest_supplier: supplierName,
+
             };
 
-            const response = await fetch(API_ROUTES.ITEMS.UPDATE(formData.item_id), {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updateData),
-            });
+            const response = await API.updateItem(formData.item_id, updateData);
 
-            if (response.ok) {
+            if (response.success || response) {
                 setMessage({ type: 'success', text: 'Stock updated successfully!' });
                 if (onSuccess) setTimeout(onSuccess, 1500);
             } else {

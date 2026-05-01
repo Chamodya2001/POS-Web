@@ -5,10 +5,12 @@ import {
     TrendingUp, AlertTriangle, Calendar,
     Building2, MoreHorizontal, Edit2
 } from 'lucide-react';
-import { API_ROUTES } from '../config/apiConfig';
+import { API } from '../services/appService';
+
 import { useTheme } from '../context/ThemeContext';
 import clsx from 'clsx';
 import UpdateStockModal from '../components/StockUpdateModal';
+import { useAuth } from '../context/AuthContext';
 
 const StockStatCard = ({ title, value, subtext, icon: Icon, trend, color }) => (
     <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-all">
@@ -33,6 +35,7 @@ const StockStatCard = ({ title, value, subtext, icon: Icon, trend, color }) => (
 );
 
 export default function StockManagementPage({ onAddStock, onViewHistory }) {
+    const { user } = useAuth();
     const { theme } = useTheme();
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -45,8 +48,7 @@ export default function StockManagementPage({ onAddStock, onViewHistory }) {
     const fetchStockData = async () => {
         setLoading(true);
         try {
-            const response = await fetch(API_ROUTES.ITEMS.GET);
-            const data = await response.json();
+            const data = await API.getItems(user?.candidate_id);
             if (data.success && data.data) {
                 setStocks(data.data.map(item => ({
                     id: item.item_id,
@@ -86,9 +88,19 @@ export default function StockManagementPage({ onAddStock, onViewHistory }) {
     };
 
     const filteredStocks = stocks.filter(s =>
-        s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        s.sku.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+        (s.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (s.sku || '').toLowerCase().includes(searchTerm.toLowerCase())
+    ).sort((a, b) => {
+        const aStock = a.currentStock || 0;
+        const bStock = b.currentStock || 0;
+        
+        // Items with currentStock > 0 come first
+        if (aStock > 0 && bStock <= 0) return -1;
+        if (aStock <= 0 && bStock > 0) return 1;
+        
+        // Maintain secondary order
+        return 0;
+    });
 
     const lowStockCount = stocks.filter(s => s.currentStock <= 5 && s.currentStock > 0).length;
     const outOfStockCount = stocks.filter(s => s.currentStock === 0).length;

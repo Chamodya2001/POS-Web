@@ -6,15 +6,12 @@ import { useProducts } from '../../context/ProductContext';
 
 
 const ProductGrid = () => {
-   
-        const {
-    candidateAllData,
-    products: MOCK_PRODUCTS,
-    categories: CATEGORIES,
-    loading,
+    const {
+        candidateAllData,
+        products: MOCK_PRODUCTS,
+        categories: CATEGORIES,
+        loading,
     } = useProducts();
-
-
 
     const [activeCategory, setActiveCategory] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
@@ -22,9 +19,44 @@ const ProductGrid = () => {
 
     const filteredProducts = MOCK_PRODUCTS.filter((product) => {
         const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
-        const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = 
+            (product.name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (product.bar_code || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (product.sku || '').toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
+    }).sort((a, b) => {
+        const aStock = a.stock || 0;
+        const bStock = b.stock || 0;
+        
+        // Items with stock > 0 come first
+        if (aStock > 0 && bStock <= 0) return -1;
+        if (aStock <= 0 && bStock > 0) return 1;
+        
+        // If both are in stock or both are out of stock, maintain original order
+        return 0;
     });
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && searchQuery.trim() !== '') {
+            // If there's an exact barcode match, prioritize it
+            const exactBarcodeMatch = MOCK_PRODUCTS.find(p => 
+                (p.bar_code && p.bar_code.toLowerCase() === searchQuery.toLowerCase()) ||
+                (p.sku && p.sku.toLowerCase() === searchQuery.toLowerCase())
+            );
+
+            if (exactBarcodeMatch && exactBarcodeMatch.stock > 0) {
+                addToCart(exactBarcodeMatch);
+                setSearchQuery('');
+                return;
+            }
+
+            // Otherwise, if there's exactly one product in the filtered list, and it's in stock, add it
+            if (filteredProducts.length === 1 && filteredProducts[0].stock > 0) {
+                addToCart(filteredProducts[0]);
+                setSearchQuery('');
+            }
+        }
+    };
 
     return (
         <div className="flex flex-col h-full bg-slate-50/50">
@@ -64,9 +96,11 @@ const ProductGrid = () => {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <input
                         type="text"
-                        placeholder="Search items..."
+                        placeholder="Search items or scan barcode..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        autoFocus
                         className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 shadow-sm transition-all"
                     />
                 </div>
@@ -74,35 +108,66 @@ const ProductGrid = () => {
 
             {/* Grid */}
             <div className="flex-1 min-h-0 grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 overflow-y-auto pr-2 pb-20 custom-scrollbar">
-                {filteredProducts.map((product) => (
-                    <div
-                        key={product.id}
-                        onClick={() => addToCart(product)}
-                        className="group bg-white rounded-2xl p-3 border border-slate-100 shadow-sm hover:shadow-md cursor-pointer transition-all duration-200 hover:-translate-y-1 active:scale-95 flex flex-col h-[240px]"
-                    >
-                        <div className="relative h-32 mb-3 rounded-xl overflow-hidden bg-slate-100">
-                            <img
-                                src={product.image}
-                                alt={product.name}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                            />
-                            <button className="absolute bottom-2 right-2 w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm text-primary-600 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-2 group-hover:translate-y-0">
-                                <Plus className="w-5 h-5" />
-                            </button>
-                        </div>
+                {filteredProducts.map((product) => {
+                    const isOutOfStock = (product.stock || 0) <= 0;
+                    return (
+                        <div
+                            key={product.id}
+                            onClick={() => !isOutOfStock && addToCart(product)}
+                            className={clsx(
+                                "group bg-white rounded-2xl p-3 border border-slate-100 shadow-sm transition-all duration-200 flex flex-col h-[240px]",
+                                isOutOfStock 
+                                    ? "opacity-60 cursor-not-allowed grayscale-[0.5]" 
+                                    : "hover:shadow-md cursor-pointer hover:-translate-y-1 active:scale-95"
+                            )}
+                        >
+                            <div className="relative h-32 mb-3 rounded-xl overflow-hidden bg-slate-100">
+                                <img
+                                    src={product.image}
+                                    alt={product.name}
+                                    className={clsx(
+                                        "w-full h-full object-cover transition-transform duration-500",
+                                        !isOutOfStock && "group-hover:scale-110"
+                                    )}
+                                />
+                                {isOutOfStock && (
+                                    <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] flex items-center justify-center">
+                                        <span className="bg-white/90 px-3 py-1 rounded-full text-[10px] font-bold text-slate-900 uppercase tracking-wider shadow-lg">
+                                            Out of Stock
+                                        </span>
+                                    </div>
+                                )}
+                                {!isOutOfStock && (
+                                    <button className="absolute bottom-2 right-2 w-8 h-8 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm text-primary-600 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-y-2 group-hover:translate-y-0">
+                                        <Plus className="w-5 h-5" />
+                                    </button>
+                                )}
+                            </div>
 
-                        <div className="flex flex-col flex-1">
-                            <h3 className="font-semibold text-slate-800 text-sm line-clamp-2 leading-tight mb-1">{product.name}</h3>
-                            <p className="text-xs text-slate-500 mb-auto">{product.stock} in stock</p>
-                             <p className="text-xs text-slate-500 mb-auto">Discount RS.{product.discount} </p>
-                             <p className="text-xs text-slate-500 mb-auto">Stoke price RS.{product.stoke_price} </p>
+                            <div className="flex flex-col flex-1">
+                                <h3 className={clsx(
+                                    "font-semibold text-sm line-clamp-2 leading-tight mb-1",
+                                    isOutOfStock ? "text-slate-400" : "text-slate-800"
+                                )}>{product.name}</h3>
+                                <p className={clsx(
+                                    "text-xs mb-auto font-medium",
+                                    isOutOfStock ? "text-red-500" : "text-slate-500"
+                                )}>
+                                    {isOutOfStock ? 'No Stock' : `${product.stock} in stock`}
+                                </p>
+                                 <p className="text-[10px] text-slate-400 mb-0.5">Discount RS.{product.discount} </p>
+                                 <p className="text-[10px] text-slate-400 mb-0.5">Stoke price RS.{product.stoke_price} </p>
 
-                            <div className="flex items-center justify-between mt-2">
-                                <span className="font-bold text-lg text-primary-600">RS {product.price.toFixed(2)}</span>
+                                <div className="flex items-center justify-between mt-2">
+                                    <span className={clsx(
+                                        "font-bold text-lg",
+                                        isOutOfStock ? "text-slate-400" : "text-primary-600"
+                                    )}>RS {product.price.toFixed(2)}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
                 {filteredProducts.length === 0 && (
                     <div className="col-span-full flex flex-col items-center justify-center py-10 text-slate-400">
                         <Filter className="w-12 h-12 mb-3 opacity-20" />

@@ -4,10 +4,14 @@ import {
     Calendar, Plus, Minus, DollarSign,
     CheckCircle2, AlertCircle, Loader2
 } from 'lucide-react';
-import { API_ROUTES } from '../config/apiConfig';
+import { API } from '../services/appService';
+
 import clsx from 'clsx';
+import { useAuth } from '../context/AuthContext';
 
 export default function UpdateStockModal({ isOpen, onClose, item, onUpdateSuccess }) {
+    const { user } = useAuth();
+
     const [loading, setLoading] = useState(false);
     const [suppliers, setSuppliers] = useState([]);
     const [message, setMessage] = useState({ type: '', text: '' });
@@ -37,10 +41,15 @@ export default function UpdateStockModal({ isOpen, onClose, item, onUpdateSucces
 
     const fetchSuppliers = async () => {
         try {
-            const res = await fetch(API_ROUTES.SUPPLIERS.GET);
-            const data = await res.json();
-            if (data.success) setSuppliers(data.data);
-            else {
+            const data = await API.getSuppliers(user?.candidate_id);
+            if (data.success && data.data) {
+                console.log("StockUpdateModal [V2.0] RAW Suppliers:", data.data);
+                const mappedSuppliers = data.data.map(s => ({
+                    supplier_id: s.suplier_id || s.supplier_id || s.id,
+                    name: s.company_name || s.name || 'Unnamed'
+                }));
+                setSuppliers(mappedSuppliers);
+            } else {
                 // Demo fallback
                 setSuppliers([
                     { supplier_id: 1, name: 'Global Tech Solutions' },
@@ -58,26 +67,23 @@ export default function UpdateStockModal({ isOpen, onClose, item, onUpdateSucces
         setLoading(true);
 
         try {
-            const finalQuantityChange = formData.type === 'add'
-                ? parseFloat(formData.quantity_change)
-                : -parseFloat(formData.quantity_change);
+            const quantityChange = parseFloat(formData.quantity_change) || 0;
+            const finalQuantityChange = formData.type === 'add' ? quantityChange : -quantityChange;
 
+            const supplierName = suppliers.find(s => s.supplier_id === parseInt(formData.supplier_id))?.name || 'Manual Adjustment';
+            
             const payload = {
                 current_quantity: (item.currentStock || 0) + finalQuantityChange,
-                stoke_price: parseFloat(formData.unit_price),
+                stoke_price: parseFloat(formData.unit_price) || item.buyingPrice || 0,
                 stoke_ubdate_date: formData.date,
+                latest_supplier: supplierName,
                 // These are for history/tracking (to be handled by backend if routes exist)
-                supplier_id: formData.supplier_id,
-                supplier_name: suppliers.find(s => s.supplier_id === parseInt(formData.supplier_id))?.name || 'Manual Adjustment'
+                suplier_id: parseInt(formData.supplier_id) || null,
             };
 
-            const response = await fetch(API_ROUTES.ITEMS.UPDATE(item.id), {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
-            });
+            const response = await API.updateItem(item.id, payload);
 
-            if (response.ok) {
+            if (response.success || response) {
                 setMessage({ type: 'success', text: 'Inventory updated successfully!' });
                 setTimeout(() => {
                     onUpdateSuccess();

@@ -11,7 +11,8 @@ import {
 } from 'lucide-react';
 import { useProducts } from '../context/ProductContext';
 import { useAuth } from '../context/AuthContext';
-import config from '../helper/config';
+import { API } from '../services/appService';
+
 
 // ----------------- Stats Card -----------------
 const StatsCard = ({ title, value, change, icon: Icon, trend }) => (
@@ -55,7 +56,7 @@ const RecentOrderRow = ({ id, customer, itemsText, total, status, date }) => (
     </td>
     <td className="py-4 px-4 text-sm text-slate-500">{itemsText}</td>
     <td className="py-4 px-4 font-medium text-slate-800">RS {total}</td>
-    <td className="py-4 px-4">
+    {/* <td className="py-4 px-4">
       <span
         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${status === 'Completed'
           ? 'bg-green-50 text-green-700 border-green-100'
@@ -67,7 +68,7 @@ const RecentOrderRow = ({ id, customer, itemsText, total, status, date }) => (
         {status === 'Completed' ? <CheckCircle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
         {status}
       </span>
-    </td>
+    </td> */}
     <td className="py-4 px-4 text-sm text-slate-400 text-right">{date}</td>
   </tr>
 );
@@ -76,17 +77,10 @@ const RecentOrderRow = ({ id, customer, itemsText, total, status, date }) => (
 const Dashboard = () => {
   const { candidateAllData, loading, error } = useProducts();
   const { user } = useAuth();
-  const [items, setItems] = useState([]);
-  const [customers, setCustomers] = useState([]);
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    if (candidateAllData?.data) {
-      setItems(candidateAllData.data.items || []);
-      setCustomers(candidateAllData.data.customers || []);
-      setOrders(candidateAllData.data.orders || []);
-    }
-  }, [candidateAllData]);
+  
+  const items = candidateAllData?.items || [];
+  const customers = candidateAllData?.customers || [];
+  const orders = candidateAllData?.orders || [];
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -112,7 +106,7 @@ const Dashboard = () => {
     );
   }
 
-  if (!candidateAllData?.data) {
+  if (!candidateAllData) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center p-8 bg-amber-50 rounded-2xl border border-amber-100 max-w-md">
@@ -157,8 +151,8 @@ const Dashboard = () => {
       </div>
 
       {/* Orders Table */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 scrollbar-thin ">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm max-h-[400px] overflow-y-auto"> 
           <div className="p-6 border-b border-slate-50">
             <SectionHeader
               title="Recent Orders"
@@ -166,15 +160,15 @@ const Dashboard = () => {
             />
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse over">
               <thead>
                 <tr className="bg-slate-50/50 border-b border-slate-100 text-xs uppercase text-slate-500 font-semibold tracking-wider">
                   <th className="py-3 px-4">Order ID</th>
                   <th className="py-3 px-4">Customer</th>
                   <th className="py-3 px-4">Items</th>
                   <th className="py-3 px-4">Total</th>
-                  <th className="py-3 px-4">Status</th>
-                  <th className="py-3 px-4 text-right">Time</th>
+                  {/* <th className="py-3 px-4">Status</th> */}
+                  <th className="py-3 px-4 text-right">Date/Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -184,17 +178,17 @@ const Dashboard = () => {
                     const customerName = customers.find(c => c.customer_id === order_process.customer_id)?.first_name || '-';
                     const itemsText = getOrderItemsText(orderItems);
                     const totalPrice = order_process.total_amount || orderItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
-                    const status = order_process.status_id === 1 ? 'Completed' : 'Pending';
+                    // const status = order_process.status_id === 1 ? 'Completed' : 'Pending';
                     const date = new Date(order_process.created_at).toLocaleString();
 
                     return (
                       <RecentOrderRow
                         key={order_process.order_process_id}
-                        id={`#ORD-${order_process.order_process_id}`}
+                        id={`ORD-${order_process.order_process_id}`}
                         customer={customerName}
                         itemsText={itemsText}
                         total={totalPrice}
-                        status={status}
+                        // status={status}
                         date={date}
                       />
                     );
@@ -212,14 +206,14 @@ const Dashboard = () => {
         </div>
 
         {/* Top Selling Items */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col h-full">
+        <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col max-h-[400px] overflow-y-auto">
           <SectionHeader title="Top Selling Items" />
           <div className="space-y-4 flex-1">
             {items.length > 0 ? (
               items.map((item, i) => (
                 <div key={i} className="flex items-center gap-4 group cursor-pointer">
                   <div className="w-12 h-12 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
-                    <img src={`${config.pos_api_url}/static/images/products/${item.image_code || ''}`} className="w-full h-full object-cover" />
+                    <img src={API.getProductImageUrl(item.image_code)} alt={item.item_name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="text-sm font-medium text-slate-800 truncate group-hover:text-primary-600 transition-colors">
