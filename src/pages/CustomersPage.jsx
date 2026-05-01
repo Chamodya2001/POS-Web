@@ -56,6 +56,7 @@ const sendCustomerMessage = async (user, customerId, customerName, customerEmail
 
 const CustomerCard = ({ customer, onViewProfile, onDelete, canDelete, user, onNotify }) => {
     const [isSending, setIsSending] = useState(false);
+    const hasLoan = customer?.loan > 0;
 
     const handleSendMessageClick = async () => {
         if (isSending) return;
@@ -74,7 +75,13 @@ const CustomerCard = ({ customer, onViewProfile, onDelete, canDelete, user, onNo
             {canDelete && (
                 <button
                     onClick={() => onDelete(customer.id)}
-                    className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                    disabled={hasLoan}
+                    title={hasLoan ? `Outstanding loan: RS ${customer.loan.toFixed(2)}` : 'Delete customer'}
+                    className={`p-1.5 rounded-lg transition-all ${
+                        hasLoan
+                            ? 'text-slate-200 cursor-not-allowed'
+                            : 'text-slate-300 hover:text-red-500 hover:bg-red-50'
+                    }`}
                 >
                     <Trash2 className="w-4 h-4" />
                 </button>
@@ -138,6 +145,8 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [notification, setNotification] = useState(null);
+    const [deleteConfirm, setDeleteConfirm] = useState({ show: false, customerId: null, customerName: null });
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const showNotification = (type, message) => {
         setNotification({ type, message });
@@ -222,14 +231,87 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
 
     const handleDelete = (id) => {
         if (!canDelete) return;
-        if (window.confirm('Are you sure you want to delete this customer?')) {
-            setCustomers(prev => prev.filter(c => c.id !== id));
-            // Add API call here later
+        const customer = customers.find(c => c.id === id);
+        
+        // Check if customer has outstanding loans
+        if (customer?.loan > 0) {
+            showNotification('error', `Cannot delete customer with outstanding loan balance of RS ${customer.loan.toFixed(2)}. Please settle the loan first.`);
+            return;
         }
+        
+        setDeleteConfirm({ show: true, customerId: id, customerName: customer?.name });
+    };
+
+    const confirmDelete = async () => {
+        if (!deleteConfirm.customerId) return;
+        
+        setIsDeleting(true);
+        try {
+            const res = await API.deleteCustomer(deleteConfirm.customerId);
+            
+            setCustomers(prev => prev.filter(c => c.id !== deleteConfirm.customerId));
+            showNotification('success', `Customer "${deleteConfirm.customerName}" deleted successfully!`);
+            setDeleteConfirm({ show: false, customerId: null, customerName: null });
+        } catch (error) {
+            const errorMsg = error?.response?.data?.message || error?.message || 'Failed to delete customer';
+            showNotification('error', errorMsg);
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const cancelDelete = () => {
+        setDeleteConfirm({ show: false, customerId: null, customerName: null });
     };
 
     return (
         <div className="p-2 max-w-[1200px] mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {/* Delete Confirmation Modal */}
+            {deleteConfirm.show && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 p-6 max-w-sm w-[calc(100%-2rem)] animate-in scale-95 fade-in duration-300">
+                        <div className="flex items-start gap-4">
+                            <div className="flex-shrink-0 w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                                <Trash2 className="w-6 h-6 text-red-600" />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-lg font-bold text-slate-800 mb-2">Delete Customer?</h3>
+                                <p className="text-slate-600 text-sm mb-4">
+                                    Are you sure you want to delete <strong>{deleteConfirm.customerName}</strong>? This action cannot be undone.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-3 justify-end mt-6">
+                            <button
+                                onClick={cancelDelete}
+                                disabled={isDeleting}
+                                className="px-4 py-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 font-medium text-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmDelete}
+                                disabled={isDeleting}
+                                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 font-medium text-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                            >
+                                {isDeleting ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                        Deleting...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Trash2 className="w-4 h-4" />
+                                        Delete
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {notification && (
                 <div className="fixed top-4 right-4 z-50 w-[calc(100%-2rem)] max-w-sm animate-in slide-in-from-top-2 fade-in duration-300">
                     <div className={`rounded-xl border px-4 py-3 shadow-xl backdrop-blur-sm flex items-start gap-3 ${notification.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-red-50 border-red-200 text-red-900'}`}>
@@ -363,7 +445,13 @@ export default function CustomersPage({ onAddCustomer, onViewProfile }) {
                                             {canDelete && (
                                                 <button
                                                     onClick={() => handleDelete(customer.id)}
-                                                    className="text-slate-300 hover:text-red-500 transition-colors"
+                                                    disabled={customer.loan > 0}
+                                                    title={customer.loan > 0 ? `Outstanding loan: RS ${customer.loan.toFixed(2)}` : 'Delete customer'}
+                                                    className={`transition-colors ${
+                                                        customer.loan > 0
+                                                            ? 'text-slate-200 cursor-not-allowed'
+                                                            : 'text-slate-300 hover:text-red-500'
+                                                    }`}
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
