@@ -70,6 +70,16 @@ export default function ProductsPage({ initialCategoryId, onClearFilter }) {
     const matchesCategory =
       filterCategory === "all" || product.category === filterCategory;
     return matchesSearch && matchesCategory;
+  }).sort((a, b) => {
+    const aStock = a.stock || 0;
+    const bStock = b.stock || 0;
+    
+    // Items with stock > 0 come first
+    if (aStock > 0 && bStock <= 0) return -1;
+    if (aStock <= 0 && bStock > 0) return 1;
+    
+    // Maintain secondary order (could be name or default)
+    return 0;
   });
 
   return (
